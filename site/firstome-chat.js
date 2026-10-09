@@ -11,7 +11,7 @@
 
   var KAKAO = "https://pf.kakao.com/_uuXFX/chat";
   var STORE = "fo-chat-v1";
-  var PRIV = /firstome\.com$/.test(location.hostname) ? "/privacy/" : "Privacy.html";
+  var PRIV = "/privacy/";
 
   var history = [];
   try { history = JSON.parse(sessionStorage.getItem(STORE) || "[]"); } catch (e) { history = []; }
@@ -66,7 +66,7 @@
     ".send:hover{background:" + AC + "}",
     ".send:disabled{opacity:.4;cursor:default}",
     ".note{margin-top:8px;font-size:11.5px;color:#878e92;line-height:1.5}.note a{color:#4f585c}",
-    "@media (max-width:480px){.panel{right:8px;left:8px;width:auto;max-width:none;bottom:76px;height:calc(100vh - 96px)}.fab{right:14px;bottom:14px;height:46px}.fab small{display:none}}",
+    "@media (max-width:480px){.panel{right:8px;left:8px;width:auto;max-width:none;bottom:76px;height:calc(100vh - 96px)}.fab{right:14px;bottom:14px;height:46px}.fab small,.fab .lb2{display:none}.fab{padding:0 16px 0 14px}}",
     "@media (prefers-reduced-motion:reduce){.panel.open{animation:none}.fab{transition:none}}"
   ].join("");
 
@@ -76,7 +76,7 @@
   var root = host.attachShadow({ mode: "open" });
   root.innerHTML =
     "<style>" + css + "</style>" +
-    '<button class="fab" type="button" aria-expanded="false" aria-controls="fo-panel"><span class="dot"></span>AI에게 묻기<small>24시간</small></button>' +
+    '<button class="fab" type="button" aria-expanded="false" aria-controls="fo-panel" aria-label="AI에게 묻기"><span class="dot"></span><span>AI<span class="lb2">에게 묻기</span></span><small>24시간</small></button>' +
     '<section class="panel" id="fo-panel" role="dialog" aria-modal="false" aria-labelledby="fo-t">' +
     '<div class="head"><div><div class="title" id="fo-t">' + BRAND + ' AI 상담 <span class="badge">AI</span></div><div class="sub">서비스와 절차를 바로 안내해요. 견적·일정 확정은 담당자가 해요.</div></div>' +
     '<button class="x" type="button" aria-label="AI 상담 닫기">×</button></div>' +

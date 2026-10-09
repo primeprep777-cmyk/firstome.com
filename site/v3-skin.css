@@ -2,7 +2,7 @@
    Loads AFTER each page's own <style>. Paper light · IBM Plex · logo C. Keeps every existing component working. */
 html[data-theme="paper"]{
   --bg:#f4f4f1; --bg2:#ebebe6; --surface:#ffffff; --surface2:#f7f7f4; --line:#dcdcd5; --line2:#c6c6bd;
-  --ink:#0d1214; --muted:#4f585c; --dim:#878e92;
+  --ink:#0d1214; --muted:#4f585c; --dim:#666d71;
   --teal:#0a9a8f; --blue:#3a5fd6; --amber:#b77500; --red:#cf4a3a;
   --on-teal:#ffffff; --glow:rgba(13,18,20,.18); --hdr:rgba(244,244,241,.86);
   --ph-a:#ebebe6; --ph-b:#e4e4de; --r:6px;

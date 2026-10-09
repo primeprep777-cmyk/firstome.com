@@ -28,7 +28,7 @@
     { km:'0.4', n:'시퀀싱', who:'검증된 파트너', c:'muted', h:'시퀀싱은<br>가장 잘하는 곳에서.', p:'검증된 파트너에게 넘기고, 런 시작과 완료까지 같은 화면에서 이어서 보여 드립니다.' },
     { km:'0.6', n:'데이터 전달', who:'샘플로', c:'teal', h:'데이터와 리포트를,<br>한 번에.', p:'원자료와 QC 리포트를 포털에 올립니다. 예상 완료일이 바뀌면 이유와 함께 먼저 알립니다.' },
     { km:'0.8', n:'분석 연결', who:'오믹스메이트', c:'blue', h:'분석은<br>클릭 한 번으로.', p:'AI가 1차 분석을 끝내고, 검증된 전문가들이 입찰합니다. 결과를 확인한 뒤에 정산합니다.' },
-    { km:'1.0', n:'보관 · 임상', who:'샘플로 · 퍼스트옴 Dx', c:'amber', h:'남은 시료는,<br>다음 연구로.', p:'바이오뱅크에 보관한 시료와 같은 기준의 데이터가 제약사의 바이오마커 발굴로 이어집니다.' }
+    { km:'1.0', n:'보관 · 바이오마커', who:'샘플로 · 퍼스트옴 Dx', c:'amber', h:'남은 시료는,<br>다음 연구로.', p:'바이오뱅크에 보관한 시료와 같은 기준의 데이터가 제약사의 바이오마커 발굴로 이어집니다.' }
   ];
   var mile = $('.mile'), cur = -1;
   if (mile){
@@ -51,7 +51,7 @@
       st.innerHTML = '<div><div class="who mono"><i></i>담당 · ' + s.who + '<em>' + (i+1) + ' / ' + N + '</em></div><h3>' + s.h + '</h3></div><p>' + s.p + '</p>';
       ticks.forEach(function(t, j){ t.setAttribute('aria-current', j === i ? 'step' : 'false'); });
       st.classList.remove('swap'); void st.offsetWidth; st.classList.add('swap');
-      ticks.forEach(function(t, j){ t.classList.toggle('on', j <= i); t.classList.toggle('cur', j === i); });
+      ticks.forEach(function(t, j){ t.classList.toggle('on', j <= i); t.classList.toggle('now', j === i); });
     };
     mile._update = function(){
       var r = mile.getBoundingClientRect(), tot = mile.offsetHeight - innerHeight;
@@ -79,9 +79,9 @@
   function vsrc(){ return (matchMedia('(max-width:720px)').matches && vid.dataset.srcM) || vid.dataset.src; }
   if (vid && vid.dataset.src && !reduce){ vid.src = vsrc(); vid.autoplay = true; }
   // reel pause / play (user control + reduced motion)
-  var pp = $('.reel .pp');
+  var pp = $('.reel .pp'), EN = /^en/i.test(document.documentElement.lang);
   function setPlay(on){ if (!vid) return; if (on && !vid.getAttribute('src') && vid.dataset.src) vid.src = vsrc(); if (on){ var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){}); } else vid.pause();
-    if (pp){ pp.setAttribute('aria-pressed', String(!on)); pp.textContent = on ? '❚❚ 영상 멈춤' : '▶ 영상 재생'; } }
+    if (pp){ pp.setAttribute('aria-pressed', String(!on)); pp.textContent = on ? (EN ? '❚❚ Pause video' : '❚❚ 영상 멈춤') : (EN ? '▶ Play video' : '▶ 영상 재생'); } }
   if (vid){ if (reduce) setPlay(false); if (pp) pp.addEventListener('click', function(){ setPlay(vid.paused); }); }
 
   // manifesto lighting
@@ -105,7 +105,7 @@
     navs.forEach(function(a){ var s = document.querySelector(a.getAttribute('href')); if (s && s.getBoundingClientRect().top < innerHeight * .35) act = a; });
     navs.forEach(function(a){ a.classList.toggle('on', a === act); if (a === act) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
   }
-  function menu(open){ if (!mnu) return; hd.classList.toggle('open', open); mnu.setAttribute('aria-expanded', String(open)); mnav.hidden = !open; mnu.querySelector('b').textContent = open ? '닫기' : '메뉴'; }
+  function menu(open){ if (!mnu) return; hd.classList.toggle('open', open); mnu.setAttribute('aria-expanded', String(open)); mnav.hidden = !open; mnu.querySelector('b').textContent = open ? (EN ? 'Close' : '닫기') : (EN ? 'Menu' : '메뉴'); }
   if (mnu){
     mnu.addEventListener('click', function(){ menu(mnav.hidden); });
     $$('a', mnav).forEach(function(a){ a.addEventListener('click', function(){ menu(false); }); });

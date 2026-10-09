@@ -1,7 +1,7 @@
 /* Firstome v3 — editorial system. Paper (light) / Ink (dark). Display: Pretendard + Instrument Serif accents. */
 :root,[data-theme="paper"]{
   --bg:#f4f4f1; --bg2:#ebebe6; --surface:#ffffff; --line:#d9d9d2; --line2:#c4c4bb;
-  --ink:#0d1214; --muted:#4f585c; --dim:#8a9195;
+  --ink:#0d1214; --muted:#4f585c; --dim:#666d71;
   --teal:#0a9a8f; --blue:#3a5fd6; --amber:#b77500;
   --inv-bg:#0b0f12; --inv-ink:#eef2f3;
   color-scheme:light;
@@ -121,7 +121,7 @@ img,video{display:block;max-width:100%}
 @media (max-width:760px){
   .mile .stage{grid-template-columns:1fr;gap:16px}
   .track .tick span{display:none}
-  .track .tick.cur span{display:block;position:absolute;top:-2px}
+  .track .tick.now span{display:block;position:absolute;top:-2px}
 }
 
 /* BRANDS — index list */
@@ -295,7 +295,7 @@ img,video{display:block;max-width:100%}
 .skipmile:hover{color:var(--inv-ink)}
 .track .tick{background:none;border:0;font:inherit;cursor:pointer;padding:0}
 .track .tick:hover{color:var(--inv-ink)}
-.track .tick.cur span{color:var(--sc);font-weight:600}
+.track .tick.now span{color:var(--sc);font-weight:600}
 .mile .who em{font-style:normal;color:var(--dim);margin-left:10px}
 
 /* promise: headline per number + owner */
