@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" data-theme="console">
+<html lang="ko" data-theme="paper">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -16,14 +16,14 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/site/site.css">
 <link rel="stylesheet" href="/site/brand-fx.css">
 
 <noscript><style>.rv{opacity:1;transform:none}</style></noscript>
 <script>
 window.FIRSTOME_TWEAKS = {
-  "theme": "console",
+  "theme": "paper",
   "imageTone": "natural",
   "motion": "on"
 };
@@ -98,12 +98,14 @@ a{color:var(--amber)}
 .xgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 @media (max-width:860px){.xgrid{grid-template-columns:1fr}}
 </style>
+<link rel="stylesheet" href="/site/v3-skin.css">
+<script src="/site/v3-logos.js"></script>
 </head>
 <body class="c-amber">
 <div class="fam"><div class="wrap"><span class="fam-k">Firstome family</span><nav><a href="/">퍼스트옴</a><a href="/samplo/">샘플로</a><a href="/omicsmate/">오믹스메이트</a><a class="on" href="/dx/">퍼스트옴 Dx</a></nav></div></div>
 <header class="top">
   <div class="wrap">
-    <a class="logo brand" href="/dx/" aria-label="퍼스트옴 Dx 홈"><i class="mk"></i>퍼스트옴 Dx<small>FIRSTOME Dx</small></a>
+    <a class="logo brand" href="/dx/" aria-label="퍼스트옴 Dx 홈"><span data-logo data-logo-kind="C" data-brand="amber"></span><small class="kr">퍼스트옴 Dx</small></a>
     <nav class="links">
       <a href="#roadmap">단계별 서비스</a><a href="#assets">가진 것</a><a href="#how">협업 흐름</a><a href="#trust">기준과 투명성</a>
     </nav>
@@ -141,7 +143,7 @@ a{color:var(--amber)}
 
   <section id="roadmap" data-screen-label="02 Roadmap">
     <div class="wrap">
-      <div class="sec-head rv"><p class="label">단계별 서비스</p><h2>연구용 발굴에서 동반진단 키트까지, 세 단계</h2><p>처음부터 모든 단계를 약속하지 않습니다. 지금 열려 있는 단계와 준비 중인 단계를 그대로 보여 드립니다.</p></div>
+      <div class="sec-head wide rv"><p class="label">단계별 서비스</p><h2>연구용 발굴에서 동반진단 키트까지, 세 단계</h2><p>처음부터 모든 단계를 약속하지 않습니다. 지금 열려 있는 단계와 준비 중인 단계를 그대로 보여 드립니다.</p></div>
       <div class="ph-steps rv">
         <article><span class="k">STEP 1 · 연구용</span><h3>바이오마커 발굴 서비스</h3><p>제약사 과제에 맞춰 바이오뱅크 시료와 오믹스 데이터를 분석해 약물 반응과 연결되는 후보 바이오마커를 찾고, 독립 코호트에서 확인합니다.</p><span class="pill">처음 여는 단계</span></article>
         <article><span class="k">STEP 2 · 임상시험</span><h3>환자 선별 검사 (CTA)</h3><p>임상시험에서 바이오마커로 대상 환자를 고르는 검사를 시료 접수부터 결과 보고까지 같은 기록 체계로 수행합니다. 검사실 인정 확보 후 엽니다.</p><span class="pill">순차 준비</span></article>
@@ -187,7 +189,7 @@ a{color:var(--amber)}
   </section>
   <section id="how" class="bt" data-screen-label="04 How we work">
     <div class="wrap">
-      <div class="sec-head rv"><p class="label">협업 흐름</p><h2>과제 정의부터 임상 전환까지, 한 팀으로</h2><p>제약사의 개발 단계에 맞춰 범위를 정하고, 각 단계의 결과물과 일정을 계약 전에 합의합니다.</p></div>
+      <div class="sec-head wide rv"><p class="label">협업 흐름</p><h2>과제 정의부터 임상 전환까지, 한 팀으로</h2><p>제약사의 개발 단계에 맞춰 범위를 정하고, 각 단계의 결과물과 일정을 계약 전에 합의합니다.</p></div>
       <div class="steps4">
         <article class="rv"><div class="n"><b>01</b><i></i></div><span class="who">제약사 + 퍼스트옴 Dx</span><h3>과제 정의</h3><p>약물, 적응증, 가설을 듣고 필요한 시료 종류와 수, 데이터 종류, 성공 기준을 함께 정합니다.</p></article>
         <article class="rv" data-d="80"><div class="n"><b>02</b><i></i></div><span class="who">샘플로</span><h3>시료 · 데이터 준비</h3><p>바이오뱅크 시료를 고르거나 새 시료를 받아 같은 SOP로 전처리하고 오믹스 데이터를 만듭니다.</p></article>
@@ -199,7 +201,7 @@ a{color:var(--amber)}
 
   <section id="trust" class="bt tone-b" data-screen-label="05 Standards">
     <div class="wrap">
-      <div class="sec-head rv"><p class="label">기준과 투명성</p><h2>어디까지 되어 있는지, 계약 전에 그대로 말씀드립니다</h2></div>
+      <div class="sec-head wide rv"><p class="label">기준과 투명성</p><h2>어디까지 되어 있는지, 계약 전에 그대로 말씀드립니다</h2></div>
       <div class="who3">
         <article class="card c-amber rv"><span class="k">QUALITY SYSTEM</span><h3>GCLP에 준하는 수행 체계</h3><p>SOP, 교육 기록, 장비 관리, 원자료 보관을 임상 검사 기준에 맞춰 운영합니다. 인증이 아니라 운영 기준이며, 인증 획득 계획은 상담 때 안내합니다.</p></article>
         <article class="card c-amber rv" data-d="80"><span class="k">CLINICAL TESTING</span><h3>검사실 인정은 순서대로</h3><p>임상시험 환자 선별 검사에는 ISO 15189 같은 검사실 인정이 필요합니다. 인정 전에는 연구용(RUO) 범위에서만 협업합니다.</p></article>
@@ -225,9 +227,10 @@ a{color:var(--amber)}
 
 <footer>
   <div class="wrap">
-    <div class="row"><a class="logo brand" href="/dx/"><i class="mk"></i>퍼스트옴 Dx<small>FIRSTOME Dx</small></a>
+    <div class="row"><a class="logo brand" href="/dx/"><span data-logo data-logo-kind="C" data-brand="amber"></span><small class="kr">퍼스트옴 Dx</small></a>
       <nav><a href="#roadmap">단계별 서비스</a><a href="#assets">가진 것</a><a href="#how">협업 흐름</a><a href="#trust">기준과 투명성</a><a href="#contact">문의</a></nav></div>
     <p class="by-line">퍼스트옴 Dx는 <a href="/">퍼스트옴(Firstome)</a>의 사업 브랜드입니다. 패밀리: <a href="/samplo/">샘플로</a> · <a href="/omicsmate/">오믹스메이트</a></p>
+    <div class="wm" aria-hidden="true">firstome dx<i>.</i></div>
     <div class="legal"><span>© 2026 Firstome Dx</span><span>사업자 정보 · 개인정보처리방침</span></div>
   </div>
 </footer>

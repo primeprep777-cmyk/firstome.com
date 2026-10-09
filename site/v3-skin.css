@@ -1,0 +1,118 @@
+/* v3 skin for brand sites (샘플로 · 오믹스메이트 · 퍼스트옴 Dx).
+   Loads AFTER each page's own <style>. Paper light · IBM Plex · logo C. Keeps every existing component working. */
+html[data-theme="paper"]{
+  --bg:#f4f4f1; --bg2:#ebebe6; --surface:#ffffff; --surface2:#f7f7f4; --line:#dcdcd5; --line2:#c6c6bd;
+  --ink:#0d1214; --muted:#4f585c; --dim:#878e92;
+  --teal:#0a9a8f; --blue:#3a5fd6; --amber:#b77500; --red:#cf4a3a;
+  --on-teal:#ffffff; --glow:rgba(13,18,20,.18); --hdr:rgba(244,244,241,.86);
+  --ph-a:#ebebe6; --ph-b:#e4e4de; --r:6px;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-serif:"Instrument Serif","Times New Roman",serif;
+  --pad:clamp(20px,4vw,56px);
+  --ease:cubic-bezier(.2,.7,.1,1);
+  color-scheme:light;
+}
+html[data-theme="paper"] body{background:var(--bg);font-size:16.5px;letter-spacing:-.01em}
+.wrap{max-width:1600px;padding-inline:var(--pad)}
+.it{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing:0}
+
+/* ---------- logo (C · family wells) ---------- */
+.lg{display:inline-flex;align-items:center;gap:10px;line-height:1;white-space:nowrap;color:var(--ink)}
+.lg svg{height:22px;width:auto;flex:none}
+.lg-C .lg-w{font-family:var(--f-mono);font-size:14.5px;letter-spacing:.14em;font-weight:600}
+.lgm{display:inline-flex}.lgm svg{height:1em;width:auto}
+.logo.brand{gap:12px}
+.logo.brand .mk{display:none}
+.logo.brand small.kr{font-family:var(--f-body);font-size:13px;letter-spacing:0;color:var(--dim);font-weight:500;padding-left:12px;border-left:1px solid var(--line2)}
+
+/* ---------- family strip + header ---------- */
+.fam{background:var(--ink);color:#c9cfd2;border:0}
+.fam .wrap{padding-block:7px}
+.fam nav a{color:#9aa3a7}
+.fam nav a:hover,.fam nav a.on{color:#fff}
+.fam nav a.on{border-bottom-color:var(--c)}
+header.top{background:var(--hdr);border-bottom:1px solid var(--line);transition:background .3s}
+header.top .wrap{height:68px;padding-block:0}
+nav.links{gap:28px;font-size:14.5px}
+.btn{border-radius:999px;font-weight:600;letter-spacing:-.01em;transition:transform .3s var(--ease),background .3s,border-color .3s,color .3s}
+.btn.primary{background:var(--ink)!important;color:#fff!important;box-shadow:none}
+.btn.primary:hover{background:var(--c)!important}
+.btn.ghost{border-color:var(--line2);color:var(--ink)}
+.btn.ghost:hover{border-color:var(--ink)}
+
+/* ---------- hero: full-width headline, lead + panel below ---------- */
+.hero{background:none!important;border-bottom:1px solid var(--line)}
+.hero .wrap{grid-template-columns:1fr 1fr!important;column-gap:var(--pad)!important;row-gap:0!important;align-items:start!important;padding-block:clamp(64px,8vw,120px) clamp(64px,7vw,110px)!important}
+.hero .wrap > div:first-child{display:contents}
+.hero .wrap > div:first-child > *{grid-column:1}
+.hero .wrap > div:first-child > .label,.hero .wrap > div:first-child > h1{grid-column:1/-1}
+.hero .wrap > :last-child:not(:first-child){grid-column:2;grid-row:3/span 4;margin-top:44px}
+.hero h1{font-size:clamp(42px,6.4vw,108px)!important;line-height:1.02!important;letter-spacing:-.055em!important;margin-top:28px!important;max-width:14em}
+.hero h1 .hl{color:var(--c)}
+.hero .lead{margin-top:44px!important;font-size:clamp(16.5px,1.25vw,19px)!important;max-width:32em}
+.hero .sub{margin-top:18px!important}
+.hero .ctas{margin-top:34px!important}
+@media (max-width:960px){
+  .hero .wrap{grid-template-columns:1fr!important}
+  .hero .wrap > :last-child:not(:first-child){grid-column:1;grid-row:auto;margin-top:48px}
+}
+
+/* ---------- labels & section heads ---------- */
+main{counter-reset:sec}
+.label{color:var(--muted)!important;font-size:12px;letter-spacing:.1em}
+.label::before{content:none!important}
+.sec-head > .label::before,.vb-cap .label::before{content:counter(sec,decimal-leading-zero) " —"!important;counter-increment:sec;width:auto!important;height:auto!important;background:none!important;opacity:1!important;margin-right:2px}
+.vb-cap .label{color:rgba(238,244,247,.75)!important}
+.hero .label{color:var(--ink)!important}
+.hero .label::before{content:"●"!important;color:var(--c);font-size:9px;width:auto!important;height:auto!important;background:none!important;opacity:1!important}
+.sec-head h2{font-size:clamp(32px,4.2vw,68px)!important;line-height:1.06!important;letter-spacing:-.05em!important;margin-top:18px}
+.sec-head p{font-size:clamp(16px,1.2vw,18.5px)!important;max-width:36em}
+.sec-head.wide{max-width:none;display:grid;grid-template-columns:minmax(140px,1fr) 3fr;column-gap:var(--pad);margin-bottom:clamp(8px,2vw,24px)}
+.sec-head.wide > *{grid-column:2}
+.sec-head.wide > .label{grid-column:1;grid-row:1/span 3;align-self:start;margin-top:.9em}
+.sec-head.wide > h2{margin-top:0}
+@media (max-width:860px){.sec-head.wide{display:block}.sec-head.wide > h2{margin-top:16px}}
+section{padding-block:clamp(88px,10vw,168px)}
+.bt{border-top:1px solid var(--line)}
+.tone-b{background:transparent}
+section.alt{background:var(--bg2)}
+
+/* ---------- de-box: cards become ruled columns ---------- */
+.card,.mini{background:transparent!important;border:0!important;border-top:1px solid var(--ink)!important;border-radius:0!important;padding:24px 0 0!important;box-shadow:none!important}
+.card::before{display:none!important}
+.card h3,.mini b,.mini h3{letter-spacing:-.03em}
+.k{color:var(--c,var(--teal))}
+.plan.rec{border-top:3px solid var(--c)!important;box-shadow:none!important}
+.plan .badge{top:-13px;left:0;border-radius:2px;background:var(--c)}
+.note{border-radius:4px;border-style:solid;border-color:var(--line);background:var(--surface)}
+.pill{border-radius:3px}
+.ph{border-radius:var(--r)}
+
+/* product mockup panels stay as objects: white, crisp, soft lift */
+.trk,.job,.prj,.qc,.bb-panel,.msg,.est,.bids,.tier,.calc,.store,.xlink,.join,.chk,.guide aside,.faq details{border-radius:10px}
+.trk,.job,.prj,.qc,.bb-panel{background:var(--surface)!important;border:1px solid var(--line)!important;box-shadow:0 1px 0 rgba(13,18,20,.04),0 30px 60px -36px rgba(13,18,20,.28)!important}
+.xlink{background:var(--surface)!important;border:1px solid var(--line)!important}
+.xlink h3{font-size:clamp(22px,2vw,30px);letter-spacing:-.035em}
+
+/* kakao */
+.kakao-btn{border-radius:999px;padding:14px 24px}
+
+/* ---------- film band: keep dark, tighten ---------- */
+.vband{border-top:0}
+.vb-cap h2{letter-spacing:-.05em!important;font-size:clamp(30px,4.6vw,72px)!important;line-height:1.08!important}
+
+/* ---------- footer: dark end block with wordmark ---------- */
+footer{background:#0b0f12;color:#9aa3a7;border:0;padding-block:clamp(70px,8vw,120px) 36px;overflow:hidden;
+  --ink:#eef2f3;--line:#20292e;--line2:#2c383e;--muted:#9aa3a7;--dim:#6b767b;--teal:#38d3c8;--blue:#86a9ff;--amber:#f0b445}
+footer a{color:#c9cfd2}
+footer a:hover{color:#fff}
+footer .row{align-items:center}
+footer .lg{color:#eef2f3}
+footer .logo.brand small.kr{border-color:#2c383e}
+footer .by-line{color:#8a9498}
+footer .legal{border-color:#20292e;opacity:.8}
+footer .wm{margin-top:clamp(56px,7vw,110px);font-weight:700;letter-spacing:-.075em;line-height:.8;white-space:nowrap;color:#eef2f3;font-size:clamp(64px,16vw,300px)}
+footer .wm i{font-style:normal;color:var(--c)}
+
+/* reveal ease */
+.rv{transition-timing-function:var(--ease)!important;transition-duration:1s!important}
