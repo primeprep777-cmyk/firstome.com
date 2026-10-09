@@ -5,9 +5,10 @@
 @media (max-width:960px){.hero .bfx,.hf .bfx{-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.25),#000 70%);mask-image:linear-gradient(180deg,rgba(0,0,0,.25),#000 70%)}}
 .hero{overflow:hidden}
 .hero > .wrap{position:relative;z-index:1}
-.bfx.mini{inset:0 0 auto 0;height:170px;opacity:.75;-webkit-mask-image:linear-gradient(180deg,#000 10%,transparent);mask-image:linear-gradient(180deg,#000 10%,transparent)}
+.bfx.bfx-mini{inset:0 0 auto 0;height:170px;opacity:.75;-webkit-mask-image:linear-gradient(180deg,#000 10%,transparent);mask-image:linear-gradient(180deg,#000 10%,transparent)}
 .biz .card > :not(.bfx):not(.num){position:relative;z-index:1}
 .biz .card > .num{z-index:1}
+.biz .card::before{z-index:1}
 [data-fx="off"] .bfx{display:none}
 
 /* film band */
@@ -18,8 +19,8 @@
 @keyframes vbKen{from{transform:scale(1.04) translate3d(0,0,0)}to{transform:scale(1.14) translate3d(-1.5%,-1%,0)}}
 .vb-media video{opacity:0;transition:opacity 1.4s ease}
 .vb-media video.ready{opacity:1}
-[data-motion="off"] .vb-media img{animation:none}
-@media (prefers-reduced-motion:reduce){.vb-media img{animation:none}}
+[data-motion="off"] .vb-media img,[data-motion="off"] .vb-hud .rec::before{animation:none}
+@media (prefers-reduced-motion:reduce){.vb-media img,.vb-hud .rec::before{animation:none}}
 .vband::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:
   linear-gradient(180deg,rgba(5,8,12,.35) 0%,rgba(5,8,12,0) 30%,rgba(5,8,12,.82) 100%),
   linear-gradient(90deg,rgba(5,8,12,.6),rgba(5,8,12,0) 62%)}

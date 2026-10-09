@@ -112,66 +112,6 @@ window.FIRSTOME_TWEAKS = {
 .biz .card .for{font-size:13.5px;color:var(--dim)}
 .biz .card .for b{color:var(--muted);font-weight:600}
 .biz .go a.btn{width:100%;color:#fff}
-</style></noscript>
-<script>
-window.FIRSTOME_TWEAKS = {
-  "theme": "lab",
-  "imageTone": "natural",
-  "motion": "on",
-  "heroDesktop": "auto",
-  "heroMobile": "auto"
-};
-</script>
-<script src="/site/site.js"></script>
-<style>
-/* services */
-.biz{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
-@media (max-width:980px){.biz{grid-template-columns:1fr}}
-.biz .card{position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
-.biz .card:hover{transform:translateY(-3px);border-color:var(--c)}
-.biz .card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--c)}
-.biz .card h3{font-size:26px}
-.biz .card h3 small{font-size:14px;font-weight:500;color:var(--dim);margin-left:8px}
-.biz .card > p{color:var(--muted)}
-.biz .go{margin-top:auto;padding-top:10px}
-.biz .go a{color:var(--c);font-weight:600;text-decoration:none}
-.biz .go a:hover{text-decoration:underline}
-.biz .num{position:absolute;right:22px;top:20px;font-family:var(--f-mono);font-size:12px;color:var(--dim)}
-.stat{display:flex;gap:10px;flex-wrap:wrap}
-.stat .pill{border-color:color-mix(in oklab,var(--c) 40%,var(--line2));color:var(--muted)}
-
-/* why — image rows */
-.why{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:52px}
-@media (max-width:1040px){.why{grid-template-columns:1fr 1fr}}
-@media (max-width:560px){.why{grid-template-columns:1fr}}
-.why article{display:flex;flex-direction:column;gap:18px}
-.why .ph{aspect-ratio:4/5}
-.why article:hover .ph img{transform:scale(1.045)}
-.why .idx{position:absolute;z-index:3;top:14px;left:14px;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;color:#e9f1f6;background:rgba(7,12,18,.6);backdrop-filter:blur(6px);padding:4px 10px;border-radius:999px}
-.why h3{font-size:21px}
-.why p{color:var(--muted);font-size:15.5px;margin-top:6px}
-
-/* partners */
-.partners{display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:44px}
-@media (max-width:900px){.partners{grid-template-columns:repeat(3,1fr)}}
-.partners div{aspect-ratio:2/1;display:grid;place-items:center;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-family:var(--f-mono);font-size:11.5px;color:var(--dim);letter-spacing:.04em;background:repeating-linear-gradient(135deg,transparent 0 10px,color-mix(in oklab,var(--line) 45%,transparent) 10px 11px)}
-.ptypes{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
-.ptypes span{font-size:14px;color:var(--muted);border:1px solid var(--line2);padding:6px 14px;border-radius:999px}
-
-/* team */
-.team{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center}
-@media (max-width:900px){.team{grid-template-columns:1fr}}
-.team .ph{aspect-ratio:5/4}
-.people{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
-@media (max-width:560px){.people{grid-template-columns:1fr 1fr}}
-.person .ph{aspect-ratio:1;border-radius:14px}
-.person b{display:block;margin-top:10px;font-size:15.5px}
-.person span{font-size:13.5px;color:var(--dim)}
-.facts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}
-.facts div{border-top:1px solid var(--line2);padding-top:12px}
-.facts .k{display:block}
-.facts p{color:var(--muted);font-size:15px;margin-top:4px}
-
 /* dx */
 .dx{display:grid;grid-template-columns:repeat(3,1fr);margin:48px 0 0;padding:0;list-style:none;position:relative}
 @media (max-width:860px){.dx{grid-template-columns:1fr;gap:14px}}
@@ -314,7 +254,7 @@ window.FIRSTOME_TWEAKS = {
       </div>
       <div class="biz">
         <article class="card c-teal rv">
-          <div class="bfx mini" data-fx="samplo" aria-hidden="true"></div>
+          <div class="bfx bfx-mini" data-fx="samplo" aria-hidden="true"></div>
           <span class="num">01</span>
           <div class="mkrow"><i></i><span class="k">PREP · TRACK · BIOBANK</span></div>
           <h3>샘플로<small>Samplo</small></h3>
@@ -329,7 +269,7 @@ window.FIRSTOME_TWEAKS = {
           <p class="go"><span class="url">firstome.com/samplo</span><br><a class="btn primary" href="/samplo/" style="margin-top:10px">샘플로 사이트 방문 →</a></p>
         </article>
         <article class="card c-blue rv" data-d="100">
-          <div class="bfx mini" data-fx="omicsmate" aria-hidden="true"></div>
+          <div class="bfx bfx-mini" data-fx="omicsmate" aria-hidden="true"></div>
           <span class="num">02</span>
           <div class="mkrow"><i></i><span class="k">AI · EXPERT MATCHING</span></div>
           <h3>오믹스메이트<small>OmicsMate</small></h3>
@@ -344,7 +284,7 @@ window.FIRSTOME_TWEAKS = {
           <p class="go"><span class="url">firstome.com/omicsmate</span><br><a class="btn primary" href="/omicsmate/" style="margin-top:10px">오믹스메이트 사이트 방문 →</a></p>
         </article>
         <article class="card c-amber rv" data-d="200">
-          <div class="bfx mini" data-fx="dx" aria-hidden="true"></div>
+          <div class="bfx bfx-mini" data-fx="dx" aria-hidden="true"></div>
           <span class="num">03</span>
           <div class="mkrow"><i></i><span class="k">BIOMARKER · CDx</span></div>
           <h3>퍼스트옴 Dx<small>Firstome Dx</small></h3>
