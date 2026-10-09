@@ -1,0 +1,34 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+body{margin:0;width:1200px;height:630px;overflow:hidden;font-family:"IBM Plex Sans KR",sans-serif;color:#e9f1f6;background:#070c12;position:relative}
+.bg{position:absolute;inset:0;background:radial-gradient(55% 70% at 85% 15%,color-mix(in oklab,var(--c) 28%,transparent),transparent 60%),radial-gradient(40% 60% at 5% 95%,rgba(134,169,255,.18),transparent 60%)}
+.grid{position:absolute;inset:0;opacity:.35;background-image:linear-gradient(#1c2b37 1px,transparent 1px),linear-gradient(90deg,#1c2b37 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(70% 70% at 70% 40%,#000,transparent 75%)}
+.in{position:absolute;inset:0;padding:72px 80px;display:flex;flex-direction:column;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:16px;font-size:30px;font-weight:700}
+.brand i{width:26px;height:26px;border-radius:7px;background:var(--c);box-shadow:0 0 0 6px color-mix(in oklab,var(--c) 25%,transparent)}
+.brand small{font-family:"JetBrains Mono",monospace;font-size:16px;color:#97a9b5;font-weight:500;letter-spacing:.1em;margin-left:8px}
+.k{font-family:"JetBrains Mono",monospace;font-size:18px;letter-spacing:.12em;color:var(--c);text-transform:uppercase}
+h1{font-size:60px;line-height:1.2;margin:18px 0 0;letter-spacing:-.025em;font-weight:700;max-width:980px;word-break:keep-all;overflow-wrap:normal}
+h1 .hl{color:var(--c)}
+p{font-size:26px;color:#97a9b5;margin:22px 0 0;max-width:860px}
+.foot{display:flex;justify-content:space-between;align-items:flex-end;font-family:"JetBrains Mono",monospace;font-size:18px;color:#647a88;letter-spacing:.06em}
+.dots{display:flex;gap:10px}.dots i{width:14px;height:14px;border-radius:50%;background:#1c2b37}.dots i.on{background:var(--c)}
+</style></head><body>
+<div class="bg"></div><div class="grid"></div>
+<div class="in">
+  <div class="brand"><i></i><span id="b"></span><small id="bs"></small></div>
+  <div><div class="k" id="k"></div><h1 id="h"></h1><p id="p"></p></div>
+  <div class="foot"><span id="u"></span><div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+</div>
+<script>
+const P={
+ firstome:{c:'#38d3c8',b:'First·ome',bs:'퍼스트옴',k:'The first mile of omics',h:'오믹스 연구의 첫 1마일을 <span class="hl">여는 회사</span>, 퍼스트옴.',p:'샘플로 · 오믹스메이트 · 퍼스트옴 Dx. 세 사업 브랜드를 운영하는 모회사.',u:'firstome.com'},
+ samplo:{c:'#38d3c8',b:'샘플로',bs:'SAMPLO',k:'오믹스 시료 전처리 · 실시간 추적 · 바이오뱅킹',h:'내 시료, 지금 어디서 뭘 하고 있는지 <span class="hl">다 보여요.</span>',p:'접수부터 보관까지 8단계 실시간 추적. QC 선택권. GCLP에 준하는 수행 체계.',u:'firstome.com/samplo'},
+ omicsmate:{c:'#86a9ff',b:'오믹스메이트',bs:'OMICSMATE',k:'오믹스 분석 입찰 · 중개 플랫폼',h:'원하는 분석을 고르면 <span class="hl">예상 비용이 나오고,</span> 전문가들이 입찰합니다.',p:'AI 1차 분석 포함 · 전문가 등급제 · 결과 확인 후 정산.',u:'firstome.com/omicsmate'},
+ dx:{c:'#f0b445',b:'퍼스트옴 Dx',bs:'FIRSTOME Dx',k:'제약사를 위한 바이오마커 · 동반진단 파트너',h:'신약이 잘 듣는 환자를, <span class="hl">데이터로 먼저</span> 찾습니다.',p:'바이오마커 발굴 → 임상시험 환자 선별 검사 → 동반진단 공동개발, 단계적으로.',u:'firstome.com/dx'}};
+const q=new URLSearchParams(location.search).get('p')||'firstome', d=P[q];
+document.documentElement.style.setProperty('--c',d.c);
+for(const id of ['b','bs','k','p','u']) document.getElementById(id).textContent=d[id];
+document.getElementById('h').innerHTML=d.h;
+</script></body></html>

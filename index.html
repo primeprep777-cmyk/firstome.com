@@ -10,6 +10,8 @@
 <meta property="og:title" content="퍼스트옴 Firstome · 오믹스의 첫 1마일을 여는 회사">
 <meta property="og:description" content="샘플로 · 오믹스메이트 · 퍼스트옴 Dx. 세 사업 브랜드를 운영하는 모회사 퍼스트옴.">
 <meta property="og:url" content="https://firstome.com/">
+<meta property="og:image" content="https://firstome.com/assets/og-firstome.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://firstome.com/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -178,6 +180,57 @@ window.FIRSTOME_TWEAKS = {
 .dx h3{font-size:21px;margin:10px 0 8px}
 .dx p{color:var(--muted);font-size:15.5px}
 .dx .pill{margin-top:14px}
+
+/* promise strip */
+.prom{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px}
+@media (max-width:900px){.prom{grid-template-columns:1fr 1fr}}
+.prom div{border:1px solid var(--line2);border-radius:18px;padding:24px 22px;background:var(--surface);position:relative;overflow:hidden}
+.prom div::after{content:"";position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:color-mix(in oklab,var(--c,var(--teal)) 10%,transparent)}
+.prom b{display:block;font-size:40px;letter-spacing:-.03em;line-height:1.1;font-family:var(--f-mono);color:var(--c,var(--teal))}
+.prom b small{font-size:16px;font-family:var(--f-body);color:var(--ink);margin-left:4px;font-weight:600}
+.prom span{display:block;margin-top:8px;color:var(--muted);font-size:14.5px}
+
+/* founder letter */
+.letter{display:grid;grid-template-columns:1fr 1.25fr;gap:56px;align-items:center}
+@media (max-width:900px){.letter{grid-template-columns:1fr}}
+.letter .ph{aspect-ratio:4/5;max-width:420px}
+.letter blockquote{margin:0;font-size:clamp(22px,2.6vw,30px);line-height:1.5;letter-spacing:-.01em;font-weight:600;text-wrap:balance}
+.letter blockquote .hl{color:var(--teal)}
+.letter .body{margin-top:26px;color:var(--muted);font-size:16.5px;display:grid;gap:14px;max-width:40em}
+.letter .sign{margin-top:26px;display:flex;align-items:center;gap:14px}
+.letter .sign b{font-size:15px}
+.letter .sign span{color:var(--dim);font-size:13.5px}
+.letter .sign i{width:36px;height:1px;background:var(--teal)}
+
+/* roadmap */
+.road{list-style:none;margin:48px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+@media (max-width:900px){.road{grid-template-columns:1fr;gap:18px}}
+.road::before{content:"";position:absolute;left:0;right:0;top:9px;height:2px;background:linear-gradient(90deg,var(--teal),var(--blue),var(--amber))}
+@media (max-width:900px){.road::before{display:none}}
+.road li{padding:0 26px 0 0;position:relative}
+.road li::before{content:"";width:20px;height:20px;border-radius:50%;background:var(--bg);border:3px solid var(--c);display:block;position:relative;z-index:1}
+.road .yr{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--c);margin-top:16px;display:block}
+.road h3{font-size:19px;margin:6px 0 8px}
+.road p{color:var(--muted);font-size:15px}
+.road .tag{display:inline-block;margin-top:10px;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line2);color:var(--dim)}
+.road li.now .tag{border-color:var(--c);color:var(--c)}
+
+/* faq */
+.faq{margin-top:40px;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;padding:20px 4px;font-weight:600;font-size:17px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--f-mono);color:var(--teal);font-size:20px;line-height:1;transition:transform .25s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .a{padding:0 4px 22px;color:var(--muted);font-size:15.5px;max-width:52em}
+.faq .a a{color:var(--teal)}
+
+/* open notice */
+.notice{margin-top:34px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;padding:26px 28px;border-radius:18px;border:1px dashed var(--line2);background:var(--surface)}
+@media (max-width:720px){.notice{grid-template-columns:1fr}}
+.notice b{display:block;font-size:18px}
+.notice p{color:var(--muted);font-size:15px;margin-top:4px}
+
 </style>
 </head>
 <body>
@@ -188,8 +241,9 @@ window.FIRSTOME_TWEAKS = {
       <a href="#about">회사 소개</a>
       <a href="#brands">사업 브랜드</a>
       <a href="#why">운영 원칙</a>
-      <a href="#partners">파트너</a>
-      <a href="#team">팀</a>
+      <a href="#letter">창업자 편지</a>
+      <a href="#roadmap">로드맵</a>
+      <a href="#faq">FAQ</a>
       <a href="#contact">문의</a>
     </nav>
     <a class="btn primary sm" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">카카오톡 문의</a>
@@ -343,6 +397,42 @@ window.FIRSTOME_TWEAKS = {
     </div>
   </section>
 
+  <!-- PROMISE -->
+  <section class="bt tone-b" id="promise" data-screen-label="04b Promise">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <p class="label">Our promise</p>
+        <h2>숫자로 적어 두는 약속</h2>
+        <p>실적은 아직 쌓는 중입니다. 대신 처음부터 지킬 기준을 숫자로 적어 둡니다. 이 숫자는 세 브랜드 모두에 적용됩니다.</p>
+      </div>
+      <div class="prom rv">
+        <div class="c-teal"><b data-count="8"><small>단계</small></b><span>접수부터 보관까지, 시료의 모든 단계를 실시간으로 보여 줍니다</span></div>
+        <div class="c-teal"><b data-count="100"><small>%</small></b><span>단계가 바뀔 때마다 알림. "지금 어디까지 됐나요?" 전화는 없습니다</span></div>
+        <div class="c-blue"><b data-count="1"><small>개 창구</small></b><span>시료 의뢰, 분석 매칭, 제약 협업 문의를 카카오톡 채널 하나로 받습니다</span></div>
+        <div class="c-amber"><b data-count="0"><small>원 선지급</small></b><span>오믹스메이트 분석 대금은 결과를 확인한 뒤에 전문가에게 지급됩니다</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDER LETTER -->
+  <section class="bt" id="letter" data-screen-label="04c Founder">
+    <div class="wrap letter">
+      <figure class="ph rv c-teal" data-label="[photo] 드라이아이스 박스에서 바코드 시료 튜브를 꺼내는 손">
+        <img src="/assets/why-near.jpg" alt="드라이아이스 위 바코드 시료 튜브를 꺼내는 손">
+      </figure>
+      <div>
+        <p class="label rv">A letter from the founders</p>
+        <blockquote class="rv" style="margin-top:16px">연구자가 시료 걱정 대신 <span class="hl">연구만 생각하는 날</span>을 만들고 싶습니다.</blockquote>
+        <div class="body rv">
+          <p>연구실에서 시료를 다뤄 본 사람이라면 압니다. 좋은 데이터는 실험실 벤치에서 시작되고, 가장 많은 시간이 새는 곳도 그 첫 구간이라는 것을요. 택배 상자를 들고 뛰고, 업체에 전화를 돌리고, 냉동고에 쌓인 튜브를 세는 시간 말입니다.</p>
+          <p>퍼스트옴은 그 첫 구간을 맡습니다. 시료를 받는 순간부터 같은 기준으로 기록하고, 지금 어디까지 왔는지 보여 드리고, 시퀀싱과 분석은 가장 잘하는 파트너와 전문가에게 잇습니다. 실적보다 먼저 기준을 공개하는 이유는, 그 기준을 지키는 모습으로 평가받고 싶기 때문입니다.</p>
+          <p>첫 고객이 되어 주시는 연구자 한 분 한 분과 오래 가고 싶습니다. 궁금한 점은 무엇이든 카카오톡 채널로 물어봐 주세요. 직접 답하겠습니다.</p>
+        </div>
+        <div class="sign rv"><i></i><div><b>퍼스트옴 창업팀 드림</b><br><span>법인 설립 후 팀을 정식으로 소개하겠습니다</span></div></div>
+      </div>
+    </div>
+  </section>
+
   <!-- PARTNERS -->
   <section class="bt tone-b" id="partners" data-screen-label="05 Partners">
     <div class="wrap">
@@ -377,6 +467,43 @@ window.FIRSTOME_TWEAKS = {
     </div>
   </section>
 
+  <!-- ROADMAP -->
+  <section class="bt tone-b" id="roadmap" data-screen-label="06b Roadmap">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <p class="label">Roadmap</p>
+        <h2>앞으로 가는 길</h2>
+        <p>한 번에 다 열지 않습니다. 열려 있는 것과 준비 중인 것을 그대로 보여 드리고, 바뀌면 이 페이지를 먼저 고칩니다. 아래는 계획이며 일정은 바뀔 수 있습니다.</p>
+      </div>
+      <ol class="road">
+        <li class="c-teal now rv"><span class="yr">PHASE 1 · 2026~27</span><h3>전처리 랩과 추적 화면</h3><p>샘플로 전처리 랩을 열고 8단계 실시간 추적을 시작합니다. GCLP에 준하는 SOP와 기록 체계를 첫해 안에 갖춥니다.</p><span class="tag">지금 준비 중</span></li>
+        <li class="c-teal rv" data-d="80"><span class="yr">PHASE 2</span><h3>바이오뱅킹과 자체 키트</h3><p>남은 시료를 보관하는 바이오뱅크를 열고, 채취·안정화·배송 키트를 자체 운영에 씁니다. 병원·대학 가까이에 접수 거점을 늘립니다.</p><span class="tag">사전 신청 예정</span></li>
+        <li class="c-blue rv" data-d="160"><span class="yr">PHASE 3</span><h3>오믹스메이트 입찰 플랫폼</h3><p>예상 비용 계산과 전문가 입찰, 등급제를 온라인에서 실제로 돌립니다. 전문가 네트워크를 분야별로 넓힙니다.</p><span class="tag">전문가 모집 예정</span></li>
+        <li class="c-amber rv" data-d="240"><span class="yr">PHASE 4</span><h3>퍼스트옴 Dx 임상 단계</h3><p>연구용 바이오마커 협업을 거쳐 검사실 인정을 받고, 임상시험 환자 선별 검사와 동반진단 공동개발로 나아갑니다.</p><span class="tag">장기 목표</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bt" id="faq" data-screen-label="06c FAQ">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <p class="label">FAQ</p>
+        <h2>자주 묻는 질문</h2>
+        <p>더 궁금한 점은 오른쪽 아래 AI 상담이나 카카오톡 채널로 물어봐 주세요.</p>
+      </div>
+      <div class="faq rv">
+        <details><summary>지금 바로 시료를 맡길 수 있나요?</summary><div class="a">서비스는 준비 중이며, 지금은 카카오톡 채널에서 사전 상담을 받습니다. 시료 종류, 개수, 하고 싶은 실험을 남겨 주시면 열리는 시점과 진행 방식을 먼저 안내해 드립니다.</div></details>
+        <details><summary>가격은 얼마인가요?</summary><div class="a">요금은 서비스 오픈 시 공개합니다. 샘플로는 건별, 연구실 멤버십, 기관 계약의 세 가지 방식으로 나누어 준비하고 있고, 오믹스메이트는 옵션을 고르면 예상 비용 구간이 바로 나오는 <a href="/omicsmate/#estimate">계산기</a>를 두었습니다.</div></details>
+        <details><summary>시퀀싱과 분석을 직접 하나요?</summary><div class="a">전처리, QC, 기록, 추적, 보관은 퍼스트옴이 직접 합니다. 시퀀싱은 검증된 파트너에게, 심층 분석은 오믹스메이트의 분야 전문가에게 잇습니다. 어느 단계를 누가 하는지는 추적 화면에 그대로 표시됩니다.</div></details>
+        <details><summary>품질은 어떻게 보증하나요?</summary><div class="a">GCLP에 준하는 SOP와 교육·장비·원자료 기록 체계로 운영합니다. 인증 명칭이 아니라 운영 기준이며, 인증 획득 계획은 상담 때 안내합니다. 임상 검사에 필요한 검사실 인정은 퍼스트옴 Dx 단계에서 순서대로 준비합니다.</div></details>
+        <details><summary>시료와 데이터의 권리는 누구에게 있나요?</summary><div class="a">시료와 데이터는 고객의 것입니다. 바이오뱅크에 보관하는 시료도 동의 범위 안에서 고객의 요청으로만 쓰이며, 활용 범위는 계약서에 명시하고 과제가 끝나면 접근을 닫습니다.</div></details>
+        <details><summary>연구비로 결제할 수 있나요?</summary><div class="a">견적서, 거래명세서, 세금계산서 발행과 기관 단위 계약을 지원할 계획입니다. 구체 절차는 서비스 오픈 시 안내하며, 기관별 요구 서류가 있으면 상담 때 미리 알려 주세요.</div></details>
+        <details><summary>제약사인데 어디로 문의하나요?</summary><div class="a">제약사·바이오텍·IVD 기업의 바이오마커, 동반진단 협업은 <a href="/dx/">퍼스트옴 Dx</a>에서 안내합니다. 비밀유지 계약 후 자세한 논의를 시작합니다.</div></details>
+      </div>
+    </div>
+  </section>
+
   <!-- CONTACT -->
   <section class="bt tone-b" id="contact" data-screen-label="07 Contact">
     <div class="wrap">
@@ -385,6 +512,10 @@ window.FIRSTOME_TWEAKS = {
         <h2>문의는 브랜드별로, 창구는 하나</h2>
         <p>서비스 문의는 각 브랜드 사이트에서 안내하며, 채팅 창구는 퍼스트옴 카카오톡 채널 하나로 받습니다. 회사 제휴·투자·채용 문의도 같은 채널로 주세요. 이메일과 온라인 접수는 준비 중입니다.</p>
         <p style="margin-top:22px"><a class="kakao-btn" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">카카오톡 채널에서 상담하기 →<small>퍼스트옴 · 1:1 채팅</small></a></p>
+      </div>
+      <div class="notice rv">
+        <div><b>오픈 알림 받기</b><p>카카오톡 채널을 친구 추가해 두시면 샘플로·오믹스메이트가 열릴 때, 사전 신청이 시작될 때 가장 먼저 알려 드립니다.</p></div>
+        <a class="btn ghost" href="https://pf.kakao.com/_uuXFX" target="_blank" rel="noopener">채널 친구 추가 →</a>
       </div>
       <div class="contact rv">
         <a class="c-teal" href="/samplo/#contact"><span class="k">SAMPLO</span><b>시료 의뢰</b><span>샘플로 사이트에서 안내 →</span></a>
@@ -399,7 +530,7 @@ window.FIRSTOME_TWEAKS = {
   <div class="wrap">
     <div class="row">
       <a class="logo" href="/">First<i>·</i>ome<small>퍼스트옴</small></a>
-      <nav><a href="#about">회사 소개</a><a href="#why">운영 원칙</a><a href="#partners">파트너</a><a href="#team">팀</a><a href="#contact">문의</a></nav>
+      <nav><a href="#about">회사 소개</a><a href="#why">운영 원칙</a><a href="#letter">창업자 편지</a><a href="#partners">파트너</a><a href="#team">팀</a><a href="#roadmap">로드맵</a><a href="#faq">FAQ</a><a href="#contact">문의</a></nav>
     </div>
     <p class="by-line">사업 브랜드: <a href="/samplo/">샘플로</a> · <a href="/omicsmate/">오믹스메이트</a> · <a href="/dx/">퍼스트옴 Dx</a></p>
     <div class="legal"><span>© 2026 Firstome. The first mile of omics.</span><span>사업자 정보 · 개인정보처리방침</span></div>
@@ -407,6 +538,19 @@ window.FIRSTOME_TWEAKS = {
 </footer>
 
 <script src="/site/hero-flow.js"></script>
+<script>
+(function(){
+  var els=document.querySelectorAll('.prom b[data-count]'); if(!els.length) return;
+  var mo=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function run(b){ var to=+b.dataset.count, small=b.querySelector('small'), t0=performance.now(), d=1100;
+    function f(t){ var p=Math.min(1,(t-t0)/d); p=1-Math.pow(1-p,3); b.firstChild.nodeValue=Math.round(to*p); if(p<1) requestAnimationFrame(f); }
+    b.insertBefore(document.createTextNode(mo?to:'0'),small); if(!mo) requestAnimationFrame(f); }
+  if(!('IntersectionObserver' in window)){ els.forEach(run); return; }
+  var io=new IntersectionObserver(function(en){ en.forEach(function(e){ if(e.isIntersecting){ run(e.target); io.unobserve(e.target);} }); },{threshold:.4});
+  els.forEach(function(e){ io.observe(e); });
+})();
+</script>
+
 <script src="/site/firstome-chat.js" data-api="https://firstome-agent.firstome.workers.dev/chat" defer></script>
 </body>
 </html>
