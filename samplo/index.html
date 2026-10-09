@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>샘플로 Samplo · 오믹스 시료 전처리 · 실시간 추적 · 바이오뱅킹</title>
-<meta name="description" content="샘플로는 배달앱처럼 시료의 위치와 상태를 보여 주는 오믹스 전처리 서비스입니다. 접수부터 보관까지 8단계 실시간 추적, QC 선택권, GCLP에 준하는 수행 체계, 바이오뱅킹. 퍼스트옴의 사업 브랜드.">
+<meta name="description" content="샘플로는 시료의 위치와 상태를 실시간으로 보여 주는 오믹스 전처리 서비스입니다. 접수부터 보관까지 8단계 실시간 추적, QC 선택권, GCLP에 준하는 수행 체계, 바이오뱅킹. 퍼스트옴의 사업 브랜드.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="샘플로 Samplo">
 <meta property="og:title" content="샘플로 Samplo · 내 시료, 지금 어디서 뭘 하고 있는지 다 보여요">
@@ -62,7 +62,7 @@ body{--c:var(--teal)}
 @media (max-width:980px){.analog{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.analog{grid-template-columns:1fr}}
 .analog article{border:1px solid var(--line2);border-radius:16px;padding:22px;background:var(--surface)}
-.analog .was{font-size:13px;color:var(--dim);text-decoration:line-through;text-decoration-color:var(--teal)}
+.analog .was{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;color:var(--dim)}
 .analog .k{display:block;margin:10px 0 6px}
 .analog h3{font-size:19px}
 .analog p{color:var(--muted);font-size:15px;margin-top:6px}
@@ -179,7 +179,7 @@ td{color:var(--muted)}
       <div>
         <p class="label">오믹스 시료 전처리 · 실시간 추적 · 바이오뱅킹</p>
         <h1>내 시료, 지금 어디서<br>뭘 하고 있는지<br><span class="hl">다 보여요.</span></h1>
-        <p class="lead">배달앱처럼 시료도 추적하세요. 발송부터 QC, 추출, 라이브러리, 시퀀싱, 데이터 도착까지 단계가 바뀔 때마다 카카오톡으로 알려 드리고, 예상 완료일을 계속 업데이트합니다. 끝난 뒤 남은 시료는 바이오뱅크에 두었다가 언제든 다시 씁니다.</p>
+        <p class="lead">내 시료의 모든 단계를 실시간으로 추적하세요. 발송부터 QC, 추출, 라이브러리, 시퀀싱, 데이터 도착까지 단계가 바뀔 때마다 카카오톡으로 알려 드리고, 예상 완료일을 계속 업데이트합니다. 끝난 뒤 남은 시료는 바이오뱅크에 두었다가 언제든 다시 씁니다.</p>
         <p class="sub">"지금 어디까지 됐나요?" 전화할 일도, 남은 시료를 연구실 냉동고에 쌓아 둘 일도 없습니다.</p>
         <div class="ctas"><a class="btn primary" href="#contact">의뢰 상담하기</a><a class="btn ghost" href="#track">추적 화면 보기</a></div>
       </div>
@@ -201,12 +201,12 @@ td{color:var(--muted)}
 
   <section id="track" data-screen-label="02 Tracking">
     <div class="wrap">
-      <div class="sec-head rv"><p class="label">실시간 추적</p><h2>배달앱에서 익숙한 그 화면, 시료에도</h2><p>주문하면 조리, 배달, 도착을 보여 주듯 샘플로는 시료가 거치는 모든 단계를 같은 방식으로 보여 줍니다. 기록은 시료 관리 시스템(LIMS)에서 자동으로 올라옵니다.</p></div>
+      <div class="sec-head rv"><p class="label">실시간 추적</p><h2>시료가 거치는 모든 단계를 한 화면에</h2><p>접수부터 데이터 도착까지, 시료가 지금 어느 단계에서 무엇을 하고 있는지 샘플로가 그대로 보여 줍니다. 기록은 시료 관리 시스템(LIMS)에서 자동으로 올라오므로 전화로 물어볼 일이 없습니다.</p></div>
       <div class="analog">
-        <article class="rv"><span class="was">주문 접수</span><span class="k">STEP 1–2</span><h3>접수·이동</h3><p>견적 확정과 함께 접수 번호가 나오고, 발송한 시료가 이동하는 동안 상태를 보여 줍니다.</p></article>
-        <article class="rv" data-d="80"><span class="was">가게 확인</span><span class="k">STEP 3</span><h3>도착·QC</h3><p>도착 사진과 온도 기록, 시료별 QC 결과가 바로 올라옵니다. 문제가 있으면 진행 전에 여쭙니다.</p></article>
-        <article class="rv" data-d="160"><span class="was">조리 중</span><span class="k">STEP 4–5</span><h3>추출·라이브러리</h3><p>몇 개가 끝났고 몇 개가 남았는지, 지금 어느 장비에 있는지까지 보입니다.</p></article>
-        <article class="rv" data-d="240"><span class="was">배달 완료</span><span class="k">STEP 6–7</span><h3>시퀀싱·데이터 도착</h3><p>런 시작과 완료를 알리고, 데이터와 QC 리포트를 포털에 올리면 바로 내려받습니다.</p></article>
+        <article class="rv"><span class="was">접수 · 이동</span><span class="k">STEP 1–2</span><h3>접수·이동</h3><p>견적 확정과 함께 접수 번호가 나오고, 발송한 시료가 이동하는 동안 상태를 보여 줍니다.</p></article>
+        <article class="rv" data-d="80"><span class="was">도착 확인</span><span class="k">STEP 3</span><h3>도착·QC</h3><p>도착 사진과 온도 기록, 시료별 QC 결과가 바로 올라옵니다. 문제가 있으면 진행 전에 여쭙니다.</p></article>
+        <article class="rv" data-d="160"><span class="was">실험 진행</span><span class="k">STEP 4–5</span><h3>추출·라이브러리</h3><p>몇 개가 끝났고 몇 개가 남았는지, 지금 어느 장비에 있는지까지 보입니다.</p></article>
+        <article class="rv" data-d="240"><span class="was">데이터 전달</span><span class="k">STEP 6–7</span><h3>시퀀싱·데이터 도착</h3><p>런 시작과 완료를 알리고, 데이터와 QC 리포트를 포털에 올리면 바로 내려받습니다.</p></article>
       </div>
     </div>
   </section>
