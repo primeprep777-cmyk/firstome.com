@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>오믹스메이트 OmicsMate · 오믹스 데이터 분석 매칭 플랫폼</title>
-<meta name="description" content="오믹스메이트는 데이터를 올리면 AI가 1차 분석을 끝내고 분석과 논문 작성에 강한 전문가를 연결하는 플랫폼입니다. 결과 확인 후 정산. 퍼스트옴의 사업 브랜드.">
+<title>오믹스메이트 OmicsMate · 분석 옵션을 고르면 예상 비용이, 전문가가 입찰하는 플랫폼</title>
+<meta name="description" content="오믹스메이트는 원하는 분석 옵션을 고르면 예상 비용 구간이 나오고, 검증된 분석 전문가들이 입찰하는 오믹스 분석 중개 플랫폼입니다. AI 1차 분석, 결과 확인 후 정산, 전문가 등급제. 퍼스트옴의 사업 브랜드.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="오믹스메이트 OmicsMate">
-<meta property="og:title" content="오믹스메이트 OmicsMate · 데이터만 올리세요. AI가 먼저, 전문가가 끝까지.">
-<meta property="og:description" content="오믹스 데이터 분석 매칭 플랫폼. 퍼스트옴의 사업 브랜드.">
+<meta property="og:title" content="오믹스메이트 OmicsMate · 분석 옵션을 고르면 예상 비용이, 전문가가 입찰합니다">
+<meta property="og:description" content="오믹스 분석 입찰·중개 플랫폼. AI 1차 분석 · 전문가 등급제 · 결과 확인 후 정산. 퍼스트옴의 사업 브랜드.">
 <meta property="og:url" content="https://firstome.com/omicsmate/">
 <link rel="canonical" href="https://firstome.com/omicsmate/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -89,6 +89,86 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
 @media (max-width:860px){.join{grid-template-columns:1fr}}
 .join h3{font-size:26px}
 .join p{color:var(--muted);margin-top:10px}
+
+/* ---- estimator (24몰-style configurator) ---- */
+.est{display:grid;grid-template-columns:1.25fr .9fr;gap:22px;margin-top:44px;align-items:start}
+@media (max-width:960px){.est{grid-template-columns:1fr}}
+.est .cfg{background:var(--surface);border:1px solid var(--line2);border-radius:22px;padding:26px}
+.est fieldset{border:0;padding:0;margin:0 0 22px}
+.est fieldset:last-child{margin-bottom:0}
+.est legend{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--blue);margin-bottom:10px;display:flex;justify-content:space-between;width:100%}
+.est legend span{color:var(--dim);letter-spacing:0;font-family:var(--f-body);font-size:13px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{position:relative;cursor:pointer}
+.opts input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer}
+.opts span{display:inline-block;padding:8px 14px;border-radius:10px;border:1px solid var(--line2);font-size:14.5px;color:var(--muted);transition:all .2s;background:var(--bg2)}
+.opts input:checked + span{border-color:var(--blue);color:var(--ink);background:color-mix(in oklab,var(--blue) 14%,var(--bg2))}
+.opts input:focus-visible + span{outline:2px solid var(--blue);outline-offset:2px}
+.opts span small{display:block;font-size:12px;color:var(--dim);margin-top:1px}
+.rng{display:flex;align-items:center;gap:14px}
+.rng input[type=range]{flex:1;accent-color:var(--blue)}
+.rng output{font-family:var(--f-mono);font-size:14px;color:var(--ink);min-width:5.5em;text-align:right}
+.quote{background:var(--surface);border:1px solid var(--blue);border-radius:22px;padding:26px;position:sticky;top:96px;box-shadow:0 30px 70px -40px var(--glow)}
+.quote .k{display:block}
+.quote h3{font-size:22px;margin:8px 0 4px}
+.quote .sum{color:var(--muted);font-size:14px;min-height:3.2em}
+.band{margin-top:18px}
+.band .lbls{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:11px;color:var(--dim);margin-bottom:6px}
+.band .bar{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.band .bar i{height:10px;border-radius:4px;background:var(--line);transition:background .3s}
+.band .bar i.on{background:var(--blue)}
+.band b{display:block;margin-top:10px;font-size:26px}
+.band b small{font-size:13px;color:var(--dim);font-weight:500;margin-left:8px}
+.qrows{margin-top:18px;border-top:1px solid var(--line);padding-top:14px;display:grid;gap:8px;font-size:14px}
+.qrows div{display:flex;justify-content:space-between;gap:12px;color:var(--muted)}
+.qrows div b{color:var(--ink);font-weight:600;text-align:right}
+.quote .btn{width:100%;margin-top:18px}
+.quote .fine{margin-top:12px;font-size:12.5px;color:var(--dim);line-height:1.5}
+.tierbadge{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.04em;padding:3px 9px;border-radius:999px;border:1px solid var(--line2);color:var(--muted)}
+.tierbadge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--tc,var(--dim))}
+.t-bronze{--tc:#c98a4b}.t-silver{--tc:#b8c4cc}.t-gold{--tc:#f0b445}.t-platinum{--tc:#9fd8ff}
+
+/* ---- bidding ---- */
+.bids{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:center;margin-top:44px}
+@media (max-width:960px){.bids{grid-template-columns:1fr}}
+.bidlist{background:var(--surface);border:1px solid var(--line2);border-radius:22px;padding:22px;box-shadow:0 40px 80px -40px rgba(0,0,0,.5)}
+.bidlist header{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);padding-bottom:14px;border-bottom:1px solid var(--line)}
+.bid{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px dashed var(--line)}
+.bid:last-of-type{border-bottom:0}
+.bid .av{width:40px;height:40px}
+.bid .who b{display:block;font-size:15px}
+.bid .who small{display:block;color:var(--dim);font-size:12.5px;margin-top:2px}
+.bid .amt{text-align:right}
+.bid .amt b{display:block;font-family:var(--f-mono);font-size:15px;letter-spacing:.06em}
+.bid .amt small{display:block;color:var(--dim);font-size:12px}
+.bid.pick{background:color-mix(in oklab,var(--blue) 8%,transparent);margin:0 -12px;padding-inline:12px;border-radius:12px}
+.bidlist .cap{margin-top:12px;font-size:12px;color:var(--dim);text-align:right}
+.flow{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:14px}
+.flow li{display:grid;grid-template-columns:34px 1fr;gap:14px;align-items:start}
+.flow li i{width:34px;height:34px;border-radius:10px;border:1.5px solid var(--blue);color:var(--blue);display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;font-style:normal}
+.flow li b{display:block;font-size:17px}
+.flow li p{color:var(--muted);font-size:15px;margin-top:3px}
+
+/* ---- tiers ---- */
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px}
+@media (max-width:980px){.tiers{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.tiers{grid-template-columns:1fr}}
+.tier{border:1px solid var(--line2);border-radius:18px;padding:24px 22px;background:var(--surface);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px}
+.tier::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--tc)}
+.tier .nm{display:flex;align-items:center;gap:10px}
+.tier .nm i{width:14px;height:14px;border-radius:50%;background:var(--tc);box-shadow:0 0 0 4px color-mix(in oklab,var(--tc) 22%,transparent)}
+.tier .nm b{font-size:20px}
+.tier .nm small{font-family:var(--f-mono);font-size:11px;color:var(--dim);letter-spacing:.06em}
+.tier .req{font-size:13.5px;color:var(--dim);border-top:1px solid var(--line);padding-top:10px}
+.tier .req b{display:block;color:var(--muted);font-size:12px;font-family:var(--f-mono);letter-spacing:.06em;margin-bottom:4px}
+.tier .ben{display:grid;gap:6px;font-size:14.5px;color:var(--muted)}
+.tier .ben div{display:flex;justify-content:space-between;gap:10px}
+.tier .ben div b{color:var(--ink);font-weight:600}
+.meter{display:flex;gap:3px}
+.meter i{width:14px;height:6px;border-radius:3px;background:var(--line2)}
+.meter i.on{background:var(--tc)}
+.tierrule{margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:860px){.tierrule{grid-template-columns:1fr}}
 </style>
 </head>
 <body class="c-blue">
@@ -96,8 +176,8 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
 <header class="top">
   <div class="wrap">
     <a class="logo brand" href="/omicsmate/" aria-label="오믹스메이트 홈"><i class="mk"></i>오믹스메이트<small>OMICSMATE</small></a>
-    <nav class="links"><a href="#how">이용 방법</a><a href="#ai">AI와 전문가</a><a href="#promise">약속</a><a href="#expert">전문가 등록</a></nav>
-    <a class="btn primary sm" href="#contact">분석 의뢰</a>
+    <nav class="links"><a href="#estimate">예상 비용</a><a href="#bidding">입찰</a><a href="#tiers">전문가 등급</a><a href="#ai">AI와 전문가</a><a href="#promise">약속</a><a href="#expert">전문가 등록</a></nav>
+    <a class="btn primary sm" href="#estimate">예상 비용 보기</a>
   </div>
 </header>
 
@@ -105,38 +185,158 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
   <section class="hero" style="padding:0" data-screen-label="01 OmicsMate Hero">
     <div class="wrap">
       <div>
-        <p class="label">오믹스 데이터 분석 매칭 플랫폼</p>
-        <h1>데이터만 올리세요.<br><span class="hl">AI가 먼저,</span><br>전문가가 끝까지.</h1>
-        <p class="lead">AI가 표준 파이프라인으로 1차 분석을 끝내면, 내 연구 주제를 아는 분석 전문가가 해석과 논문용 그림을 완성합니다. 분석 업체를 찾고 비교하는 시간은 없습니다.</p>
-        <p class="sub">결과를 확인한 뒤에 대금이 전문가에게 지급됩니다.</p>
-        <div class="ctas"><a class="btn primary" href="#contact">분석 의뢰하기</a><a class="btn ghost" href="#expert">전문가로 참여하기</a></div>
+        <p class="label">오믹스 분석 입찰 · 중개 플랫폼</p>
+        <h1>원하는 분석을 고르면<br><span class="hl">예상 비용이 나오고,</span><br>전문가들이 입찰합니다.</h1>
+        <p class="lead">데이터 종류와 분석 범위를 고르면 예상 비용 구간이 바로 나옵니다. 의뢰를 올리면 검증된 분석 전문가들이 금액과 기간, 접근 방법을 제안하고, 고객은 비교해서 고릅니다. 오믹스메이트는 중개와 검수, 정산을 맡습니다.</p>
+        <p class="sub">AI가 1차 분석을 먼저 끝내 두고, 대금은 결과를 확인한 뒤 전문가에게 지급됩니다.</p>
+        <div class="ctas"><a class="btn primary" href="#estimate">예상 비용 계산하기</a><a class="btn ghost" href="#expert">전문가로 참여하기</a></div>
       </div>
-      <div class="job rv" aria-label="분석 의뢰 예시 화면">
-        <header><b style="color:var(--ink)">분석 의뢰 #M-1024</b><span class="mono" style="font-size:12px;color:var(--dim)">예시 화면</span></header>
-        <div class="blk"><span class="k">올린 데이터</span>
-          <div class="file"><b>scRNA-seq · 종양 조직 8개</b><span>FASTQ 412GB</span></div>
-          <p class="goal">목표: 면역세포 아형 비교, 치료 반응 관련 경로</p></div>
-        <div class="blk"><span class="k">AI 1차 분석</span>
-          <div class="pipe"><span>QC·필터링</span><span>배치 보정</span><span>클러스터링</span><span>세포 유형 주석 초안</span><span>발현 차이 분석</span><span>경로 분석</span></div></div>
-        <div class="blk"><span class="k">추천 전문가</span>
-          <div class="exp"><span class="av">A</span><div><b>전문가 A · 단일세포 · 종양면역</b><small>관련 분야 논문 다수 · 과제 완료 후기 높음</small></div><span class="fit">적합도 높음</span></div>
-          <div class="exp"><span class="av">B</span><div><b>전문가 B · 단일세포 · 통합 분석</b><small>공간오믹스 연계 경험</small></div><span class="fit m">적합</span></div></div>
+      <div class="bidlist rv" aria-label="입찰 현황 예시 화면">
+        <header><b style="color:var(--ink)">분석 의뢰 #M-1024 · 입찰 중</b><span class="mono" style="font-size:12px">예시 화면</span></header>
+        <p style="font-size:13.5px;color:var(--muted);margin-top:12px">scRNA-seq · 종양 조직 8개 · 면역세포 아형 비교, 치료 반응 경로 · AI 1차 분석 완료</p>
+        <div class="bid pick"><span class="av">A</span><div class="who"><b>전문가 A <span class="tierbadge t-platinum">PLATINUM</span></b><small>단일세포 · 종양면역 · 관련 논문 다수 · 평점 4.9</small></div><div class="amt"><b>₩ ●●●</b><small>3주 · 수정 2회 포함</small></div></div>
+        <div class="bid"><span class="av">B</span><div class="who"><b>전문가 B <span class="tierbadge t-gold">GOLD</span></b><small>단일세포 · 통합 분석 · 공간오믹스 연계 · 평점 4.7</small></div><div class="amt"><b>₩ ●●●</b><small>2주 · 그림 초안 포함</small></div></div>
+        <div class="bid"><span class="av">C</span><div class="who"><b>전문가 C <span class="tierbadge t-silver">SILVER</span></b><small>단일세포 · 면역학 · 완료 과제 12건 · 평점 4.6</small></div><div class="amt"><b>₩ ●●●</b><small>4주</small></div></div>
+        <p class="cap">예시 화면 · 금액은 서비스 오픈 시 공개됩니다</p>
       </div>
     </div>
   </section>
 
   <section id="how" data-screen-label="02 How it works">
     <div class="wrap">
-      <div class="sec-head rv"><p class="label">이용 방법</p><h2>네 단계면 결과까지</h2><p>업체마다 견적을 받고 일정을 맞추던 일을 플랫폼이 대신합니다.</p></div>
+      <div class="sec-head rv"><p class="label">이용 방법</p><h2>고르고, 올리고, 비교하고, 확인 후 지급</h2><p>업체마다 견적을 받고 일정을 맞추던 일을 플랫폼이 대신합니다. 고객은 조건을 고르고 제안을 비교하기만 하면 됩니다.</p></div>
       <div class="steps4">
-        <article class="rv"><div class="n"><b>01</b><i></i></div><span class="who">고객</span><h3>데이터 올리기</h3><p>FASTQ나 결과 파일을 올리고 연구 목표를 적습니다. 샘플로에서 만든 데이터는 클릭 한 번으로 연결됩니다.</p></article>
-        <article class="rv" data-d="80"><div class="n"><b>02</b><i></i></div><span class="who">AI</span><h3>1차 분석</h3><p>QC부터 기본 분석과 그림 초안까지 표준 파이프라인으로 끝냅니다. 결과는 바로 미리 봅니다.</p></article>
-        <article class="rv" data-d="160"><div class="n"><b>03</b><i></i></div><span class="who">고객 + 플랫폼</span><h3>전문가 고르기</h3><p>주제와 데이터 유형에 맞는 전문가를 추천받고, 견적과 일정을 비교해 고릅니다.</p></article>
-        <article class="rv" data-d="240"><div class="n"><b>04</b><i></i></div><span class="who">전문가 + 검수</span><h3>결과 받기</h3><p>해석, 추가 분석, 논문용 그림, 방법 초안을 검수 후 받습니다. 수정 요청도 플랫폼에서 합니다.</p></article>
+        <article class="rv"><div class="n"><b>01</b><i></i></div><span class="who">고객</span><h3>옵션 고르고 예상 비용 확인</h3><p>데이터 종류, 시료 수, 분석 범위, 납기를 고르면 예상 비용 구간과 권장 전문가 등급이 바로 나옵니다.</p></article>
+        <article class="rv" data-d="80"><div class="n"><b>02</b><i></i></div><span class="who">고객 + AI</span><h3>의뢰 등록, AI 1차 분석</h3><p>데이터를 올리면 AI가 QC와 기본 분석을 끝내 둡니다. 의뢰는 조건과 함께 전문가들에게 공개됩니다.</p></article>
+        <article class="rv" data-d="160"><div class="n"><b>03</b><i></i></div><span class="who">전문가 → 고객</span><h3>입찰 비교하고 선택</h3><p>전문가들이 금액, 기간, 접근 방법을 제안합니다. 등급, 평점, 논문 경험을 보고 고객이 고릅니다.</p></article>
+        <article class="rv" data-d="240"><div class="n"><b>04</b><i></i></div><span class="who">전문가 + 플랫폼</span><h3>결과 확인 후 정산</h3><p>해석, 그림, 방법 초안을 검수 후 받습니다. 대금은 플랫폼이 보관하다가 확인 뒤 지급하고, 수수료를 뺀 금액이 전문가에게 갑니다.</p></article>
       </div>
     </div>
   </section>
 
+  <section id="estimate" class="bt tone-b" data-screen-label="03 Estimator">
+    <div class="wrap">
+      <div class="sec-head rv"><p class="label">예상 비용 계산</p><h2>원하는 분석을 고르면 바로 나옵니다</h2><p>쇼핑몰에서 옵션을 고르듯 조건을 고르세요. 예상 비용 구간, 권장 전문가 등급, 표준 기간이 계산됩니다. 이 조건 그대로 입찰 요청으로 이어집니다.</p></div>
+      <form class="est rv" id="estForm" onsubmit="return false">
+        <div class="cfg">
+          <fieldset>
+            <legend>01 · 데이터 종류 <span>하나 선택</span></legend>
+            <div class="opts">
+              <label><input type="radio" name="dtype" value="bulk" data-w="1" checked><span>Bulk RNA-seq</span></label>
+              <label><input type="radio" name="dtype" value="sc" data-w="2.2"><span>단일세포 RNA-seq</span></label>
+              <label><input type="radio" name="dtype" value="wgs" data-w="1.8"><span>WGS · WES</span></label>
+              <label><input type="radio" name="dtype" value="prot" data-w="1.6"><span>단백체 · 대사체</span></label>
+              <label><input type="radio" name="dtype" value="spatial" data-w="2.6"><span>공간오믹스</span></label>
+              <label><input type="radio" name="dtype" value="multi" data-w="3"><span>멀티오믹스 통합</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>02 · 시료 수 <span>데이터가 있는 시료 기준</span></legend>
+            <div class="rng"><input type="range" id="nSamp" min="1" max="12" value="4" aria-label="시료 수"><output id="nSampOut">약 24개</output></div>
+          </fieldset>
+          <fieldset>
+            <legend>03 · 분석 범위 <span>여러 개 선택</span></legend>
+            <div class="opts">
+              <label><input type="checkbox" name="scope" value="basic" data-w="0" checked disabled><span>QC · 기본 분석<small>AI 1차 분석에 항상 포함</small></span></label>
+              <label><input type="checkbox" name="scope" value="deg" data-w="1" checked><span>발현 차이 · 변이 해석</span></label>
+              <label><input type="checkbox" name="scope" value="path" data-w="1"><span>경로 · 기능 분석</span></label>
+              <label><input type="checkbox" name="scope" value="anno" data-w="1.2"><span>세포 유형 주석 · 궤적</span></label>
+              <label><input type="checkbox" name="scope" value="integ" data-w="1.8"><span>통합 · 배치 보정 · 메타분석</span></label>
+              <label><input type="checkbox" name="scope" value="ml" data-w="2"><span>바이오마커 · 예측 모델</span></label>
+              <label><input type="checkbox" name="scope" value="fig" data-w="1"><span>논문용 그림</span></label>
+              <label><input type="checkbox" name="scope" value="method" data-w="0.6"><span>방법(Methods) 초안</span></label>
+              <label><input type="checkbox" name="scope" value="rev" data-w="0.8"><span>리뷰어 대응 분석</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>04 · 납기 <span>하나 선택</span></legend>
+            <div class="opts">
+              <label><input type="radio" name="speed" value="std" data-w="1" checked><span>표준</span></label>
+              <label><input type="radio" name="speed" value="fast" data-w="1.35"><span>빠름<small>우선 배정</small></span></label>
+              <label><input type="radio" name="speed" value="slow" data-w="0.9"><span>여유<small>기간을 길게</small></span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>05 · 희망 전문가 등급 <span>입찰 받을 범위</span></legend>
+            <div class="opts">
+              <label><input type="radio" name="tier" value="any" data-w="1" checked><span>전체 등급</span></label>
+              <label><input type="radio" name="tier" value="gold" data-w="1.15"><span>Gold 이상</span></label>
+              <label><input type="radio" name="tier" value="plat" data-w="1.3"><span>Platinum만</span></label>
+            </div>
+          </fieldset>
+        </div>
+        <aside class="quote" aria-live="polite">
+          <span class="k">예상 결과 · 예시</span>
+          <h3 id="qTitle">Bulk RNA-seq · 약 24개</h3>
+          <p class="sum" id="qSum">QC · 기본 분석, 발현 차이 · 변이 해석 · 표준 납기</p>
+          <div class="band">
+            <div class="lbls"><span>기본</span><span>표준</span><span>확장</span><span>심화</span><span>대규모</span></div>
+            <div class="bar" id="qBar"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+            <b id="qBand">구간 1 · 기본<small>예상 비용 구간</small></b>
+          </div>
+          <div class="qrows">
+            <div><span>AI 1차 분석</span><b>포함 · 무료</b></div>
+            <div><span>권장 전문가 등급</span><b id="qTier">Silver 이상</b></div>
+            <div><span>표준 기간</span><b id="qTime">약 2주</b></div>
+            <div><span>예상 입찰</span><b id="qBids">전체 등급에서</b></div>
+          </div>
+          <a class="btn primary" id="qGo" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">이 조건으로 입찰 요청하기</a>
+          <p class="fine">온라인 의뢰 등록은 준비 중입니다. 지금은 선택한 조건이 카카오톡 상담으로 이어지며, 실제 금액 범위는 서비스 오픈 시 공개합니다. 수수료는 전문가 입찰 금액에 포함되어 고객에게 따로 청구되지 않습니다.</p>
+        </aside>
+      </form>
+    </div>
+  </section>
+
+  <section id="bidding" class="bt" data-screen-label="04 Bidding">
+    <div class="wrap">
+      <div class="sec-head rv"><p class="label">입찰과 중개</p><h2>전문가들이 제안하고, 고객이 고릅니다</h2><p>오믹스메이트는 분석을 직접 팔지 않습니다. 의뢰와 전문가를 잇고, 검수와 정산을 책임지며, 그 대가로 중개 수수료를 받습니다.</p></div>
+      <div class="bids">
+        <div>
+          <ol class="flow rv">
+            <li><i>1</i><div><b>의뢰 공개</b><p>고객이 고른 조건과 AI 1차 분석 요약이 조건에 맞는 전문가들에게 공개됩니다. 데이터 자체는 선택된 전문가에게만 열립니다.</p></div></li>
+            <li><i>2</i><div><b>전문가 제안</b><p>전문가는 금액, 기간, 접근 방법, 산출물을 적어 제안합니다. 등급별 단가 범위 안에서 자유롭게 정합니다.</p></div></li>
+            <li><i>3</i><div><b>비교와 선택</b><p>고객은 제안 금액과 함께 등급, 평점, 논문 경험, 완료 과제를 보고 고릅니다. 가장 싼 제안이 아니라 가장 맞는 제안을 고르도록 돕습니다.</p></div></li>
+            <li><i>4</i><div><b>에스크로 정산</b><p>대금은 플랫폼이 보관하다가 결과 확인 후 지급합니다. 플랫폼 수수료는 전문가 등급에 따라 달라지며, 등급이 높을수록 덜 냅니다.</p></div></li>
+          </ol>
+        </div>
+        <div class="bidlist rv" data-d="100" aria-label="입찰 비교 예시 화면">
+          <header><b style="color:var(--ink)">입찰 비교 · 분석 의뢰 #M-1031</b><span class="mono" style="font-size:12px">예시 화면</span></header>
+          <p style="font-size:13.5px;color:var(--muted);margin-top:12px">Bulk RNA-seq · 48개 · 발현 차이, 경로 분석, 논문용 그림 · 예상 구간 2 · 표준</p>
+          <div class="bid"><span class="av">D</span><div class="who"><b>전문가 D <span class="tierbadge t-gold">GOLD</span></b><small>전사체 · 암 · 논문 경험 다수 · 평점 4.8</small></div><div class="amt"><b>₩ ●●●</b><small>2주 · 그림 6장</small></div></div>
+          <div class="bid pick"><span class="av">E</span><div class="who"><b>전문가 E <span class="tierbadge t-platinum">PLATINUM</span></b><small>전사체 · 면역 · 교신저자 경험 · 평점 4.9</small></div><div class="amt"><b>₩ ●●●</b><small>3주 · 방법 초안 포함</small></div></div>
+          <div class="bid"><span class="av">F</span><div class="who"><b>전문가 F <span class="tierbadge t-bronze">BRONZE</span></b><small>전사체 · 신규 전문가 · 시범 과제 통과</small></div><div class="amt"><b>₩ ●●●</b><small>2주</small></div></div>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:13px;color:var(--dim)"><span>선택 → 에스크로 입금 → 분석 시작</span><span>수수료는 전문가 등급별 차등</span></div>
+          <p class="cap">예시 화면 · 금액은 서비스 오픈 시 공개됩니다</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tiers" class="bt tone-b" data-screen-label="05 Expert Tiers">
+    <div class="wrap">
+      <div class="sec-head rv"><p class="label">전문가 등급제</p><h2>잘할수록 더 받고, 덜 냅니다</h2><p>논문 경험, 완료 과제, 고객 평점으로 등급이 올라갑니다. 높은 등급은 더 높은 단가 범위에서 제안하고 플랫폼 수수료를 덜 내며, 의뢰에 먼저 노출됩니다.</p></div>
+      <div class="tiers">
+        <article class="tier t-bronze rv"><div class="nm"><i></i><div><b>Bronze</b><br><small>시작 등급</small></div></div>
+          <div class="req"><b>조건</b>신원·학력 확인, 시범 과제 통과</div>
+          <div class="ben"><div><span>단가 범위</span><span class="meter"><i class="on"></i><i></i><i></i><i></i></span></div><div><span>플랫폼 수수료</span><b>기본</b></div><div><span>의뢰 노출</span><b>일반</b></div></div></article>
+        <article class="tier t-silver rv" data-d="60"><div class="nm"><i></i><div><b>Silver</b><br><small>검증 등급</small></div></div>
+          <div class="req"><b>조건</b>완료 과제 여러 건, 평점 기준 이상, 관련 논문 실적</div>
+          <div class="ben"><div><span>단가 범위</span><span class="meter"><i class="on"></i><i class="on"></i><i></i><i></i></span></div><div><span>플랫폼 수수료</span><b>기본보다 낮음</b></div><div><span>의뢰 노출</span><b>일반</b></div></div></article>
+        <article class="tier t-gold rv" data-d="120"><div class="nm"><i></i><div><b>Gold</b><br><small>우수 등급</small></div></div>
+          <div class="req"><b>조건</b>높은 평점 유지, 주저자급 논문 경험, 재의뢰 고객 보유</div>
+          <div class="ben"><div><span>단가 범위</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div><div><span>플랫폼 수수료</span><b>낮음</b></div><div><span>의뢰 노출</span><b>우선</b></div></div></article>
+        <article class="tier t-platinum rv" data-d="180"><div class="nm"><i></i><div><b>Platinum</b><br><small>최상위 등급</small></div></div>
+          <div class="req"><b>조건</b>최상위 평점, 교신·주저자급 실적, 심사위원 추천</div>
+          <div class="ben"><div><span>단가 범위</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div><div><span>플랫폼 수수료</span><b>최저</b></div><div><span>의뢰 노출</span><b>최우선 · 전담 매니저</b></div></div></article>
+      </div>
+      <div class="tierrule">
+        <div class="mini rv"><span class="k">UP</span><b>올라가는 기준</b><p>완료 과제 수, 고객 평점, 납기 준수, 논문 실적(저자 역할 포함)을 합산해 분기마다 등급을 다시 매깁니다.</p></div>
+        <div class="mini rv" data-d="60"><span class="k">DOWN</span><b>내려가는 기준</b><p>평점 하락, 납기 미준수, 검수 반려가 반복되면 등급이 내려가고, 심한 경우 참여가 제한됩니다.</p></div>
+        <div class="mini rv" data-d="120"><span class="k">FAIR</span><b>공정한 평가</b><p>평점은 결과를 확인한 고객만 남길 수 있고, 플랫폼 검수 결과가 함께 반영됩니다. 등급 기준은 공개합니다.</p></div>
+      </div>
+      <p class="note rv"><b>수수료율과 단가 범위는 서비스 오픈 시 공개합니다.</b> 등급이 높을수록 수수료율이 낮아지고 단가 상한이 높아지는 구조는 확정이며, 구체 숫자는 전문가 모집 단계에서 안내합니다.</p>
+    </div>
+  </section>
   <section id="ai" class="bt tone-b" data-screen-label="03 AI & Experts">
     <div class="wrap">
       <div class="sec-head rv"><p class="label">AI와 전문가</p><h2>반복은 AI가, 판단은 사람이</h2><p>시간이 드는 반복 작업을 AI가 맡아, 전문가는 연구의 의미를 찾는 데 집중합니다. 그만큼 빠르고 비용 부담도 줄어듭니다.</p></div>
@@ -144,7 +344,7 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
         <article class="card rv">
           <figure class="ph" data-label="[macro] 모니터에 비친 단일세포 UMAP 클러스터 — 어두운 방, 화면 빛"><img src="/assets/om-ai.jpg" alt="모니터 속 단일세포 클러스터 시각화"></figure>
           <div class="body"><span class="k">AI가 하는 일</span><h3>표준화된 1차 분석</h3>
-            <ul class="ticks"><li>데이터 QC, 필터링, 정규화</li><li>표준 파이프라인 실행과 기록</li><li>기본 그림과 해석 초안</li><li>과제에 맞는 전문가 추천</li></ul></div>
+            <ul class="ticks"><li>데이터 QC, 필터링, 정규화</li><li>표준 파이프라인 실행과 기록</li><li>기본 그림과 해석 초안</li><li>예상 비용 구간 계산과 전문가 추천</li></ul></div>
         </article>
         <article class="card rv" data-d="100">
           <figure class="ph" data-label="[macro] 연구자가 출력한 히트맵 위에 펜으로 메모하는 손"><img src="/assets/om-expert.jpg" alt="히트맵 출력물에 메모하는 연구자의 손"></figure>
@@ -181,7 +381,7 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
   <section id="contact" class="bt" data-screen-label="06 Contact">
     <div class="wrap">
       <div class="xlink c-blue rv">
-        <div><span class="k">CONTACT · 분석 의뢰</span><h3>어떤 데이터인지, 무엇을 보고 싶은지 알려 주세요</h3><p>카카오톡 채널에 남겨 주시면 AI 1차 분석 범위와 추천 전문가, 예상 견적을 안내해 드립니다. 온라인 접수는 준비 중입니다.</p></div>
+        <div><span class="k">CONTACT · 분석 의뢰</span><h3>위에서 고른 조건을 그대로 보내 주세요</h3><p>카카오톡 채널에 남겨 주시면 AI 1차 분석 범위와 입찰 가능한 전문가 등급을 안내해 드립니다. 온라인 의뢰 등록과 입찰 화면은 준비 중입니다.</p></div>
         <a class="kakao-btn" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">카카오톡 채널에서 상담하기 →<small>퍼스트옴 · 1:1 채팅</small></a>
       </div>
     </div>
@@ -190,8 +390,8 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
   <section id="expert" class="bt" data-screen-label="07 Join as Expert">
     <div class="wrap">
       <div class="join rv">
-        <div><span class="k">FOR EXPERTS</span><h3>분석 전문가로 함께하세요</h3><p>논문 경험이 있는 바이오인포 연구자, 박사후연구원, 대학원생을 찾습니다. AI가 반복 작업을 끝내 두니 해석과 작성에 집중할 수 있습니다.</p><a class="btn primary" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">전문가 등록 문의</a></div>
-        <ul class="ticks" style="font-size:16px"><li>원하는 분야와 분량만 선택</li><li>결과 확인 후 안전하게 정산</li><li>기여에 따라 공동저자·사사 표기</li><li>플랫폼 분석 도구 무료 사용</li></ul>
+        <div><span class="k">FOR EXPERTS</span><h3>분석 전문가로 함께하세요</h3><p>논문 경험이 있는 바이오인포 연구자, 박사후연구원, 대학원생을 찾습니다. Bronze로 시작해 완료 과제와 평점, 논문 실적으로 Platinum까지 올라갑니다. AI가 반복 작업을 끝내 두니 해석과 작성에 집중할 수 있습니다.</p><a class="btn primary" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">전문가 등록 문의</a></div>
+        <ul class="ticks" style="font-size:16px"><li>원하는 분야와 분량만 선택</li><li>의뢰에 직접 입찰, 금액과 기간은 내가 정함</li><li>결과 확인 후 안전하게 정산</li><li>등급이 오르면 단가는 높게, 수수료는 낮게</li><li>기여에 따라 공동저자·사사 표기</li><li>플랫폼 분석 도구 무료 사용</li></ul>
       </div>
     </div>
   </section>
@@ -200,7 +400,7 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
 <footer>
   <div class="wrap">
     <div class="row"><a class="logo brand" href="/omicsmate/"><i class="mk"></i>오믹스메이트<small>OMICSMATE</small></a>
-      <nav><a href="#how">이용 방법</a><a href="#ai">AI와 전문가</a><a href="#promise">약속</a><a href="#contact">분석 의뢰</a><a href="#expert">전문가 등록</a></nav></div>
+      <nav><a href="#estimate">예상 비용</a><a href="#bidding">입찰</a><a href="#tiers">전문가 등급</a><a href="#promise">약속</a><a href="#contact">분석 의뢰</a><a href="#expert">전문가 등록</a></nav></div>
     <p class="by-line">오믹스메이트는 <a href="/">퍼스트옴(Firstome)</a>의 사업 브랜드입니다. 패밀리: <a href="/samplo/">샘플로</a> · <a href="/dx/">퍼스트옴 Dx</a></p>
     <div class="legal"><span>© 2026 OmicsMate</span><span>사업자 정보 · 개인정보처리방침</span></div>
   </div>
@@ -211,6 +411,39 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
   var sp = document.querySelectorAll('.pipe span'), i = 0;
   function tick(){ sp.forEach(function(s, j){ s.className = j < i ? 'done' : j === i ? 'now' : ''; }); i = (i + 1) % (sp.length + 2); }
   tick(); setInterval(tick, 1100);
+})();
+</script>
+<script>
+(function(){
+  var f=document.getElementById('estForm'); if(!f) return;
+  var sampLabels=['1~3개','4~6개','8개','12개','약 24개','약 36개','약 48개','약 72개','약 96개','약 150개','약 200개','300개 이상'];
+  var sampW=[0.6,0.7,0.8,0.9,1,1.1,1.2,1.35,1.5,1.7,1.9,2.2];
+  var names={bulk:'Bulk RNA-seq',sc:'단일세포 RNA-seq',wgs:'WGS · WES',prot:'단백체 · 대사체',spatial:'공간오믹스',multi:'멀티오믹스 통합'};
+  var spd={std:'표준 납기',fast:'빠른 납기',slow:'여유 납기'};
+  var bands=['기본','표준','확장','심화','대규모'];
+  var tiers={any:'전체 등급에서',gold:'Gold · Platinum에서',plat:'Platinum에서'};
+  function q(sel){return f.querySelector(sel)}
+  function calc(){
+    var dt=q('input[name=dtype]:checked'), sp=q('input[name=speed]:checked'), tr=q('input[name=tier]:checked');
+    var n=+q('#nSamp').value-1; q('#nSampOut').value=sampLabels[n];
+    var scopes=[].slice.call(f.querySelectorAll('input[name=scope]:checked'));
+    var sw=0, labels=[]; scopes.forEach(function(c){sw+= +c.dataset.w; labels.push(c.nextElementSibling.firstChild.textContent)});
+    var score=(+dt.dataset.w)*(0.8+sw*0.55)*sampW[n]*(+sp.dataset.w)*(+tr.dataset.w);
+    var b= score<1.6?0: score<3?1: score<5.5?2: score<9?3:4;
+    q('#qTitle').textContent=names[dt.value]+' · '+sampLabels[n];
+    q('#qSum').textContent=labels.join(', ')+' · '+spd[sp.value];
+    [].forEach.call(q('#qBar').children,function(i,k){i.classList.toggle('on',k<=b)});
+    q('#qBand').innerHTML='구간 '+(b+1)+' · '+bands[b]+'<small>예상 비용 구간</small>';
+    var rec= b<=0?'Bronze 이상': b==1?'Silver 이상': b==2?'Gold 이상':'Gold · Platinum 권장';
+    q('#qTier').textContent=rec;
+    var wk='약 '+['1~2주','2주','2~3주','3~4주','4주 이상'][b]; if(sp.value==='fast') wk='단축 · '+wk; if(sp.value==='slow') wk='여유 · '+wk;
+    q('#qTime').textContent=wk;
+    q('#qBids').textContent=tiers[tr.value];
+    var msg='[오믹스메이트 입찰 요청] '+names[dt.value]+' / '+sampLabels[n]+' / '+labels.join(', ')+' / '+spd[sp.value]+' / 예상 구간 '+(b+1)+' / 희망 등급: '+tr.nextElementSibling.textContent;
+    q('#qGo').setAttribute('data-msg',msg);
+  }
+  f.addEventListener('input',calc); f.addEventListener('change',calc); calc();
+  q('#qGo').addEventListener('click',function(){ try{ navigator.clipboard && navigator.clipboard.writeText(this.getAttribute('data-msg')); }catch(e){} });
 })();
 </script>
 <script src="/site/firstome-chat.js" data-api="https://firstome-agent.firstome.workers.dev/chat" defer></script>
