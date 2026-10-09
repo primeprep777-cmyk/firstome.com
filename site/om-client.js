@@ -10,7 +10,7 @@
   function steps(status) {
     var i = STEPS.indexOf(status);
     return '<ol class="om-steps">' + STEPS.map(function (s, k) {
-      return '<li class="' + (i < 0 ? "" : k < i ? "done" : k === i ? "now" : "") + '">' + L.status[s].replace(" · 입금 대기", "") + "</li>";
+      return '<li class="' + (i < 0 ? "" : k < i ? "done" : k === i ? "now" : "") + '">' + L.status[s].replace(" · 결제 대기", "") + "</li>";
     }).join("") + "</ol>";
   }
 
@@ -100,6 +100,9 @@
     var pay = OM.unwrap(await sb.from("payments").select("*").eq("request_id", id).maybeSingle());
     var bank = OM.unwrap(await sb.from("settings").select("value").eq("key", "bank").maybeSingle());
     var review = OM.unwrap(await sb.from("reviews").select("*").eq("request_id", id).maybeSingle());
+    // 결제·세금계산서 정보 (supabase/billing.sql 을 아직 실행하지 않았으면 이 칸만 숨김)
+    var billRes = await sb.from("billing").select("*").eq("request_id", id).maybeSingle();
+    var billOk = !billRes.error, bill = billRes.data;
 
     var h = '<p class="om-dim"><a href="./">← 내 의뢰</a></p>' +
       '<div class="om-head"><div><h1>' + esc(r.title) + "</h1><p>" + OM.date(r.created_at) + " 등록 · " + OM.chip(r.status) + "</p></div>" +
@@ -113,10 +116,17 @@
     if (r.status === "review") h += card("검수 대기 중", "운영자가 내용을 확인하고 있습니다. 공개되면 입찰 기간(기본 7일)이 시작됩니다.");
     if (r.status === "open" || r.status === "closed") h += bidsCard(r, bids);
     if (r.status === "selected" && sel) {
-      h += card("입금을 기다리고 있습니다",
-        "<b>" + esc(sel.experts.profiles.name) + "</b> 전문가를 선정했습니다. 아래 금액을 입금하시면 운영자가 확인 후 분석이 시작됩니다. 대금은 결과를 승인할 때까지 오믹스메이트가 보관합니다.",
-        '<dl class="om-dl" style="margin-top:14px"><dt>입금액</dt><dd><b>' + OM.won(sel.amount) + "</b></dd><dt>입금 안내</dt><dd>" + esc(bank && bank.value && bank.value.text || "운영자가 입금 계좌를 메일로 안내해 드립니다.") + "</dd></dl>");
+      var cardWay = bill && bill.method !== "transfer";
+      h += card("결제를 기다리고 있습니다",
+        "<b>" + esc(sel.experts.profiles.name) + "</b> 전문가를 선정했습니다. 결제가 확인되면 분석이 시작됩니다. 대금은 결과를 승인할 때까지 오믹스메이트가 보관합니다.",
+        OM.amountDl(sel.amount) +
+        '<dl class="om-dl" style="margin-top:10px">' +
+        (cardWay
+          ? "<dt>카드 결제</dt><dd>" + (bill.card_link_sent ? OM.date(bill.card_link_sent) + "에 결제 링크를 메일로 보냈습니다. 메일함을 확인해 주세요." : "운영자가 카드 결제 링크를 메일로 보내 드립니다.") + "</dd>"
+          : "<dt>입금 안내</dt><dd>" + esc(bank && bank.value && bank.value.text || "운영자가 입금 계좌를 메일로 안내해 드립니다.") + "</dd>") +
+        '</dl><div class="om-actions" style="margin-top:14px"><a class="btn ghost sm" href="quote/?bid=' + sel.id + '" target="_blank">견적서 보기 · 인쇄</a></div>');
     }
+    if (sel && billOk && ["selected", "in_progress", "delivered", "completed"].indexOf(r.status) >= 0) h += billingCard(bill);
     if (sel && ["in_progress", "delivered", "completed", "disputed"].indexOf(r.status) >= 0) {
       h += card("담당 전문가", "",
         '<dl class="om-dl"><dt>전문가</dt><dd>' + esc(sel.experts.profiles.name) + " · " + esc(L.tier[sel.experts.tier] || "") + "</dd><dt>금액</dt><dd>" + OM.won(sel.amount) +
@@ -173,6 +183,25 @@
         OM.run(b, async function () { OM.unwrap(await sb.rpc("select_bid", { bid: bid.id })); location.reload(); });
       };
     });
+    var fb = OM.$("#f-bill");
+    if (fb) {
+      var sync = function () {
+        var d = OM.formData(fb);
+        OM.$$("[data-doc]", fb).forEach(function (el) { el.hidden = el.dataset.doc.split(" ").indexOf(d.doc_type) < 0; });
+        OM.$$("[data-doc] input", fb).forEach(function (el) { el.required = !el.closest("[data-doc]").hidden && el.dataset.req === "1"; });
+      };
+      fb.addEventListener("change", sync); sync();
+      fb.onsubmit = function (e) {
+        e.preventDefault(); var d = OM.formData(fb), btn = fb.querySelector("button[type=submit]");
+        var v = { request_id: id, method: d.method, doc_type: d.doc_type, biz_no: (d.doc_type === "cash_receipt" ? d.cash_no : d.biz_no) || "", biz_name: d.biz_name || "", ceo: d.ceo || "",
+                  biz_address: d.biz_address || "", email: d.email || "", project_no: d.project_no || "", memo: d.memo || "" };
+        OM.run(btn, async function () {
+          if (bill) { delete v.request_id; OM.unwrap(await sb.from("billing").update(v).eq("request_id", id)); }
+          else OM.unwrap(await sb.from("billing").insert(v));
+          OM.toast("결제 정보를 저장했습니다."); setTimeout(function () { location.reload(); }, 600);
+        });
+      };
+    }
     var fa = OM.$("#f-approve");
     if (fa) {
       fa.onsubmit = function (e) {
@@ -187,6 +216,38 @@
     }
   }
 
+  // 결제 방법 · 세금계산서 신청
+  function billingCard(b) {
+    var issued = b && b.invoice_status === "issued";
+    var v = b || { method: "transfer", doc_type: "tax_invoice", biz_no: "", biz_name: "", ceo: "", biz_address: "", email: me.user.email || "", project_no: "", memo: "" };
+    v = Object.assign({}, v, { cash_no: v.doc_type === "cash_receipt" ? v.biz_no : "" });
+    if (v.doc_type === "cash_receipt") v.biz_no = "";
+    if (issued) {
+      return card("결제 · 증빙", "", '<dl class="om-dl"><dt>결제 방법</dt><dd>' + esc(L.payMethod[v.method]) + "</dd><dt>증빙</dt><dd>" + esc(L.docType[v.doc_type]) + " · " + OM.date(v.issued_at) + " 발행 완료</dd>" +
+        (v.biz_name ? "<dt>공급받는 자</dt><dd>" + esc(v.biz_name) + " (" + esc(v.biz_no) + ")</dd>" : "") + (v.email ? "<dt>받는 메일</dt><dd>" + esc(v.email) + "</dd>" : "") + "</dl>");
+    }
+    function radios(name, map, val) { return Object.keys(map).map(function (k) { return '<label><input type="radio" name="' + name + '" value="' + k + '"' + (k === val ? " checked" : "") + "> " + esc(map[k]) + "</label>"; }).join(""); }
+    function field(name, label, hint, req, doc, type) {
+      return '<label data-doc="' + doc + '">' + label + (hint ? " <small>" + hint + "</small>" : "") + '<input type="' + (type || "text") + '" name="' + name + '" data-req="' + (req ? 1 : 0) + '" value="' + esc(v[name] || "") + '"></label>';
+    }
+    return '<div class="om-card"><h2>결제 방법 · 세금계산서</h2>' +
+      (b ? '<p class="om-dim">' + (b.doc_type === "none" ? "증빙 없이 결제합니다." : esc(L.docType[b.doc_type]) + " 발행을 신청했습니다. 결제 확인 후 발행해 드립니다.") + " 발행 전까지 고칠 수 있습니다.</p>" : '<p class="om-dim">연구비로 집행하시면 결제 방법과 증빙을 먼저 알려 주세요.</p>') +
+      '<form class="om-form" id="f-bill">' +
+      '<div class="om-field">결제 방법<div class="om-checks">' + radios("method", L.payMethod, v.method) + '</div><small>카드는 PG 연동 전까지 운영자가 결제 링크를 메일로 보내 드립니다.</small></div>' +
+      '<div class="om-field">증빙<div class="om-checks">' + radios("doc_type", L.docType, v.doc_type) + "</div></div>" +
+      '<div class="om-grid2">' +
+      field("biz_no", "사업자등록번호", "예: 123-45-67890 (산학협력단 번호)", true, "tax_invoice") +
+      field("biz_name", "상호 (기관명)", "예: OO대학교 산학협력단", true, "tax_invoice") +
+      field("ceo", "대표자", "", true, "tax_invoice") +
+      field("email", "세금계산서 받을 메일", "", true, "tax_invoice", "email") +
+      "</div>" +
+      field("biz_address", "사업장 주소", "", false, "tax_invoice") +
+      field("cash_no", "현금영수증 번호", "휴대폰 번호 또는 사업자등록번호", true, "cash_receipt") +
+      field("project_no", "연구과제 번호", "선택 · 세금계산서 비고란에 적어 드립니다", false, "tax_invoice cash_receipt none") +
+      '<label>요청 사항 <small>선택 · 예: 발행일 지정, 품목명</small><input type="text" name="memo" value="' + esc(v.memo || "") + '"></label>' +
+      '<div class="om-actions"><button class="btn primary" type="submit">' + (b ? "수정 저장" : "결제 정보 저장") + "</button></div></form></div>";
+  }
+
   function card(title, text, extra) { return '<div class="om-card"><h2>' + title + "</h2>" + (text ? "<p>" + text + "</p>" : "") + (extra || "") + "</div>"; }
 
   function bidsCard(r, bids) {
@@ -199,8 +260,8 @@
         '<td class="num" data-k="금액">' + OM.won(b.amount) + '</td><td class="num" data-k="기간">' + b.days + "일</td>" +
         '<td data-k="접근 방법 · 산출물"><span class="om-pre" style="margin:0;display:block">' + esc(b.approach) + "</span>" + (b.deliverables ? '<span class="sub">산출물: ' + esc(b.deliverables) + "</span>" : "") +
         (b.question ? '<span class="sub">질문: ' + esc(b.question) + "</span>" : "") + "</td>" +
-        '<td data-k=""><button class="btn primary sm" data-pick="' + b.id + '">선정</button></td></tr>';
+        '<td data-k=""><button class="btn primary sm" data-pick="' + b.id + '">선정</button><a class="om-quote-link" href="quote/?bid=' + b.id + '" target="_blank">견적서</a></td></tr>';
     }).join("");
-    return '<div class="om-card"><h2>받은 입찰</h2><p class="om-dim">' + head + '</p><table class="om-bids"><thead><tr><th>전문가</th><th>금액(수수료 포함)</th><th>기간</th><th>접근 방법 · 산출물</th><th></th></tr></thead><tbody>' + rows + "</tbody></table></div>";
+    return '<div class="om-card"><h2>받은 입찰</h2><p class="om-dim">' + head + '</p><table class="om-bids"><thead><tr><th>전문가</th><th>금액(부가세 포함)</th><th>기간</th><th>접근 방법 · 산출물</th><th></th></tr></thead><tbody>' + rows + "</tbody></table></div>";
   }
 })();

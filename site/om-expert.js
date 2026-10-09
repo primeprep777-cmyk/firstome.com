@@ -91,7 +91,7 @@
       '<div class="om-card"><h2>' + (bid ? "내 입찰 " + OM.chip(bid.status, L.bidStatus) : "입찰하기") + "</h2>" +
       (canEdit ?
         '<form class="om-form" id="f-bid">' +
-        '<label>금액 (원) <small>수수료 포함 금액입니다. 의뢰인에게 이 금액이 그대로 보입니다.' + (fee != null ? " 내 등급 수수료 " + Math.round(fee * 100) + "%를 뺀 금액을 받습니다." : "") + '</small><input type="number" name="amount" min="10000" step="10000" required value="' + (bid ? bid.amount : "") + '"></label>' +
+        '<label>금액 (원) <small>수수료와 부가세를 포함한 총액입니다. 의뢰인에게 이 금액이 그대로 보입니다.' + (fee != null ? " 내 등급 수수료 " + Math.round(fee * 100) + "%를 뺀 금액을 받습니다." : "") + '</small><input type="number" name="amount" min="10000" step="10000" required value="' + (bid ? bid.amount : "") + '"></label>' +
         '<p class="om-dim" id="net"></p>' +
         '<label>기간 (일) <small>입금 확인 후 결과 제출까지</small><input type="number" name="days" min="1" max="365" required value="' + (bid ? bid.days : "") + '"></label>' +
         '<label>접근 방법 <small>사용할 파이프라인, 분석 단계, 비교 방법</small><textarea name="approach" rows="5" required>' + esc(bid ? bid.approach : "") + "</textarea></label>" +
