@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-theme="console">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -15,84 +15,76 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/site/site.css">
+<link rel="stylesheet" href="/site/hero-flow.css">
+<noscript><style>.rv{opacity:1;transform:none}</style></noscript>
+<script>
+window.FIRSTOME_TWEAKS = {
+  "theme": "lab",
+  "imageTone": "natural",
+  "motion": "on"
+};
+</script>
+<script src="/site/site.js"></script>
 <style>
-/* Company landing: same dark console language as the two service sites; teal = 샘플로, blue = 오믹스메이트, amber = 퍼스트옴 Dx. */
-:root{
-  --bg:#070c12; --bg2:#0b121a; --surface:#0f1922; --line:#1c2b37; --line2:#2a3d4b;
-  --ink:#e9f1f6; --muted:#90a3b0; --dim:#617684;
-  --teal:#38d3c8; --blue:#86a9ff; --amber:#f0b445;
-  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
-  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
-  color-scheme:dark;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere}
-.wrap{max-width:1140px;margin:0 auto;padding-inline:20px}
-a{color:var(--teal)}
-h1,h2,h3{line-height:1.3;text-wrap:balance;margin:0;font-weight:700}
-p{margin:0}
-.label{font-family:var(--f-mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal)}
-header.top{position:sticky;top:0;z-index:20;background:rgba(7,12,18,.84);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
-.logo{font-weight:700;font-size:21px;letter-spacing:.01em;color:var(--ink);text-decoration:none}
-.logo i{font-style:normal;color:var(--teal)}
-.logo small{font-weight:400;font-size:13px;color:var(--dim);margin-left:8px}
-nav.links{display:flex;gap:24px;font-size:15px}
-nav.links a{color:var(--muted);text-decoration:none}
-nav.links a:hover{color:var(--ink)}
-@media (max-width:760px){nav.links{display:none}}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;padding:12px 20px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid transparent}
-.btn.primary{background:var(--teal);color:#04201e;box-shadow:0 8px 30px -10px rgba(56,211,200,.6)}
-.btn.ghost{border-color:var(--line2);color:var(--ink)}
-.btn.ghost:hover{border-color:var(--teal)}
-.hero{border-bottom:1px solid var(--line);background:radial-gradient(55% 80% at 85% 15%,rgba(56,211,200,.13),transparent 60%),radial-gradient(45% 70% at 10% 90%,rgba(134,169,255,.10),transparent 60%)}
-.hero .wrap{padding-block:88px 76px}
-.hero h1{font-size:clamp(34px,5.4vw,60px);letter-spacing:-.02em;line-height:1.18;margin-top:18px}
-.hero h1 .hl{color:var(--teal)}
-.hero .lead{margin-top:22px;font-size:18px;color:var(--muted);max-width:36em}
-.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
-.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:44px;font-family:var(--f-mono);font-size:13px;color:var(--dim)}
-.flow span{border:1px solid var(--line2);border-radius:999px;padding:5px 12px;color:var(--muted);background:var(--surface)}
-.flow span.us{border-color:var(--teal);color:var(--ink)}
-section{padding-block:80px}
-section+section{border-top:1px solid var(--line)}
-.sec-head{max-width:46em}
-.sec-head h2{font-size:clamp(26px,3.4vw,38px);margin-top:14px}
-.sec-head p{color:var(--muted);margin-top:14px;font-size:17px}
-.biz{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
-@media (max-width:940px){.biz{grid-template-columns:1fr}}
-.card{background:var(--surface);border:1px solid var(--line2);border-radius:18px;padding:28px 26px;display:flex;flex-direction:column;gap:14px;border-top:3px solid var(--c)}
-.card .k{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--c)}
-.card h3{font-size:24px}
-.card h3 small{font-size:14px;font-weight:500;color:var(--dim);margin-left:6px}
-.card p{color:var(--muted)}
-.card ul{margin:0;padding-left:18px;color:var(--muted);font-size:15px}
-.card ul li+li{margin-top:4px}
-.card .go{margin-top:auto;padding-top:8px}
-.card .go a{color:var(--c);font-weight:600;text-decoration:none}
-.card .go a:hover{text-decoration:underline}
-.c-teal{--c:var(--teal)}.c-blue{--c:var(--blue)}.c-amber{--c:var(--amber)}
-.why{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
-@media (max-width:940px){.why{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:520px){.why{grid-template-columns:1fr}}
-.why div{border:1px solid var(--line);border-radius:14px;padding:22px 20px;background:var(--bg2)}
-.why b{display:block;font-size:17px;margin-bottom:6px}
-.why p{color:var(--muted);font-size:15px}
-.dx{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:40px 0 0;padding:0;list-style:none;border:1px solid var(--line2);border-radius:18px;overflow:hidden}
-@media (max-width:860px){.dx{grid-template-columns:1fr}}
-.dx li{padding:24px 22px;background:var(--surface)}
-.dx li+li{border-left:1px solid var(--line)}
-@media (max-width:860px){.dx li+li{border-left:0;border-top:1px solid var(--line)}}
-.dx .rk{font-family:var(--f-mono);font-size:12px;color:var(--amber)}
-.dx h3{font-size:18px;margin:8px 0 6px}
-.dx p{color:var(--muted);font-size:15px}
-.own{margin-top:20px;font-size:14.5px;color:var(--dim);max-width:52em}
-.contact{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-.contact div{border:1px solid var(--line2);border-radius:12px;padding:14px 18px;background:var(--surface);min-width:200px}
-.contact b{display:block}
-.contact span{color:var(--dim);font-size:14px}
-footer{border-top:1px solid var(--line);padding-block:28px;color:var(--dim);font-size:13.5px}
-footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 20px}
+/* services */
+.biz{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+@media (max-width:980px){.biz{grid-template-columns:1fr}}
+.biz .card{position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
+.biz .card:hover{transform:translateY(-3px);border-color:var(--c)}
+.biz .card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--c)}
+.biz .card h3{font-size:26px}
+.biz .card h3 small{font-size:14px;font-weight:500;color:var(--dim);margin-left:8px}
+.biz .card > p{color:var(--muted)}
+.biz .go{margin-top:auto;padding-top:10px}
+.biz .go a{color:var(--c);font-weight:600;text-decoration:none}
+.biz .go a:hover{text-decoration:underline}
+.biz .num{position:absolute;right:22px;top:20px;font-family:var(--f-mono);font-size:12px;color:var(--dim)}
+.stat{display:flex;gap:10px;flex-wrap:wrap}
+.stat .pill{border-color:color-mix(in oklab,var(--c) 40%,var(--line2));color:var(--muted)}
+
+/* why — image rows */
+.why{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:52px}
+@media (max-width:1040px){.why{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.why{grid-template-columns:1fr}}
+.why article{display:flex;flex-direction:column;gap:18px}
+.why .ph{aspect-ratio:4/5}
+.why article:hover .ph img{transform:scale(1.045)}
+.why .idx{position:absolute;z-index:3;top:14px;left:14px;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;color:#e9f1f6;background:rgba(7,12,18,.6);backdrop-filter:blur(6px);padding:4px 10px;border-radius:999px}
+.why h3{font-size:21px}
+.why p{color:var(--muted);font-size:15.5px;margin-top:6px}
+
+/* partners */
+.partners{display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:44px}
+@media (max-width:900px){.partners{grid-template-columns:repeat(3,1fr)}}
+.partners div{aspect-ratio:2/1;display:grid;place-items:center;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-family:var(--f-mono);font-size:11.5px;color:var(--dim);letter-spacing:.04em;background:repeating-linear-gradient(135deg,transparent 0 10px,color-mix(in oklab,var(--line) 45%,transparent) 10px 11px)}
+.ptypes{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.ptypes span{font-size:14px;color:var(--muted);border:1px solid var(--line2);padding:6px 14px;border-radius:999px}
+
+/* team */
+.team{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center}
+@media (max-width:900px){.team{grid-template-columns:1fr}}
+.team .ph{aspect-ratio:5/4}
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+@media (max-width:560px){.people{grid-template-columns:1fr 1fr}}
+.person .ph{aspect-ratio:1;border-radius:14px}
+.person b{display:block;margin-top:10px;font-size:15.5px}
+.person span{font-size:13.5px;color:var(--dim)}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}
+.facts div{border-top:1px solid var(--line2);padding-top:12px}
+.facts .k{display:block}
+.facts p{color:var(--muted);font-size:15px;margin-top:4px}
+
+/* dx */
+.dx{display:grid;grid-template-columns:repeat(3,1fr);margin:48px 0 0;padding:0;list-style:none;position:relative}
+@media (max-width:860px){.dx{grid-template-columns:1fr;gap:14px}}
+.dx li{padding:28px 26px 28px 0;position:relative}
+.dx li::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--amber),color-mix(in oklab,var(--amber) 20%,transparent))}
+.dx li:nth-child(2)::before{opacity:.6}.dx li:nth-child(3)::before{opacity:.3}
+.dx .rk{font-family:var(--f-mono);font-size:12px;color:var(--amber);display:flex;justify-content:space-between;padding-top:16px}
+.dx h3{font-size:21px;margin:10px 0 8px}
+.dx p{color:var(--muted);font-size:15.5px}
+.dx .pill{margin-top:14px}
 </style>
 </head>
 <body>
@@ -104,41 +96,54 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
       <a href="/samplo/">샘플로</a>
       <a href="/omicsmate/">오믹스메이트</a>
       <a href="#dx">퍼스트옴 Dx</a>
+      <a href="#team">팀</a>
       <a href="#contact">문의</a>
     </nav>
-    <a class="btn primary" href="/samplo/">시료 맡기기</a>
+    <a class="btn primary sm" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">카카오톡 문의</a>
   </div>
 </header>
 
-<main id="top">
-  <section class="hero" style="padding-block:0">
-    <div class="wrap">
-      <p class="label">The first mile of omics</p>
-      <h1>오믹스 연구의 시작,<br><span class="hl">맡기는 순간부터</span> 쉽게.</h1>
-      <p class="lead">퍼스트옴은 시료를 받고, 전처리하고, 데이터가 나올 때까지의 첫 구간을 책임집니다. 시퀀싱과 분석은 가장 잘하는 파트너와 연결하고, 연구자는 한 곳에서 맡기고 지금 어디까지 왔는지 언제든 확인합니다.</p>
-      <div class="ctas">
-        <a class="btn primary" href="/samplo/">샘플로 둘러보기</a>
-        <a class="btn ghost" href="/omicsmate/">오믹스메이트 둘러보기</a>
-      </div>
-      <div class="flow" aria-label="퍼스트옴이 맡는 구간">
-        <span class="us">시료 접수</span>→<span class="us">전처리·QC</span>→<span>시퀀싱 파트너</span>→<span class="us">데이터 전달</span>→<span class="us">분석 연결</span>→<span class="us">시료 보관</span>
+<main>
+  <!-- HERO: scroll-driven flow -->
+  <section class="hf" data-screen-label="01 Hero">
+    <div class="hf-stick">
+      <div class="hf-bg"></div><div class="hf-grid"></div>
+      <div class="wrap hf-inner">
+        <div>
+          <p class="label">The first mile of omics</p>
+          <h1>오믹스 연구의 시작,<br><span class="hl">맡기는 순간부터</span> 쉽게.</h1>
+          <p class="lead">시료를 받아 전처리하고 데이터가 나오기까지, 가장 번거로운 첫 구간을 퍼스트옴이 맡습니다. 시퀀싱과 분석은 가장 잘하는 파트너와 잇고, 연구자는 한 곳에 맡긴 뒤 지금 어디까지 왔는지만 확인하면 됩니다.</p>
+          <div class="ctas">
+            <a class="btn primary" href="/samplo/">샘플로 둘러보기</a>
+            <a class="btn ghost c-blue" href="/omicsmate/">오믹스메이트 둘러보기</a>
+          </div>
+          <div class="hf-hint"><i></i>스크롤하면 시료가 이동합니다</div>
+        </div>
+        <div class="hf-panel" aria-label="퍼스트옴이 맡는 구간">
+          <div class="hf-top"><span>RNA-seq · 신선 동결 조직 24개 · S-2611-0042</span><span class="hf-live">LIVE</span></div>
+          <div class="hf-track"><div class="hf-rail"></div><div class="hf-fill"></div></div>
+          <div class="hf-stage"></div>
+          <div class="hf-legend"><span><i></i>퍼스트옴이 직접</span><span><i class="p"></i>파트너와 함께</span></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="business">
+  <!-- BUSINESS -->
+  <section id="business" data-screen-label="02 Business">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head rv">
         <p class="label">Our businesses</p>
         <h2>세 가지 서비스, 하나의 흐름</h2>
-        <p>시료가 들어오는 순간부터 논문과 신약 개발까지, 필요한 단계마다 쓸 수 있도록 서비스를 나눴습니다.</p>
+        <p>시료가 들어오는 순간부터 논문과 신약 개발까지. 필요한 단계에서 필요한 서비스만 골라 쓰도록 나눴습니다.</p>
       </div>
       <div class="biz">
-        <article class="card c-teal">
+        <article class="card c-teal rv">
+          <span class="num">01</span>
           <span class="k">PREP · TRACK · BIOBANK</span>
           <h3>샘플로<small>Samplo</small></h3>
-          <p>음식 배달처럼 시료를 추적하는 오믹스 전처리 서비스입니다.</p>
-          <ul>
+          <p>배달앱처럼 시료의 위치와 상태를 보여 주는 오믹스 전처리 서비스입니다.</p>
+          <ul class="ticks">
             <li>접수부터 보관까지 8단계 실시간 추적</li>
             <li>단계마다 카카오톡 알림, QC 결과에 따른 선택권</li>
             <li>GCLP에 준하는 수행 체계와 자체 키트</li>
@@ -146,22 +151,24 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
           </ul>
           <p class="go"><a href="/samplo/">샘플로 보기 →</a></p>
         </article>
-        <article class="card c-blue">
+        <article class="card c-blue rv" data-d="100">
+          <span class="num">02</span>
           <span class="k">AI · EXPERT MATCHING</span>
           <h3>오믹스메이트<small>OmicsMate</small></h3>
-          <p>데이터를 올리면 AI가 1차 분석하고, 분석과 논문 작성에 강한 전문가와 연결합니다.</p>
-          <ul>
+          <p>데이터를 올리면 AI가 1차 분석을 끝내고, 분석과 논문 작성에 강한 전문가를 연결합니다.</p>
+          <ul class="ticks">
             <li>AI 1차 분석으로 범위와 견적을 빠르게</li>
-            <li>분야별 검증된 외부 전문가 매칭</li>
-            <li>결과물 확인 후 정산하는 안전 결제</li>
+            <li>분야별로 검증한 외부 전문가 매칭</li>
+            <li>결과를 확인한 뒤 정산하는 안전 결제</li>
           </ul>
           <p class="go"><a href="/omicsmate/">오믹스메이트 보기 →</a></p>
         </article>
-        <article class="card c-amber">
+        <article class="card c-amber rv" data-d="200">
+          <span class="num">03</span>
           <span class="k">BIOMARKER · CDx</span>
-          <h3>퍼스트옴 Dx</h3>
+          <h3>퍼스트옴 Dx<small>for Pharma</small></h3>
           <p>바이오뱅크 시료와 표준화된 오믹스 데이터로 제약사의 바이오마커 발굴부터 동반진단까지 함께합니다.</p>
-          <ul>
+          <ul class="ticks">
             <li>연구용 바이오마커 발굴</li>
             <li>임상시험 환자 선별 검사 (CTA)</li>
             <li>IVD 파트너와 동반진단 키트 공동개발</li>
@@ -172,52 +179,126 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
     </div>
   </section>
 
-  <section id="why">
+  <!-- WHY -->
+  <section class="bt tone-b" id="why" data-screen-label="03 Why Firstome">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head rv">
         <p class="label">Why Firstome</p>
-        <h2>연구자가 가장 번거로운 구간을 맡습니다</h2>
+        <h2>연구자에게 가장 번거로운 구간을 맡습니다</h2>
+        <p>좋은 데이터는 시료를 받는 순간부터 결정됩니다. 그래서 퍼스트옴은 네 가지 원칙으로 첫 구간을 운영합니다.</p>
       </div>
       <div class="why">
-        <div><b>가까이에서</b><p>연구실과 병원 가까이에서 시료를 받고, 맡기는 과정을 최대한 짧게 만듭니다.</p></div>
-        <div><b>보이게</b><p>시료가 지금 어디서 무엇을 하는지, 언제 끝나는지 늘 보여 드립니다.</p></div>
-        <div><b>같은 기준으로</b><p>모든 의뢰를 같은 SOP와 기록 체계로 수행해 데이터 품질을 고르게 지킵니다.</p></div>
-        <div><b>잘하는 곳과 함께</b><p>시퀀싱과 분석은 강한 파트너와 전문가에게 연결해 가장 좋은 결과를 받게 합니다.</p></div>
+        <article class="rv">
+          <figure class="ph c-teal" data-label="[macro] 장갑 낀 손이 드라이아이스 박스에서 바코드 튜브를 꺼내는 순간">
+            <img src="/assets/why-near.jpg" alt="드라이아이스 위 바코드 시료 튜브를 꺼내는 손">
+            <span class="idx">01 · NEAR</span>
+          </figure>
+          <div><h3>가까이에서</h3><p>연구실과 병원 가까이에서 시료를 받아, 맡기는 과정을 최대한 짧게 만듭니다.</p></div>
+        </article>
+        <article class="rv" data-d="90">
+          <figure class="ph c-teal" data-label="[macro] 스캐너 빛이 튜브 바코드를 읽는 클로즈업">
+            <img src="/assets/why-visible.jpg" alt="시료 튜브 바코드를 스캔하는 장면">
+            <span class="idx">02 · VISIBLE</span>
+          </figure>
+          <div><h3>보이게</h3><p>시료가 지금 어디서 무엇을 하는지, 언제 끝나는지 늘 보여 드립니다.</p></div>
+        </article>
+        <article class="rv" data-d="180">
+          <figure class="ph c-teal" data-label="[macro] 멀티채널 피펫 팁이 96웰 플레이트에 정렬된 모습">
+            <img src="/assets/why-standard.jpg" alt="멀티채널 피펫으로 96웰 플레이트에 분주하는 모습">
+            <span class="idx">03 · STANDARD</span>
+          </figure>
+          <div><h3>같은 기준으로</h3><p>모든 의뢰를 같은 SOP와 기록 체계로 수행해 데이터 품질을 고르게 지킵니다.</p></div>
+        </article>
+        <article class="rv" data-d="270">
+          <figure class="ph c-teal" data-label="[macro] 시퀀싱 플로우셀을 장비에 장착하는 손">
+            <img src="/assets/why-partner.jpg" alt="시퀀싱 플로우셀을 다루는 손">
+            <span class="idx">04 · PARTNER</span>
+          </figure>
+          <div><h3>잘하는 곳과 함께</h3><p>시퀀싱과 분석은 강한 파트너와 전문가에게 연결해 가장 좋은 결과를 받게 합니다.</p></div>
+        </article>
       </div>
     </div>
   </section>
 
-  <section id="dx">
+  <!-- PARTNERS -->
+  <section class="bt tone-b" id="partners" data-screen-label="04 Partners" style="padding-top:72px">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head rv">
+        <p class="label">Partners</p>
+        <h2>함께하는 곳</h2>
+        <p>각 단계에서 가장 잘하는 곳과 손잡습니다. 협력 기관은 계약이 확정되는 대로 공개합니다.</p>
+      </div>
+      <div class="ptypes rv" style="margin-top:30px">
+        <span>시퀀싱 파트너</span><span>병원·코호트 연구단</span><span>콜드체인 물류</span><span>IVD 기업</span><span>분석 전문가 네트워크</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="bt" id="team" data-screen-label="05 Team & Lab">
+    <div class="wrap team">
+      <figure class="ph rv c-teal" data-label="[photo] 퍼스트옴 연구소 전경 — 자동화 전처리 라인과 -80℃ 냉동고">
+        <img src="/assets/lab.jpg" alt="퍼스트옴 연구소">
+      </figure>
+      <div>
+        <div class="sec-head rv">
+          <p class="label">Team &amp; Lab</p>
+          <h2>시료를 다뤄 본 사람들이 만듭니다</h2>
+          <p>현장에서 시료를 직접 다뤄 본 연구자와, 그 과정을 보이게 만드는 엔지니어가 함께 일합니다.</p>
+        </div>
+        <div class="facts rv">
+          <div><span class="k">TEAM</span><p>팀 소개는 법인 설립 후 공개합니다</p></div>
+          <div><span class="k">SYSTEM</span><p>GCLP에 준하는 SOP · LIMS 기반 기록</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DX -->
+  <section class="bt c-amber" id="dx" data-screen-label="06 Firstome Dx">
+    <div class="wrap">
+      <div class="sec-head rv">
         <p class="label" style="color:var(--amber)">퍼스트옴 Dx · 제약사를 위한 동반진단</p>
         <h2>보관된 시료와 오믹스 데이터에서, 신약의 동반진단까지</h2>
-        <p>동반진단(CDx)은 신약이 잘 듣는 환자를 미리 골라내는 검사입니다. 바이오뱅크 시료, 같은 기준으로 만든 오믹스 데이터, GCLP에 준하는 수행 체계를 바탕으로 단계적으로 준비합니다.</p>
+        <p>동반진단(CDx)은 신약이 잘 듣는 환자를 미리 골라내는 검사입니다. 바이오뱅크 시료와 같은 기준으로 만든 오믹스 데이터, GCLP에 준하는 수행 체계를 바탕으로 단계적으로 준비합니다.</p>
       </div>
       <ol class="dx">
-        <li><span class="rk">STEP 1 · 연구용</span><h3>바이오마커 발굴</h3><p>제약사 과제에 맞춰 시료와 데이터를 분석해 약물 반응과 연결되는 후보 바이오마커를 찾습니다.</p></li>
-        <li><span class="rk">STEP 2 · 임상시험</span><h3>환자 선별 검사 (CTA)</h3><p>임상시험에서 바이오마커로 대상 환자를 고르는 검사를 같은 기록 체계로 수행합니다.</p></li>
-        <li><span class="rk">STEP 3 · 허가</span><h3>동반진단 키트 공동개발</h3><p>제약사, 체외진단(IVD) 기업과 함께 키트를 개발하고 식약처 허가를 진행합니다.</p></li>
+        <li class="rv"><div class="rk"><span>STEP 1 · 연구용</span><span>01</span></div><h3>바이오마커 발굴</h3><p>제약사 과제에 맞춰 시료와 데이터를 분석해 약물 반응과 연결되는 후보 바이오마커를 찾습니다.</p><span class="pill">처음 여는 단계</span></li>
+        <li class="rv" data-d="100"><div class="rk"><span>STEP 2 · 임상시험</span><span>02</span></div><h3>환자 선별 검사 (CTA)</h3><p>임상시험에서 바이오마커로 대상 환자를 고르는 검사를 같은 기록 체계로 수행합니다.</p><span class="pill">순차 준비</span></li>
+        <li class="rv" data-d="200"><div class="rk"><span>STEP 3 · 허가</span><span>03</span></div><h3>동반진단 키트 공동개발</h3><p>제약사, 체외진단(IVD) 기업과 함께 키트를 개발하고 식약처 허가를 진행합니다.</p><span class="pill">장기 목표</span></li>
       </ol>
-      <p class="own">단계적으로 준비하는 사업입니다. 임상 검사에는 ISO 15189 같은 검사실 인정이 필요하며, 각 단계의 인증과 허가 상태는 계약 전에 투명하게 안내합니다. 자세한 내용은 <a href="/samplo/#pharma">샘플로의 제약·동반진단 소개</a>에서 볼 수 있습니다.</p>
+      <p class="note rv"><b>단계적으로 준비하는 사업입니다.</b> 임상 검사에는 ISO 15189 같은 검사실 인정이 필요하며, 각 단계의 인증과 허가 상태는 계약 전에 투명하게 안내합니다. 자세한 내용은 <a href="/samplo/#pharma" style="color:var(--amber)">샘플로의 제약·동반진단 소개</a>에서 볼 수 있습니다.</p>
     </div>
   </section>
 
-  <section id="contact">
+  <!-- CONTACT -->
+  <section class="bt tone-b" id="contact" data-screen-label="07 Contact">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head rv">
         <p class="label">Contact</p>
-        <h2>문의 채널을 준비하고 있습니다</h2>
-        <p>시료 의뢰, 분석 매칭, 제약사 협업 문의는 채널이 열리면 바로 안내하겠습니다.</p>
+        <h2>카카오톡으로 바로 물어보세요</h2>
+        <p>시료 의뢰, 분석 매칭, 제약사 협업 문의 모두 카카오톡 채널에서 받습니다. 이메일과 온라인 접수는 준비 중입니다.</p>
+        <p style="margin-top:22px"><a class="kakao-btn" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">카카오톡 채널에서 상담하기 →<small>퍼스트옴 · 1:1 채팅</small></a></p>
       </div>
-      <div class="contact">
-        <div><b>카카오톡 채널</b><span>개설 준비 중</span></div>
-        <div><b>이메일</b><span>개설 준비 중</span></div>
+      <div class="contact rv">
+        <div class="c-teal"><span class="k">SAMPLO</span><b>시료 의뢰</b><span>전처리 · 추적 · 보관</span></div>
+        <div class="c-blue"><span class="k">OMICSMATE</span><b>분석 매칭</b><span>AI 1차 분석 · 전문가 연결</span></div>
+        <div class="c-amber"><span class="k">FIRSTOME Dx</span><b>제약사 협업</b><span>바이오마커 · 동반진단</span></div>
       </div>
     </div>
   </section>
 </main>
 
-<footer><div class="wrap"><span>퍼스트옴 Firstome · 샘플로, 오믹스메이트, 퍼스트옴 Dx</span><span>사업자 정보와 연락처는 법인 설립 후 기재합니다.</span></div></footer>
+<footer class="tone-b">
+  <div class="wrap">
+    <div class="row">
+      <a class="logo" href="/">First<i>·</i>ome<small>퍼스트옴</small></a>
+      <nav><a href="/samplo/">샘플로</a><a href="/omicsmate/">오믹스메이트</a><a href="#dx">퍼스트옴 Dx</a><a href="#team">팀</a><a href="#contact">문의</a></nav>
+    </div>
+    <div class="legal"><span>© 2026 Firstome. The first mile of omics.</span><span>사업자 정보 · 개인정보처리방침</span></div>
+  </div>
+</footer>
+
+<script src="/site/hero-flow.js"></script>
 </body>
 </html>
