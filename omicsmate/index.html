@@ -18,6 +18,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/site/site.css">
+<link rel="stylesheet" href="/site/brand-fx.css">
+
 <noscript><style>.rv{opacity:1;transform:none}</style></noscript>
 <script>
 window.FIRSTOME_TWEAKS = {
@@ -185,6 +187,7 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
 
 <main>
   <section class="hero" style="padding:0" data-screen-label="01 OmicsMate Hero">
+    <div class="bfx" data-fx="omicsmate" aria-hidden="true"></div>
     <div class="wrap">
       <div>
         <p class="label">오믹스 분석 입찰 · 중개 플랫폼</p>
@@ -289,6 +292,22 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
     </div>
   </section>
 
+
+  <!-- FILM BAND · omicsmate -->
+  <section class="vband c-blue" data-screen-label="03b Film · AI first pass">
+    <div class="vb-media">
+      <img src="/assets/video/omicsmate-poster.jpg" alt="모니터 속 단일세포 클러스터 시각화" loading="lazy">
+      <video data-src="/assets/video/omicsmate.mp4" data-src-m="/assets/video/omicsmate-m.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
+    </div>
+    <div class="tint"></div>
+    <div class="vb-hud" aria-hidden="true"><div class="wrap"><span><b>●</b> OMICSMATE · AI FIRST PASS</span><span class="">#M-1024</span></div></div>
+    <i class="vb-corner tl"></i><i class="vb-corner tr"></i><i class="vb-corner bl"></i><i class="vb-corner br"></i>
+    <div class="wrap vb-cap">
+      <p class="label rv">Routine by AI, judgment by people</p>
+      <h2 class="rv" data-d="80">반복은 AI가 끝내 두고,<br>전문가는 데이터의 의미를 찾습니다.</h2>
+      <div class="vb-meta rv" data-d="160"><span>QC · 정규화</span><span>클러스터링 · 해석 초안</span><span>전문가 해석 · 논문용 그림</span></div>
+    </div>
+  </section>
   <section id="bidding" class="bt" data-screen-label="04 Bidding">
     <div class="wrap">
       <div class="sec-head rv"><p class="label">입찰과 중개</p><h2>전문가들이 제안하고, 고객이 고릅니다</h2><p>오믹스메이트는 분석을 직접 팔지 않습니다. 의뢰와 전문가를 잇고, 검수와 정산을 책임지며, 그 대가로 중개 수수료를 받습니다.</p></div>
@@ -344,7 +363,7 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
       <div class="sec-head rv"><p class="label">AI와 전문가</p><h2>반복은 AI가, 판단은 사람이</h2><p>시간이 드는 반복 작업을 AI가 맡아, 전문가는 연구의 의미를 찾는 데 집중합니다. 그만큼 빠르고 비용 부담도 줄어듭니다.</p></div>
       <div class="split">
         <article class="card rv">
-          <figure class="ph" data-label="[macro] 모니터에 비친 단일세포 UMAP 클러스터 — 어두운 방, 화면 빛"><img src="/assets/om-ai.jpg" alt="모니터 속 단일세포 클러스터 시각화"></figure>
+          <figure class="ph" data-label="[macro] 모니터에 비친 단일세포 UMAP 클러스터 — 어두운 방, 화면 빛"><img src="/assets/video/omicsmate-poster.jpg" alt="모니터 속 단일세포 클러스터 시각화" loading="lazy"></figure>
           <div class="body"><span class="k">AI가 하는 일</span><h3>표준화된 1차 분석</h3>
             <ul class="ticks"><li>데이터 QC, 필터링, 정규화</li><li>표준 파이프라인 실행과 기록</li><li>기본 그림과 해석 초안</li><li>예상 비용 구간 계산과 전문가 추천</li></ul></div>
         </article>
@@ -449,5 +468,6 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
 })();
 </script>
 <script src="/site/firstome-chat.js" data-api="https://firstome-agent.firstome.workers.dev/chat" defer></script>
+<script src="/site/brand-fx.js" defer></script>
 </body>
 </html>

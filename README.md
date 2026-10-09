@@ -9,8 +9,8 @@
 | https://firstome.com/omicsmate/ | `omicsmate/index.html` | 오믹스메이트 브랜드 사이트 (예상 비용 계산기 · 입찰과 중개 · 전문가 등급제 · AI와 전문가 · 약속 · 패밀리 · 분석 의뢰 · 전문가 참여) |
 | https://firstome.com/dx/ | `dx/index.html` | 퍼스트옴 Dx 브랜드 사이트 (단계별 서비스 · 가진 것 · 협업 흐름 · 기준과 투명성 · 협업 상담) |
 
-- `site/`: 공통 CSS·JS (`site.css`, `site.js` 스크롤 등장 효과, `hero-flow.*` 메인 상단 시료 흐름, `samplo.js` 추적 화면)
-- `assets/`: 섹션 사진 10장
+- `site/`: 공통 CSS·JS (`site.css`, `site.js` 스크롤 등장 효과, `hero-flow.*` 메인 상단 시료 흐름, `samplo.js` 추적 화면, `brand-fx.*` 브랜드 배경 애니메이션·영상 구간)
+- `assets/`: 섹션 사진 10장, 공유 미리보기 이미지 / `assets/video/`: 브랜드 영상 구간용 mp4(PC용 1280px, 모바일용 `-m` 720px)와 포스터 이미지
 - `CNAME`: 사용자 도메인 `firstome.com` / `.nojekyll`: Jekyll 처리 없이 그대로 배포 / `404.html`, `favicon.svg`
 - 각 `index.html` 상단의 `"theme"` 값(`console` 다크, `lab` 라이트, `mixed`)과 `"imageTone"` 값으로 톤을 바꿀 수 있습니다.
 - 메인 상단 시료 흐름은 PC와 모바일을 따로 정합니다: `index.html`의 `"heroDesktop"`, `"heroMobile"` 값. `"auto"`(기본) = 일반 화면에서 단계가 자동으로 넘어가고 클릭하면 이동, `"scroll"` = 화면을 고정하고 스크롤에 따라 단계가 넘어감. 2026-10-09부터 PC·모바일 모두 `auto`.
@@ -34,3 +34,8 @@
 - `assets/og-*.png`(1200×630)은 카카오톡·슬랙 등에 링크를 붙일 때 보이는 미리보기입니다. 원본은 `site/og-template.html`이며, 문구를 바꾸면 브라우저로 열어(쿼리 `?p=firstome|samplo|omicsmate|dx`) 1200×630으로 캡처해 다시 저장합니다.
 - `sitemap.xml`, `robots.txt`: 검색 등록용. 페이지를 추가하면 sitemap에 한 줄 넣어 주세요. 네이버 서치어드바이저·구글 서치콘솔 등록은 사이트 소유자가 합니다.
 - 메인의 "숫자로 적어 두는 약속", 창업자 편지, 로드맵, FAQ와 샘플로의 발송 가이드·FAQ는 모두 안내 문구입니다. 실적·가격 숫자는 넣지 않습니다.
+
+브랜드 배경 애니메이션·영상 구간 (2026-10-09, deploy-v2)
+- 각 페이지 상단과 메인의 브랜드 카드에 `<div class="bfx" data-fx="family|samplo|omicsmate|dx">`를 두면 `site/brand-fx.js`가 캔버스 배경(샘플로 = 튜브 랙 스캔, 오믹스메이트 = 데이터 클러스터, 퍼스트옴 Dx = 환자 선별, 퍼스트옴 = 세 브랜드 흐름)을 그립니다. 화면에 보일 때만 움직이고, 페이지의 `"motion": "off"`나 기기의 '동작 줄이기' 설정에서는 정지 화면으로 보입니다. 배경을 끄려면 그 줄을 지우면 됩니다.
+- 브랜드 사이트 중간의 `<section class="vband">`가 영상 구간입니다. 영상은 구간이 화면 가까이 올 때만 불러와 음소거·반복 재생하고, 모바일(720px 이하)은 `-m` 파일을 씁니다. 불러오기 전과 실패 시에는 포스터 이미지가 보입니다. 영상을 바꾸려면 `assets/video/`의 mp4(H.264, 음성 없음)와 포스터를 같은 이름으로 교체합니다.
+- 영상 구간의 문구(캡션·칩)도 안내 문구입니다. 실적·가격 숫자는 넣지 않습니다.

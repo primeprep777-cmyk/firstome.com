@@ -18,6 +18,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/site/site.css">
+<link rel="stylesheet" href="/site/brand-fx.css">
+
 <noscript><style>.rv{opacity:1;transform:none}</style></noscript>
 <script>
 window.FIRSTOME_TWEAKS = {
@@ -111,6 +113,7 @@ a{color:var(--amber)}
 
 <main>
   <section class="hero" style="padding:0" data-screen-label="01 Dx Hero">
+    <div class="bfx" data-fx="dx" aria-hidden="true"></div>
     <div class="wrap">
       <div>
         <p class="label">제약사를 위한 바이오마커 · 동반진단 파트너</p>
@@ -166,6 +169,22 @@ a{color:var(--amber)}
     </div>
   </section>
 
+
+  <!-- FILM BAND · dx -->
+  <section class="vband c-amber" data-screen-label="03b Film · Biomarker">
+    <div class="vb-media">
+      <img src="/assets/video/dx-poster.jpg" alt="멀티웰 플레이트에 분주하는 멀티채널 피펫" loading="lazy">
+      <video data-src="/assets/video/dx.mp4" data-src-m="/assets/video/dx-m.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
+    </div>
+    <div class="tint"></div>
+    <div class="vb-hud" aria-hidden="true"><div class="wrap"><span><b>●</b> FIRSTOME Dx · RUO</span><span class="">#D-0007</span></div></div>
+    <i class="vb-corner tl"></i><i class="vb-corner tr"></i><i class="vb-corner bl"></i><i class="vb-corner br"></i>
+    <div class="wrap vb-cap">
+      <p class="label rv">Find the responders first</p>
+      <h2 class="rv" data-d="80">같은 기준으로 만든 데이터에서,<br>약이 잘 듣는 환자의 신호를 찾습니다.</h2>
+      <div class="vb-meta rv" data-d="160"><span>동의 범위 기록 시료</span><span>같은 SOP · 같은 키트</span><span>독립 코호트 검증</span></div>
+    </div>
+  </section>
   <section id="how" class="bt" data-screen-label="04 How we work">
     <div class="wrap">
       <div class="sec-head rv"><p class="label">협업 흐름</p><h2>과제 정의부터 임상 전환까지, 한 팀으로</h2><p>제약사의 개발 단계에 맞춰 범위를 정하고, 각 단계의 결과물과 일정을 계약 전에 합의합니다.</p></div>
@@ -214,5 +233,6 @@ a{color:var(--amber)}
 </footer>
 
 <script src="/site/firstome-chat.js" data-api="https://firstome-agent.firstome.workers.dev/chat" defer></script>
+<script src="/site/brand-fx.js" defer></script>
 </body>
 </html>
