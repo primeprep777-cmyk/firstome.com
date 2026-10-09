@@ -11,41 +11,63 @@
 
   var KAKAO = "https://pf.kakao.com/_uuXFX/chat";
   var STORE = "fo-chat-v1";
-  var GREETING = "안녕하세요, 퍼스트옴 AI 상담입니다. 시료 전처리, 분석 매칭, 의뢰 방법 등 궁금한 점을 물어보세요.";
-  var SUGGESTIONS = ["어떤 시료를 맡길 수 있나요?", "의뢰는 어떻게 하나요?", "요금제가 궁금해요", "분석만 맡길 수 있나요?"];
+  var PRIV = /firstome\.com$/.test(location.hostname) ? "/privacy/" : "Privacy.html";
 
   var history = [];
   try { history = JSON.parse(sessionStorage.getItem(STORE) || "[]"); } catch (e) { history = []; }
   function save() { try { sessionStorage.setItem(STORE, JSON.stringify(history.slice(-12))); } catch (e) {} }
 
+  // 페이지 브랜드 색을 따릅니다: body.c-teal / c-blue / c-amber, 없으면 퍼스트옴 잉크
+  var bc = document.body.className;
+  var AC = /c-blue/.test(bc) ? "#3a5fd6" : /c-amber/.test(bc) ? "#b77500" : /c-teal/.test(bc) ? "#0a9a8f" : "#0d1214";
+  var BRAND = /c-blue/.test(bc) ? "오믹스메이트" : /c-amber/.test(bc) ? "퍼스트옴 Dx" : /c-teal/.test(bc) ? "샘플로" : "퍼스트옴";
+  var SUGGESTIONS = {
+    "샘플로": ["어떤 시료를 맡길 수 있나요?", "시료는 어떻게 보내나요?", "QC에서 문제가 생기면요?", "남은 시료 보관은?"],
+    "오믹스메이트": ["예상 비용은 어떻게 정해지나요?", "입찰은 어떻게 진행되나요?", "데이터 보안은요?", "전문가로 참여하려면?"],
+    "퍼스트옴 Dx": ["어떤 단계부터 협업하나요?", "비밀유지 계약은 언제 하나요?", "RUO와 임상 단계 차이는?", "시료 동의 범위는요?"],
+    "퍼스트옴": ["지금 바로 시료를 맡길 수 있나요?", "어느 브랜드에 문의해야 하나요?", "요금은 언제 공개되나요?", "분석만 맡길 수 있나요?"]
+  }[BRAND];
+  var GREETING = "안녕하세요, " + BRAND + " AI 상담입니다. 서비스와 의뢰 절차를 바로 안내해 드려요. 견적과 일정 확정은 카카오톡에서 담당자가 도와드립니다.";
   var css = [
     ":host{all:initial}",
     "*{box-sizing:border-box;font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif}",
-    ".fab{position:fixed;right:20px;bottom:20px;z-index:2147483000;display:flex;align-items:center;gap:8px;height:52px;padding:0 20px 0 16px;border:0;border-radius:26px;background:#38d3c8;color:#04201d;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.35)}",
-    ".fab:hover{filter:brightness(1.06)}",
-    ".dot{width:9px;height:9px;border-radius:50%;background:#04201d}",
-    ".panel{position:fixed;right:20px;bottom:84px;z-index:2147483000;width:370px;max-width:calc(100vw - 32px);height:560px;max-height:calc(100vh - 110px);display:none;flex-direction:column;background:#0b121a;color:#e9f1f6;border:1px solid #2a3d4b;border-radius:16px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.5)}",
-    ".panel.open{display:flex}",
-    ".head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #1c2b37;background:#0f1922}",
-    ".title{font-size:15px;font-weight:600}.sub{font-size:12px;color:#90a3b0;margin-top:2px}",
-    ".x{background:none;border:0;color:#90a3b0;font-size:22px;line-height:1;cursor:pointer;padding:4px 6px}",
+    ".fab{position:fixed;right:20px;bottom:20px;z-index:2147483000;display:flex;align-items:center;gap:9px;height:50px;padding:0 20px 0 16px;border:1px solid rgba(13,18,20,.14);border-radius:999px;background:#fff;color:#0d1214;font-size:14.5px;font-weight:600;cursor:pointer;box-shadow:0 10px 30px -10px rgba(13,18,20,.35);transition:transform .25s,box-shadow .25s}",
+    ".fab:hover{transform:translateY(-2px);box-shadow:0 16px 36px -12px rgba(13,18,20,.4)}",
+    ".fab:focus-visible,.x:focus-visible,.chip:focus-visible,.send:focus-visible,.note a:focus-visible{outline:2px solid " + AC + ";outline-offset:2px}",
+    ".fab small{font-weight:400;font-size:12px;color:#878e92;margin-left:2px}",
+    ".dot{width:9px;height:9px;border-radius:50%;background:" + AC + ";box-shadow:0 0 0 3px color-mix(in oklab," + AC + " 22%,transparent)}",
+    ".fab[aria-expanded=true]{background:#0d1214;color:#fff;border-color:#0d1214}",
+    ".panel{position:fixed;right:20px;bottom:82px;z-index:2147483000;width:380px;max-width:calc(100vw - 32px);height:580px;max-height:calc(100vh - 110px);display:none;flex-direction:column;background:#f4f4f1;color:#0d1214;border:1px solid #dcdcd5;border-radius:14px;overflow:hidden;box-shadow:0 30px 70px -20px rgba(13,18,20,.4)}",
+    ".panel.open{display:flex;animation:pin .3s cubic-bezier(.2,.7,.1,1)}",
+    "@keyframes pin{from{opacity:0;transform:translateY(10px)}}",
+    ".head{display:flex;align-items:flex-start;justify-content:space-between;padding:14px 16px 12px;border-bottom:1px solid #dcdcd5;background:#fff}",
+    ".title{font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px}",
+    ".badge{font-size:10.5px;font-weight:600;letter-spacing:.06em;padding:2px 7px;border-radius:4px;background:color-mix(in oklab," + AC + " 12%,#fff);color:" + AC + "}",
+    ".sub{font-size:12.5px;color:#4f585c;margin-top:4px;line-height:1.5}",
+    ".x{background:none;border:0;color:#4f585c;font-size:22px;line-height:1;cursor:pointer;padding:4px 8px;border-radius:6px}",
+    ".x:hover{background:#ebebe6}",
     ".log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}",
-    ".msg{max-width:86%;padding:10px 13px;border-radius:14px;font-size:14.5px;line-height:1.6;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}",
-    ".bot{align-self:flex-start;background:#0f1922;border:1px solid #1c2b37;border-top-left-radius:4px}",
-    ".me{align-self:flex-end;background:#38d3c8;color:#04201d;border-top-right-radius:4px}",
-    ".msg a{color:#86a9ff}.me a{color:#04201d}",
-    ".typing{color:#617684}",
+    ".msg{max-width:86%;padding:10px 13px;border-radius:12px;font-size:14.5px;line-height:1.6;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}",
+    ".bot{align-self:flex-start;background:#fff;border:1px solid #dcdcd5;border-top-left-radius:3px}",
+    ".me{align-self:flex-end;background:#0d1214;color:#fff;border-top-right-radius:3px}",
+    ".msg a{color:" + AC + "}.me a{color:#fff}",
+    ".typing{color:#878e92}",
+    ".who{font-size:11px;color:#878e92;margin:2px 0 -6px 2px}",
     ".chips{display:flex;flex-wrap:wrap;gap:6px}",
-    ".chip{background:none;border:1px solid #2a3d4b;color:#e9f1f6;border-radius:16px;padding:6px 11px;font-size:13px;cursor:pointer}",
-    ".chip:hover{border-color:#38d3c8}",
-    ".foot{padding:10px 12px 12px;border-top:1px solid #1c2b37;background:#0f1922}",
+    ".chip{background:#fff;border:1px solid #c6c6bd;color:#0d1214;border-radius:999px;padding:7px 12px;font-size:13px;cursor:pointer}",
+    ".chip:hover{border-color:" + AC + ";color:" + AC + "}",
+    ".human{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 16px 10px;padding:10px 12px;border-radius:10px;background:#fee500;color:#191919;text-decoration:none;font-size:13.5px;font-weight:600}",
+    ".human small{display:block;font-weight:400;font-size:12px;color:#4a4000}",
+    ".foot{padding:10px 12px 12px;border-top:1px solid #dcdcd5;background:#fff}",
     "form{display:flex;gap:8px}",
-    "textarea{flex:1;resize:none;height:44px;max-height:120px;padding:11px 12px;border-radius:10px;border:1px solid #2a3d4b;background:#070c12;color:#e9f1f6;font-size:14.5px;line-height:1.4;outline:none}",
-    "textarea:focus{border-color:#38d3c8}",
-    ".send{width:64px;border:0;border-radius:10px;background:#38d3c8;color:#04201d;font-weight:600;font-size:14px;cursor:pointer}",
-    ".send:disabled{opacity:.5;cursor:default}",
-    ".note{margin-top:8px;font-size:11.5px;color:#617684}.note a{color:#90a3b0}",
-    "@media (max-width:480px){.panel{right:8px;left:8px;width:auto;max-width:none;bottom:80px;height:calc(100vh - 100px)}.fab{right:16px;bottom:16px}}"
+    "textarea{flex:1;resize:none;height:44px;max-height:120px;padding:11px 12px;border-radius:10px;border:1px solid #c6c6bd;background:#f4f4f1;color:#0d1214;font-size:14.5px;line-height:1.4;outline:none}",
+    "textarea:focus{border-color:" + AC + ";background:#fff}",
+    ".send{width:68px;border:0;border-radius:10px;background:#0d1214;color:#fff;font-weight:600;font-size:14px;cursor:pointer}",
+    ".send:hover{background:" + AC + "}",
+    ".send:disabled{opacity:.4;cursor:default}",
+    ".note{margin-top:8px;font-size:11.5px;color:#878e92;line-height:1.5}.note a{color:#4f585c}",
+    "@media (max-width:480px){.panel{right:8px;left:8px;width:auto;max-width:none;bottom:76px;height:calc(100vh - 96px)}.fab{right:14px;bottom:14px;height:46px}.fab small{display:none}}",
+    "@media (prefers-reduced-motion:reduce){.panel.open{animation:none}.fab{transition:none}}"
   ].join("");
 
   var host = document.createElement("div");
@@ -54,14 +76,15 @@
   var root = host.attachShadow({ mode: "open" });
   root.innerHTML =
     "<style>" + css + "</style>" +
-    '<button class="fab" type="button" aria-expanded="false"><span class="dot"></span>AI 상담</button>' +
-    '<section class="panel" role="dialog" aria-label="퍼스트옴 AI 상담">' +
-    '<div class="head"><div><div class="title">퍼스트옴 AI 상담</div><div class="sub">보통 몇 초 안에 답해요</div></div>' +
-    '<button class="x" type="button" aria-label="닫기">×</button></div>' +
+    '<button class="fab" type="button" aria-expanded="false" aria-controls="fo-panel"><span class="dot"></span>AI에게 묻기<small>24시간</small></button>' +
+    '<section class="panel" id="fo-panel" role="dialog" aria-modal="false" aria-labelledby="fo-t">' +
+    '<div class="head"><div><div class="title" id="fo-t">' + BRAND + ' AI 상담 <span class="badge">AI</span></div><div class="sub">서비스와 절차를 바로 안내해요. 견적·일정 확정은 담당자가 해요.</div></div>' +
+    '<button class="x" type="button" aria-label="AI 상담 닫기">×</button></div>' +
     '<div class="log" aria-live="polite"></div>' +
+    '<a class="human" href="' + KAKAO + '" target="_blank" rel="noopener"><span>사람과 상담하기<small>카카오톡 1:1 채팅 · 평일 업무시간 답변</small></span><span aria-hidden="true">↗</span></a>' +
     '<div class="foot"><form><textarea rows="1" maxlength="1000" placeholder="궁금한 점을 입력하세요"></textarea>' +
     '<button class="send" type="submit">보내기</button></form>' +
-    '<div class="note">AI 답변은 참고용이에요. 정확한 견적과 일정은 <a href="' + KAKAO + '" target="_blank" rel="noopener">카카오톡 상담</a>에서 안내해 드려요.</div></div>' +
+    '<div class="note">AI 답변은 참고용이며, 대화는 이 탭에만 저장되고 탭을 닫으면 지워져요. 환자 정보·개인정보는 입력하지 마세요. <a href="' + PRIV + '" target="_blank" rel="noopener">개인정보처리방침</a></div></div>' +
     "</section>";
 
   var fab = root.querySelector(".fab");
@@ -140,13 +163,18 @@
       .then(function () { busy = false; send.disabled = false; input.focus(); });
   }
 
-  function toggle(open) {
+  function toggle(open, refocus) {
     panel.classList.toggle("open", open);
     fab.setAttribute("aria-expanded", String(open));
     if (open) { if (!log.childNodes.length) render(); input.focus(); }
+    else if (refocus) fab.focus();
   }
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && panel.classList.contains("open")) toggle(false, true); });
+  root.addEventListener("keydown", function (e) { if (e.key === "Escape" && panel.classList.contains("open")) { e.stopPropagation(); toggle(false, true); } });
+  // 외부에서 질문을 넣어 열 수 있게: window.FirstomeChat.ask("...")
+  window.FirstomeChat = { open: function () { toggle(true); }, ask: function (q) { toggle(true); ask(q); } };
   fab.onclick = function () { toggle(!panel.classList.contains("open")); };
-  root.querySelector(".x").onclick = function () { toggle(false); };
+  root.querySelector(".x").onclick = function () { toggle(false, true); };
   form.onsubmit = function (e) { e.preventDefault(); var t = input.value; input.value = ""; ask(t); };
   input.addEventListener("keydown", function (e) {
     if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); form.requestSubmit(); }

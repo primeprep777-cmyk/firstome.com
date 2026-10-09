@@ -34,16 +34,22 @@
   if (mile){
     var track = $('.track', mile), N = STAGES.length;
     STAGES.forEach(function(s, i){
-      var t = document.createElement('div'); t.className = 'tick'; t.style.left = (i/(N-1)*100) + '%';
+      var t = document.createElement('button'); t.type = 'button'; t.className = 'tick'; t.style.left = (i/(N-1)*100) + '%';
       t.style.setProperty('--tc', 'var(--' + s.c + ')');
+      t.setAttribute('aria-label', (i+1) + '단계 ' + s.n + ' · ' + s.who);
       t.innerHTML = '<span>' + s.n + '</span><b></b>'; track.appendChild(t);
+      t.addEventListener('click', function(){
+        var tot = mile.offsetHeight - innerHeight;
+        scrollTo({ top: mile.offsetTop + tot * (i/(N-1)) + (i === N-1 ? -2 : 1), behavior: reduce ? 'auto' : 'smooth' });
+      });
       if (i < N-1){ var g = document.createElement('div'); g.className = 'seg'; g.style.left = (i/(N-1)*100) + '%'; g.style.width = (100/(N-1)) + '%'; g.style.background = 'var(--' + STAGES[i+1].c + ')'; track.appendChild(g); }
     });
     var ticks = $$('.tick', track), segs = $$('.seg', track), tube = $('.tube', mile), odo = $('.odo b', mile), st = $('.stage', mile);
     var renderStage = function(i){
       if (i === cur) return; cur = i; var s = STAGES[i];
       mile.style.setProperty('--sc', 'var(--' + s.c + ')');
-      st.innerHTML = '<div><div class="who mono"><i></i>' + s.who + '</div><h3>' + s.h + '</h3></div><p>' + s.p + '</p>';
+      st.innerHTML = '<div><div class="who mono"><i></i>담당 · ' + s.who + '<em>' + (i+1) + ' / ' + N + '</em></div><h3>' + s.h + '</h3></div><p>' + s.p + '</p>';
+      ticks.forEach(function(t, j){ t.setAttribute('aria-current', j === i ? 'step' : 'false'); });
       st.classList.remove('swap'); void st.offsetWidth; st.classList.add('swap');
       ticks.forEach(function(t, j){ t.classList.toggle('on', j <= i); t.classList.toggle('cur', j === i); });
     };
@@ -60,11 +66,6 @@
 
   // reel inset (opens up from rounded card to full-bleed)
   var reel = $('.reel'), tc = $('.reel .tc'), vid = $('.reel video');
-  // hero film: light file on phones; with reduced motion only the poster is shown
-  if (vid && vid.dataset.src && !reduce){
-    vid.src = (matchMedia('(max-width:720px)').matches && vid.dataset.srcM) || vid.dataset.src;
-    vid.autoplay = true; var pp = vid.play(); if (pp && pp.catch) pp.catch(function(){});
-  }
   function reelUpd(){
     if (!reel) return;
     var r = reel.getBoundingClientRect(), vh = innerHeight;
@@ -74,7 +75,14 @@
     reel.style.setProperty('--rad', ((1-p)*24).toFixed(1) + 'px');
     var m = reel.querySelector('video,img'); if (m) m.style.transform = 'translate3d(0,' + ((r.top/vh) * -60).toFixed(1) + 'px,0)';
   }
-  if (vid && tc) setInterval(function(){ var t = vid.currentTime||0; tc.textContent = 'TC 00:00:' + String(Math.floor(t)).padStart(2,'0') + ':' + String(Math.floor((t%1)*24)).padStart(2,'0'); }, 1000/12);
+  // hero film: light file on phones; with reduced motion only the poster is shown
+  function vsrc(){ return (matchMedia('(max-width:720px)').matches && vid.dataset.srcM) || vid.dataset.src; }
+  if (vid && vid.dataset.src && !reduce){ vid.src = vsrc(); vid.autoplay = true; }
+  // reel pause / play (user control + reduced motion)
+  var pp = $('.reel .pp');
+  function setPlay(on){ if (!vid) return; if (on && !vid.getAttribute('src') && vid.dataset.src) vid.src = vsrc(); if (on){ var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){}); } else vid.pause();
+    if (pp){ pp.setAttribute('aria-pressed', String(!on)); pp.textContent = on ? '❚❚ 영상 멈춤' : '▶ 영상 재생'; } }
+  if (vid){ if (reduce) setPlay(false); if (pp) pp.addEventListener('click', function(){ setPlay(vid.paused); }); }
 
   // manifesto lighting
   function maniUpd(){
@@ -86,11 +94,22 @@
   }
 
   // header
-  var hd = $('.hd'), lastY = 0;
+  var hd = $('.hd'), lastY = 0, mnu = $('.mnu'), mnav = $('#mnav');
   function hdUpd(){
     var y = scrollY; hd.classList.toggle('solid', y > 40);
-    hd.classList.toggle('hide', y > 600 && y > lastY + 2 && !(mile && mile.contains(document.activeElement)));
+    var open = hd.classList.contains('open');
+    hd.classList.toggle('hide', !open && y > 600 && y > lastY + 2 && !(mile && mile.contains(document.activeElement)));
     if (y < lastY - 2) hd.classList.remove('hide'); lastY = y;
+    // active section in nav
+    var navs = $$('.hd nav a'), act = null;
+    navs.forEach(function(a){ var s = document.querySelector(a.getAttribute('href')); if (s && s.getBoundingClientRect().top < innerHeight * .35) act = a; });
+    navs.forEach(function(a){ a.classList.toggle('on', a === act); if (a === act) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+  }
+  function menu(open){ if (!mnu) return; hd.classList.toggle('open', open); mnu.setAttribute('aria-expanded', String(open)); mnav.hidden = !open; mnu.querySelector('b').textContent = open ? '닫기' : '메뉴'; }
+  if (mnu){
+    mnu.addEventListener('click', function(){ menu(mnav.hidden); });
+    $$('a', mnav).forEach(function(a){ a.addEventListener('click', function(){ menu(false); }); });
+    addEventListener('keydown', function(e){ if (e.key === 'Escape' && !mnav.hidden){ menu(false); mnu.focus(); } });
   }
 
   var ticking = false;
