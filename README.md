@@ -13,6 +13,7 @@
 - `assets/`: 섹션 사진 10장
 - `CNAME`: 사용자 도메인 `firstome.com` / `.nojekyll`: Jekyll 처리 없이 그대로 배포 / `404.html`, `favicon.svg`
 - 각 `index.html` 상단의 `"theme"` 값(`console` 다크, `lab` 라이트, `mixed`)과 `"imageTone"` 값으로 톤을 바꿀 수 있습니다.
+- 메인 상단 시료 흐름은 PC와 모바일을 따로 정합니다: `index.html`의 `"heroDesktop"`, `"heroMobile"` 값. `"auto"`(기본) = 일반 화면에서 단계가 자동으로 넘어가고 클릭하면 이동, `"scroll"` = 화면을 고정하고 스크롤에 따라 단계가 넘어감. 2026-10-09부터 PC·모바일 모두 `auto`.
 
 운영 규칙
 - 문의는 카카오톡 채널(https://pf.kakao.com/_uuXFX)로 받습니다. 이메일과 온라인 접수 폼은 아직 없습니다(준비 중 표기).

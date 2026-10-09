@@ -1,4 +1,4 @@
-// Scroll-driven 6-stage sample flow. On desktop: progress = scroll through .hf. On mobile (no sticky): auto-advances.
+// 6-stage sample flow hero. Mode per device (heroDesktop / heroMobile in FIRSTOME_TWEAKS): 'auto' = normal hero that auto-advances (click a node to jump), 'scroll' = sticky, scroll-driven.
 (function(){
   var STAGES = [
     { n:'시료 접수', k:'STEP 1 · INTAKE', who:'퍼스트옴', t:'맡기는 순간 추적이 시작됩니다',
@@ -54,9 +54,14 @@
     }
 
     var mq = window.matchMedia('(max-width:960px)');
-    var autoIdx = 0, timer = null;
+    // Per-device mode: "scroll" (sticky, scroll-driven) or "auto" (normal hero, auto-advancing).
+    // Set in each page's FIRSTOME_TWEAKS as heroDesktop / heroMobile; defaults: desktop auto, mobile auto.
+    var tw = window.FIRSTOME_TWEAKS || {};
+    function isAuto(){ return (mq.matches ? (tw.heroMobile || 'auto') : (tw.heroDesktop || 'auto')) === 'auto'; }
+    function applyAttr(){ document.documentElement.setAttribute('data-hero', isAuto() ? 'auto' : 'scroll'); }
+    var autoIdx = 0, timer = null, pauseUntil = 0;
     function onScroll(){
-      if (mq.matches) return;
+      if (isAuto()) return;
       var r = root.getBoundingClientRect();
       var total = root.offsetHeight - window.innerHeight;
       var p = Math.max(0, Math.min(1, -r.top / Math.max(1, total)));
@@ -66,10 +71,13 @@
       render(idx, Math.max(0, frac));
     }
     function setMode(){
-      clearInterval(timer);
-      if (mq.matches){
+      clearInterval(timer); applyAttr();
+      if (isAuto()){
         render(autoIdx, autoIdx / (N - 1));
-        timer = setInterval(function(){ autoIdx = (autoIdx + 1) % N; render(autoIdx, autoIdx / (N - 1)); }, 3200);
+        timer = setInterval(function(){
+          if (Date.now() < pauseUntil) return;
+          autoIdx = (autoIdx + 1) % N; render(autoIdx, autoIdx / (N - 1));
+        }, 3200);
       } else onScroll();
     }
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -78,7 +86,7 @@
     nodes.forEach(function(n, i){
       n.style.cursor = 'pointer';
       n.addEventListener('click', function(){
-        if (mq.matches){ autoIdx = i; render(i, i / (N - 1)); return; }
+        if (isAuto()){ autoIdx = i; pauseUntil = Date.now() + 9000; render(i, i / (N - 1)); return; }
         var total = root.offsetHeight - window.innerHeight;
         window.scrollTo({ top: root.offsetTop + total * ((i + 0.5) / N), behavior: 'smooth' });
       });

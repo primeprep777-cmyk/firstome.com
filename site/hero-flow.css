@@ -1,6 +1,8 @@
-/* Scroll-driven sample-flow hero */
-.hf{position:relative;height:360vh;border-bottom:1px solid var(--line);padding:0}
-.hf-stick{position:sticky;top:0;height:100vh;min-height:620px;display:flex;flex-direction:column;overflow:hidden}
+/* Sample-flow hero. html[data-hero="scroll"] = sticky scroll-driven; html[data-hero="auto"] (default) = normal hero, auto-advancing. */
+.hf{position:relative;height:auto;border-bottom:1px solid var(--line);padding:0}
+.hf-stick{position:relative;height:auto;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+[data-hero="scroll"] .hf{height:360vh}
+[data-hero="scroll"] .hf-stick{position:sticky;top:0;height:100vh;min-height:620px}
 .hf-bg{position:absolute;inset:0;pointer-events:none;background:
   radial-gradient(50% 70% at 88% 18%,color-mix(in oklab,var(--teal) 16%,transparent),transparent 62%),
   radial-gradient(40% 60% at 6% 92%,color-mix(in oklab,var(--blue) 12%,transparent),transparent 62%)}
@@ -49,10 +51,15 @@
 .hf-legend i{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--teal)}
 .hf-legend i.p{border-style:dashed;border-color:var(--line2)}
 
+/* auto mode (default, any width): no sticky, natural height */
+.hf-inner{min-height:calc(100vh - 120px);padding-top:64px;padding-bottom:64px}
+[data-hero="scroll"] .hf-inner{min-height:0;padding-top:72px;padding-bottom:40px}
+.hf-hint{display:none}
+[data-hero="scroll"] .hf-hint{display:flex}
 @media (max-width:960px){
-  .hf{height:auto}
-  .hf-stick{position:relative;height:auto;min-height:0}
-  .hf-inner{grid-template-columns:1fr;gap:36px;padding-top:56px;padding-bottom:56px}
+  .hf,[data-hero="scroll"] .hf{height:auto}
+  .hf-stick,[data-hero="scroll"] .hf-stick{position:relative;height:auto;min-height:0}
+  .hf-inner,[data-hero="scroll"] .hf-inner{grid-template-columns:1fr;gap:36px;min-height:0;padding-top:56px;padding-bottom:56px}
   .hf-hint{display:none}
 }
 @media (max-width:560px){
