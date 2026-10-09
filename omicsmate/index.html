@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" data-theme="console">
+<html lang="ko" data-theme="paper">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -16,14 +16,14 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/site/site.css">
 <link rel="stylesheet" href="/site/brand-fx.css">
 
 <noscript><style>.rv{opacity:1;transform:none}</style></noscript>
 <script>
 window.FIRSTOME_TWEAKS = {
-  "theme": "console",
+  "theme": "paper",
   "imageTone": "natural",
   "motion": "on"
 };
@@ -174,12 +174,14 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
 .tierrule{margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 @media (max-width:860px){.tierrule{grid-template-columns:1fr}}
 </style>
+<link rel="stylesheet" href="/site/v3-skin.css">
+<script src="/site/v3-logos.js"></script>
 </head>
 <body class="c-blue">
 <div class="fam"><div class="wrap"><span class="fam-k">Firstome family</span><nav><a href="/">퍼스트옴</a><a href="/samplo/">샘플로</a><a class="on" href="/omicsmate/">오믹스메이트</a><a href="/dx/">퍼스트옴 Dx</a></nav></div></div>
 <header class="top">
   <div class="wrap">
-    <a class="logo brand" href="/omicsmate/" aria-label="오믹스메이트 홈"><i class="mk"></i>오믹스메이트<small>OMICSMATE</small></a>
+    <a class="logo brand" href="/omicsmate/" aria-label="오믹스메이트 홈"><span data-logo data-logo-kind="C" data-brand="blue"></span><small class="kr">오믹스메이트</small></a>
     <nav class="links"><a href="#estimate">예상 비용</a><a href="#bidding">입찰</a><a href="#tiers">전문가 등급</a><a href="#ai">AI와 전문가</a><a href="#promise">약속</a><a href="#expert">전문가 등록</a></nav>
     <a class="btn primary sm" href="#estimate">예상 비용 보기</a>
   </div>
@@ -209,7 +211,7 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
 
   <section id="how" data-screen-label="02 How it works">
     <div class="wrap">
-      <div class="sec-head rv"><p class="label">이용 방법</p><h2>고르고, 올리고, 비교하고, 확인 후 지급</h2><p>업체마다 견적을 받고 일정을 맞추던 일을 플랫폼이 대신합니다. 고객은 조건을 고르고 제안을 비교하기만 하면 됩니다.</p></div>
+      <div class="sec-head wide rv"><p class="label">이용 방법</p><h2>고르고, 올리고, 비교하고, 확인 후 지급</h2><p>업체마다 견적을 받고 일정을 맞추던 일을 플랫폼이 대신합니다. 고객은 조건을 고르고 제안을 비교하기만 하면 됩니다.</p></div>
       <div class="steps4">
         <article class="rv"><div class="n"><b>01</b><i></i></div><span class="who">고객</span><h3>옵션 고르고 예상 비용 확인</h3><p>데이터 종류, 시료 수, 분석 범위, 납기를 고르면 예상 비용 구간과 권장 전문가 등급이 바로 나옵니다.</p></article>
         <article class="rv" data-d="80"><div class="n"><b>02</b><i></i></div><span class="who">고객 + AI</span><h3>의뢰 등록, AI 1차 분석</h3><p>데이터를 올리면 AI가 QC와 기본 분석을 끝내 둡니다. 의뢰는 조건과 함께 전문가들에게 공개됩니다.</p></article>
@@ -221,7 +223,7 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
 
   <section id="estimate" class="bt tone-b" data-screen-label="03 Estimator">
     <div class="wrap">
-      <div class="sec-head rv"><p class="label">예상 비용 계산</p><h2>원하는 분석을 고르면 바로 나옵니다</h2><p>쇼핑몰에서 옵션을 고르듯 조건을 고르세요. 예상 비용 구간, 권장 전문가 등급, 표준 기간이 계산됩니다. 이 조건 그대로 입찰 요청으로 이어집니다.</p></div>
+      <div class="sec-head wide rv"><p class="label">예상 비용 계산</p><h2>원하는 분석을 고르면 바로 나옵니다</h2><p>쇼핑몰에서 옵션을 고르듯 조건을 고르세요. 예상 비용 구간, 권장 전문가 등급, 표준 기간이 계산됩니다. 이 조건 그대로 입찰 요청으로 이어집니다.</p></div>
       <form class="est rv" id="estForm" onsubmit="return false">
         <div class="cfg">
           <fieldset>
@@ -310,7 +312,7 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
   </section>
   <section id="bidding" class="bt" data-screen-label="04 Bidding">
     <div class="wrap">
-      <div class="sec-head rv"><p class="label">입찰과 중개</p><h2>전문가들이 제안하고, 고객이 고릅니다</h2><p>오믹스메이트는 분석을 직접 팔지 않습니다. 의뢰와 전문가를 잇고, 검수와 정산을 책임지며, 그 대가로 중개 수수료를 받습니다.</p></div>
+      <div class="sec-head wide rv"><p class="label">입찰과 중개</p><h2>전문가들이 제안하고, 고객이 고릅니다</h2><p>오믹스메이트는 분석을 직접 팔지 않습니다. 의뢰와 전문가를 잇고, 검수와 정산을 책임지며, 그 대가로 중개 수수료를 받습니다.</p></div>
       <div class="bids">
         <div>
           <ol class="flow rv">
@@ -335,7 +337,7 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
 
   <section id="tiers" class="bt tone-b" data-screen-label="05 Expert Tiers">
     <div class="wrap">
-      <div class="sec-head rv"><p class="label">전문가 등급제</p><h2>잘할수록 더 받고, 덜 냅니다</h2><p>논문 경험, 완료 과제, 고객 평점으로 등급이 올라갑니다. 높은 등급은 더 높은 단가 범위에서 제안하고 플랫폼 수수료를 덜 내며, 의뢰에 먼저 노출됩니다.</p></div>
+      <div class="sec-head wide rv"><p class="label">전문가 등급제</p><h2>잘할수록 더 받고, 덜 냅니다</h2><p>논문 경험, 완료 과제, 고객 평점으로 등급이 올라갑니다. 높은 등급은 더 높은 단가 범위에서 제안하고 플랫폼 수수료를 덜 내며, 의뢰에 먼저 노출됩니다.</p></div>
       <div class="tiers">
         <article class="tier t-bronze rv"><div class="nm"><i></i><div><b>Bronze</b><br><small>시작 등급</small></div></div>
           <div class="req"><b>조건</b>신원·학력 확인, 시범 과제 통과</div>
@@ -360,7 +362,7 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
   </section>
   <section id="ai" class="bt tone-b" data-screen-label="03 AI & Experts">
     <div class="wrap">
-      <div class="sec-head rv"><p class="label">AI와 전문가</p><h2>반복은 AI가, 판단은 사람이</h2><p>시간이 드는 반복 작업을 AI가 맡아, 전문가는 연구의 의미를 찾는 데 집중합니다. 그만큼 빠르고 비용 부담도 줄어듭니다.</p></div>
+      <div class="sec-head wide rv"><p class="label">AI와 전문가</p><h2>반복은 AI가, 판단은 사람이</h2><p>시간이 드는 반복 작업을 AI가 맡아, 전문가는 연구의 의미를 찾는 데 집중합니다. 그만큼 빠르고 비용 부담도 줄어듭니다.</p></div>
       <div class="split">
         <article class="card rv">
           <figure class="ph" data-label="[macro] 모니터에 비친 단일세포 UMAP 클러스터 — 어두운 방, 화면 빛"><img src="/assets/video/omicsmate-poster.jpg" alt="모니터 속 단일세포 클러스터 시각화" loading="lazy"></figure>
@@ -378,7 +380,7 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
 
   <section id="promise" class="bt" data-screen-label="04 Promise">
     <div class="wrap">
-      <div class="sec-head rv"><p class="label">약속</p><h2>처음 맡겨도 안심할 수 있게</h2></div>
+      <div class="sec-head wide rv"><p class="label">약속</p><h2>처음 맡겨도 안심할 수 있게</h2></div>
       <div class="grid4" style="margin-top:40px">
         <div class="mini rv"><span class="k">검증</span><b>검증된 전문가</b><p>논문 실적과 시범 과제로 분야별 전문가를 확인합니다.</p></div>
         <div class="mini rv" data-d="60"><span class="k">에스크로</span><b>결과 확인 후 지급</b><p>대금은 플랫폼이 보관하다가 결과를 확인하면 전문가에게 지급합니다.</p></div>
@@ -420,9 +422,10 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
 
 <footer>
   <div class="wrap">
-    <div class="row"><a class="logo brand" href="/omicsmate/"><i class="mk"></i>오믹스메이트<small>OMICSMATE</small></a>
+    <div class="row"><a class="logo brand" href="/omicsmate/"><span data-logo data-logo-kind="C" data-brand="blue"></span><small class="kr">오믹스메이트</small></a>
       <nav><a href="#estimate">예상 비용</a><a href="#bidding">입찰</a><a href="#tiers">전문가 등급</a><a href="#promise">약속</a><a href="#contact">분석 의뢰</a><a href="#expert">전문가 등록</a></nav></div>
     <p class="by-line">오믹스메이트는 <a href="/">퍼스트옴(Firstome)</a>의 사업 브랜드입니다. 패밀리: <a href="/samplo/">샘플로</a> · <a href="/dx/">퍼스트옴 Dx</a></p>
+    <div class="wm" aria-hidden="true">omicsmate<i>.</i></div>
     <div class="legal"><span>© 2026 OmicsMate</span><span>사업자 정보 · 개인정보처리방침</span></div>
   </div>
 </footer>
