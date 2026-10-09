@@ -18,6 +18,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/site/site.css">
+<link rel="stylesheet" href="/site/brand-fx.css">
+
 <noscript><style>.rv{opacity:1;transform:none}</style></noscript>
 <script>
 window.FIRSTOME_TWEAKS = {
@@ -201,6 +203,7 @@ td{color:var(--muted)}
 
 <main>
   <section class="hero" style="padding:0" data-screen-label="01 Samplo Hero">
+    <div class="bfx" data-fx="samplo" aria-hidden="true"></div>
     <div class="wrap">
       <div>
         <p class="label">오믹스 시료 전처리 · 실시간 추적 · 바이오뱅킹</p>
@@ -259,6 +262,22 @@ td{color:var(--muted)}
     </div>
   </section>
 
+
+  <!-- FILM BAND · samplo -->
+  <section class="vband c-teal" aria-label="드라이아이스에서 바코드 시료 튜브를 꺼내는 장면" data-screen-label="03b Film · Cold chain">
+    <div class="vb-media">
+      <img src="/assets/video/samplo-poster.jpg" alt="드라이아이스에서 바코드 시료 튜브를 꺼내는 장면" loading="lazy">
+      <video data-src="/assets/video/samplo.mp4" data-src-m="/assets/video/samplo-m.mp4" muted loop playsinline preload="none" poster="/assets/video/samplo-poster.jpg" aria-hidden="true"></video>
+    </div>
+    <div class="tint"></div>
+    <div class="vb-hud"><div class="wrap"><span><b>●</b> SAMPLO · COLD CHAIN</span><span class="rec">S-2611-0042</span></div></div>
+    <i class="vb-corner tl"></i><i class="vb-corner tr"></i><i class="vb-corner bl"></i><i class="vb-corner br"></i>
+    <div class="wrap vb-cap">
+      <p class="label rv">From bench to biobank</p>
+      <h2 class="rv" data-d="80">채취하는 순간부터 -80℃ 보관까지,<br>시료는 한 번도 시야에서 벗어나지 않습니다.</h2>
+      <div class="vb-meta rv" data-d="160"><span>바코드 스캔 = 추적 시작</span><span>수령 사진 · 온도 기록</span><span>LIMS 자동 기록</span></div>
+    </div>
+  </section>
   <section id="qc" class="bt" data-screen-label="04 QC Choice">
     <div class="wrap">
       <div class="sec-head rv"><p class="label">QC 선택권</p><h2>결과를 받고 나서 알게 되는 일은 없습니다</h2></div>
@@ -453,5 +472,6 @@ td{color:var(--muted)}
 
 <script src="/site/samplo.js"></script>
 <script src="/site/firstome-chat.js" data-api="https://firstome-agent.firstome.workers.dev/chat" defer></script>
+<script src="/site/brand-fx.js" defer></script>
 </body>
 </html>

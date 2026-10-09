@@ -18,6 +18,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/site/site.css">
+<link rel="stylesheet" href="/site/brand-fx.css">
+
 <link rel="stylesheet" href="/site/hero-flow.css">
 <noscript><style>.rv{opacity:1;transform:none}</style></noscript>
 <script>
@@ -254,7 +256,7 @@ window.FIRSTOME_TWEAKS = {
   <!-- HERO: scroll-driven flow -->
   <section class="hf" data-screen-label="01 Hero">
     <div class="hf-stick">
-      <div class="hf-bg"></div><div class="hf-grid"></div>
+      <div class="hf-bg"></div><div class="hf-grid"></div><div class="bfx" data-fx="family" aria-hidden="true"></div>
       <div class="wrap hf-inner">
         <div>
           <p class="label">Firstome · The first mile of omics</p>
@@ -312,6 +314,7 @@ window.FIRSTOME_TWEAKS = {
       </div>
       <div class="biz">
         <article class="card c-teal rv">
+          <div class="bfx mini" data-fx="samplo" aria-hidden="true"></div>
           <span class="num">01</span>
           <div class="mkrow"><i></i><span class="k">PREP · TRACK · BIOBANK</span></div>
           <h3>샘플로<small>Samplo</small></h3>
@@ -326,6 +329,7 @@ window.FIRSTOME_TWEAKS = {
           <p class="go"><span class="url">firstome.com/samplo</span><br><a class="btn primary" href="/samplo/" style="margin-top:10px">샘플로 사이트 방문 →</a></p>
         </article>
         <article class="card c-blue rv" data-d="100">
+          <div class="bfx mini" data-fx="omicsmate" aria-hidden="true"></div>
           <span class="num">02</span>
           <div class="mkrow"><i></i><span class="k">AI · EXPERT MATCHING</span></div>
           <h3>오믹스메이트<small>OmicsMate</small></h3>
@@ -340,6 +344,7 @@ window.FIRSTOME_TWEAKS = {
           <p class="go"><span class="url">firstome.com/omicsmate</span><br><a class="btn primary" href="/omicsmate/" style="margin-top:10px">오믹스메이트 사이트 방문 →</a></p>
         </article>
         <article class="card c-amber rv" data-d="200">
+          <div class="bfx mini" data-fx="dx" aria-hidden="true"></div>
           <span class="num">03</span>
           <div class="mkrow"><i></i><span class="k">BIOMARKER · CDx</span></div>
           <h3>퍼스트옴 Dx<small>Firstome Dx</small></h3>
@@ -552,5 +557,6 @@ window.FIRSTOME_TWEAKS = {
 </script>
 
 <script src="/site/firstome-chat.js" data-api="https://firstome-agent.firstome.workers.dev/chat" defer></script>
+<script src="/site/brand-fx.js" defer></script>
 </body>
 </html>
