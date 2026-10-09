@@ -1,0 +1,97 @@
+/* 오믹스메이트 앱 화면 (로그인 · 내 의뢰 · 전문가 · 운영). site.css + v3-skin.css 위에 얹습니다. */
+body{--c:var(--blue)}
+.om-top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+#om-nav{display:flex;align-items:center;gap:20px;font-size:14.5px;flex-wrap:wrap}
+#om-nav a{color:var(--muted);text-decoration:none}
+#om-nav a.on,#om-nav a:hover{color:var(--ink)}
+#om-nav a.on{box-shadow:inset 0 -2px 0 var(--blue)}
+.om-who{color:var(--dim);font-size:13.5px}
+.om-link{background:none;border:0;padding:0;font:inherit;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.om-link:hover{color:var(--ink)}
+
+#om-main{max-width:1040px;margin:0 auto;padding:40px var(--pad,24px) 96px}
+.om-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.om-head h1{font-size:clamp(26px,3.2vw,36px)}
+.om-head p{color:var(--muted);margin:8px 0 0}
+.om-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;margin-bottom:16px}
+.om-card h2{font-size:20px;margin-bottom:12px}
+.om-card h3{font-size:16.5px;margin:0 0 6px}
+.om-empty{text-align:center;padding:48px 24px}
+.om-empty p{color:var(--muted);margin:10px 0 22px}
+.om-dim{color:var(--dim);font-size:14px}
+.om-pre{white-space:pre-wrap;margin:12px 0 0;color:var(--ink)}
+.om-grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.om-grid2{grid-template-columns:1fr}}
+
+/* 목록 */
+.om-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.om-list li{border-bottom:1px solid var(--line)}
+.om-list a.row,.om-list .row{display:grid;grid-template-columns:1fr auto;gap:6px 16px;padding:16px 4px;text-decoration:none;color:inherit}
+.om-list a.row:hover{background:var(--surface2)}
+.om-list .row b{font-weight:600}
+.om-list .row small{grid-column:1;color:var(--dim);font-size:13.5px}
+.om-list .row .r{grid-row:1/3;grid-column:2;align-self:center;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:13.5px;color:var(--muted)}
+.om-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.om-tabs button{border:1px solid var(--line2);background:transparent;border-radius:999px;padding:7px 14px;font:inherit;font-size:14px;color:var(--muted);cursor:pointer}
+.om-tabs button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+
+/* 상태 표시 */
+.om-chip{display:inline-block;font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--bg2);color:var(--muted);white-space:nowrap}
+.om-chip.s-open,.om-chip.s-submitted,.om-chip.s-pending{background:color-mix(in oklab,var(--blue) 14%,transparent);color:var(--blue)}
+.om-chip.s-selected,.om-chip.s-in_progress,.om-chip.s-delivered,.om-chip.s-review{background:color-mix(in oklab,var(--amber) 16%,transparent);color:var(--amber)}
+.om-chip.s-completed,.om-chip.s-approved{background:color-mix(in oklab,var(--teal) 16%,transparent);color:var(--teal)}
+.om-chip.s-cancelled,.om-chip.s-rejected,.om-chip.s-withdrawn,.om-chip.s-closed,.om-chip.s-suspended,.om-chip.s-disputed{background:color-mix(in oklab,var(--red) 12%,transparent);color:var(--red)}
+.om-steps{display:flex;gap:4px;flex-wrap:wrap;margin:6px 0 18px;padding:0;list-style:none}
+.om-steps li{font-size:12.5px;padding:5px 10px;border-radius:6px;border:1px solid var(--line);color:var(--dim)}
+.om-steps li.done{color:var(--ink);border-color:var(--line2)}
+.om-steps li.done::before{content:"✓ ";color:var(--blue)}
+.om-steps li.now{border-color:var(--blue);color:var(--blue);background:color-mix(in oklab,var(--blue) 8%,transparent);font-weight:600}
+
+.om-dl{display:grid;grid-template-columns:110px 1fr;gap:8px 16px;margin:0;font-size:15px}
+.om-dl dt{color:var(--dim)}
+.om-dl dd{margin:0}
+.om-files{list-style:none;margin:0;padding:0}
+.om-files li{padding:6px 0;border-bottom:1px dashed var(--line)}
+.om-files small{color:var(--dim);margin-left:6px}
+
+/* 입찰 비교표 */
+.om-bids{width:100%;border-collapse:collapse;font-size:14.5px}
+.om-bids th,.om-bids td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.om-bids th{font-size:12.5px;color:var(--dim);font-weight:500;white-space:nowrap}
+.om-bids td.num{font-family:var(--f-mono);white-space:nowrap}
+.om-bids .sub{display:block;color:var(--dim);font-size:13px;margin-top:3px}
+.om-bids tr.picked td{background:color-mix(in oklab,var(--teal) 8%,transparent)}
+@media (max-width:760px){
+  .om-bids thead{display:none}
+  .om-bids tr{display:block;border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:10px}
+  .om-bids td{display:block;border:0;padding:6px 0}
+  .om-bids td::before{content:attr(data-k);display:block;font-size:12px;color:var(--dim)}
+}
+
+/* 폼 */
+.om-form{display:grid;gap:18px}
+.om-form label,.om-field{display:grid;gap:7px;font-size:14.5px;font-weight:500}
+.om-form label small,.om-field small{font-weight:400;color:var(--dim);font-size:13px}
+.om-form input[type=text],.om-form input[type=email],.om-form input[type=password],.om-form input[type=number],
+.om-form input[type=date],.om-form input[type=tel],.om-form input[type=url],.om-form select,.om-form textarea{
+  width:100%;font:inherit;font-size:15.5px;padding:11px 13px;border:1px solid var(--line2);border-radius:8px;background:var(--surface);color:var(--ink)}
+.om-form textarea{min-height:110px;resize:vertical}
+.om-form input:focus,.om-form select:focus,.om-form textarea:focus{outline:2px solid color-mix(in oklab,var(--blue) 45%,transparent);outline-offset:1px;border-color:var(--blue)}
+.om-checks{display:flex;flex-wrap:wrap;gap:8px}
+.om-checks label{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line2);border-radius:999px;padding:7px 13px;font-weight:400;cursor:pointer;font-size:14px}
+.om-checks label:has(input:checked){border-color:var(--blue);background:color-mix(in oklab,var(--blue) 9%,transparent)}
+.om-agree{display:flex!important;grid-template-columns:none!important;align-items:flex-start;gap:9px!important;font-weight:400!important;font-size:14px!important;color:var(--muted)}
+.om-agree input{margin-top:4px}
+.om-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.om-form .btn,.om-actions .btn{cursor:pointer}
+.btn:disabled{opacity:.55;cursor:wait;transform:none}
+.btn.danger{border-color:color-mix(in oklab,var(--red) 50%,var(--line2));color:var(--red);background:transparent}
+.om-note{font-size:13.5px;color:var(--muted);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:0}
+
+/* 로그인 */
+.om-auth{max-width:440px;margin:24px auto}
+.om-auth .om-tabs{margin-bottom:20px}
+
+#om-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--ink);color:#fff;padding:12px 18px;border-radius:10px;font-size:14.5px;transition:all .25s;z-index:50;max-width:calc(100vw - 32px)}
+#om-toast.on{opacity:1;transform:translate(-50%,0)}
+#om-toast.bad{background:var(--red)}

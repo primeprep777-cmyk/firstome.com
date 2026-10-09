@@ -16,7 +16,7 @@
 - 메인 상단 시료 흐름은 PC와 모바일을 따로 정합니다: `index.html`의 `"heroDesktop"`, `"heroMobile"` 값. `"auto"`(기본) = 일반 화면에서 단계가 자동으로 넘어가고 클릭하면 이동, `"scroll"` = 화면을 고정하고 스크롤에 따라 단계가 넘어감. 2026-10-09부터 PC·모바일 모두 `auto`.
 
 운영 규칙
-- 문의는 카카오톡 채널(https://pf.kakao.com/_uuXFX)로 받습니다. 이메일과 온라인 접수 폼은 아직 없습니다(준비 중 표기).
+- 문의는 카카오톡 채널(https://pf.kakao.com/_uuXFX)로 받습니다. 이메일 접수는 아직 없습니다. 오믹스메이트 온라인 의뢰는 아래 "온라인 의뢰·입찰" 참고.
 - 가격은 공개하지 않습니다. 품질 체계는 "GCLP에 준하는"으로 표기합니다 (인증 아님).
 - 파트너 로고와 팀원 소개는 계약·법인 설립 후 채웁니다. 메인의 파트너 섹션은 유형만, 팀 섹션은 연구소 사진과 소개 문구만 보여 줍니다.
 
@@ -44,3 +44,14 @@ v3 디자인 (2026-10-09, deploy-v3)
 - 메인(`index.html`)은 에디토리얼 v3입니다: `site/v3.css`, `site/v3.js`(헤드라인 등장, 소개문 단어 밝히기, 상단 영상, 스크롤로 진행하는 "첫 1마일" 장면, 커서). 메인은 더 이상 `site.css`, `hero-flow.*`, `brand-fx.*`를 쓰지 않습니다(위의 `heroDesktop`/`heroMobile` 설정도 메인에는 적용되지 않음). 메인 상단 영상은 모바일에서 `-m` 파일을 쓰고, '동작 줄이기'에서는 포스터만 보입니다.
 - 브랜드 사이트 세 곳은 기존 구조 위에 `site/v3-skin.css`(밝은 paper 테마, IBM Plex, Instrument Serif)를 덧씌웁니다.
 - 로고는 `site/v3-logos.js`가 그리는 SVG(로고 C, 2×2 웰)입니다. `<span data-logo data-brand="teal|blue|amber">`(전체), `<span data-logo-mark ...>`(마크만). 디자이너 로고가 나오면 이 파일만 바꾸면 됩니다.
+
+오믹스메이트 온라인 의뢰·입찰 (2026-10-09, Supabase)
+- 화면: `/omicsmate/login/`(로그인·가입·비밀번호 재설정), `/omicsmate/app/`(의뢰인: 내 의뢰, `?new=1` 의뢰 작성, `?id=` 입찰 비교·선정·파일·결과 승인), `/omicsmate/expert/`(전문가: 신청, 공개 의뢰, `?id=` 입찰, `?tab=mine` 내 입찰, `?job=` 선정 과제·결과 제출), `/omicsmate/admin/`(운영: 전문가 심사, 의뢰 검수, 입금·정산, 설정), `/omicsmate/terms/`·`/omicsmate/privacy/`(초안).
+- 코드: `site/om-app.js`(공통), `site/om-login.js`·`om-client.js`·`om-expert.js`·`om-admin.js`(화면별), `site/om-app.css`, `site/vendor/supabase-js-2.45.4.js`(CDN 대신 직접 둠).
+- 연결: `site/om-config.js`에 Supabase Project URL과 anon(public) key를 넣으면 켜집니다. 비어 있으면 앱 화면은 "오픈 준비 중"과 카카오톡 안내를 보이고, 소개 페이지의 계산기·전문가 버튼도 카카오톡으로 연결됩니다. 값이 있으면 계산기 버튼은 고른 조건을 들고 의뢰 작성으로, 전문가 버튼은 전문가 가입으로 갑니다.
+- DB: `supabase/schema.sql`을 Supabase SQL Editor에서 한 번 실행합니다(다시 실행해도 됨). 상태는 화면에서 직접 바꿀 수 없고 함수(rpc)로만 바뀌며, 권한은 DB 규칙(RLS)이 지킵니다: 전문가는 요약만 보고, 데이터 파일은 선정된 전문가에게만, 입찰 금액은 전문가끼리 못 봄.
+- 흐름: 검수 대기 → (운영자 공개) 입찰 중 → (의뢰인 선정) 입금 대기 → (운영자 입금 확인) 진행 중 → (전문가 제출) 결과 제출 → (의뢰인 승인) 완료 → (운영자) 지급 완료.
+- 운영자 지정: 가입 후 SQL Editor에서 `update profiles set is_admin = true where id = (select id from auth.users where email = '메일주소');`
+- 수수료율·입찰 기간·입금 안내 문구는 운영 화면 > 설정에서 바꿉니다.
+- DB 검증: `supabase/test/`의 `supabase-stub.sql`(로컬 Postgres용 auth·storage 흉내)과 `flow.sql`(가입~정산 전체 흐름과 권한 차단 확인)을 빈 Postgres 16에 차례로 실행합니다.
+- 아직 없음: 메일 알림, 카카오 로그인, 결과 제출 후 자동 승인, 카드 결제(PG), AI 1차 분석.
