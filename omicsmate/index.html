@@ -176,6 +176,7 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
 </style>
 <link rel="stylesheet" href="/site/v3-skin.css">
 <script src="/site/v3-logos.js"></script>
+<script src="/site/om-config.js"></script>
 </head>
 <body class="c-blue">
 <div class="fam"><div class="wrap"><span class="fam-k">Firstome family</span><nav><a href="/">퍼스트옴</a><a href="/samplo/">샘플로</a><a class="on" href="/omicsmate/">오믹스메이트</a><a href="/dx/">퍼스트옴 Dx</a></nav></div></div>
@@ -183,6 +184,7 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
   <div class="wrap">
     <a class="logo brand" href="/omicsmate/" aria-label="오믹스메이트 홈"><span data-logo data-logo-kind="C" data-brand="blue"></span><small class="kr">오믹스메이트</small></a>
     <nav class="links"><a href="#estimate">예상 비용</a><a href="#bidding">입찰</a><a href="#tiers">전문가 등급</a><a href="#ai">AI와 전문가</a><a href="#promise">약속</a><a href="#expert">전문가 등록</a></nav>
+    <a class="btn ghost sm" id="loginGo" href="/omicsmate/login/" style="display:none">로그인</a>
     <a class="btn primary sm" href="#estimate">예상 비용 보기</a>
   </div>
 </header>
@@ -413,7 +415,7 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
   <section id="expert" class="bt" data-screen-label="07 Join as Expert">
     <div class="wrap">
       <div class="join rv">
-        <div><span class="k">FOR EXPERTS</span><h3>분석 전문가로 함께하세요</h3><p>논문 경험이 있는 바이오인포 연구자, 박사후연구원, 대학원생을 찾습니다. Bronze로 시작해 완료 과제와 평점, 논문 실적으로 Platinum까지 올라갑니다. AI가 반복 작업을 끝내 두니 해석과 작성에 집중할 수 있습니다.</p><a class="btn primary" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">전문가 등록 문의</a></div>
+        <div><span class="k">FOR EXPERTS</span><h3>분석 전문가로 함께하세요</h3><p>논문 경험이 있는 바이오인포 연구자, 박사후연구원, 대학원생을 찾습니다. Bronze로 시작해 완료 과제와 평점, 논문 실적으로 Platinum까지 올라갑니다. AI가 반복 작업을 끝내 두니 해석과 작성에 집중할 수 있습니다.</p><a class="btn primary" id="expertGo" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">전문가 등록 문의</a></div>
         <ul class="ticks" style="font-size:16px"><li>원하는 분야와 분량만 선택</li><li>의뢰에 직접 입찰, 금액과 기간은 내가 정함</li><li>결과 확인 후 안전하게 정산</li><li>등급이 오르면 단가는 높게, 수수료는 낮게</li><li>기여에 따라 공동저자·사사 표기</li><li>플랫폼 분석 도구 무료 사용</li></ul>
       </div>
     </div>
@@ -440,6 +442,9 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
 <script>
 (function(){
   var f=document.getElementById('estForm'); if(!f) return;
+  // 온라인 의뢰가 열려 있으면(site/om-config.js 설정) 고른 조건을 들고 의뢰 작성 화면으로, 아니면 카카오톡 상담으로
+  var APP=!!(window.OM_CONFIG&&OM_CONFIG.url&&OM_CONFIG.anonKey);
+  if(APP){ var g=document.getElementById('qGo'); g.removeAttribute('target'); g.removeAttribute('rel'); }
   var sampLabels=['1~3개','4~6개','8개','12개','약 24개','약 36개','약 48개','약 72개','약 96개','약 150개','약 200개','300개 이상'];
   var sampW=[0.6,0.7,0.8,0.9,1,1.1,1.2,1.35,1.5,1.7,1.9,2.2];
   var names={bulk:'Bulk RNA-seq',sc:'단일세포 RNA-seq',wgs:'WGS · WES',prot:'단백체 · 대사체',spatial:'공간오믹스',multi:'멀티오믹스 통합'};
@@ -465,9 +470,21 @@ body{--c:var(--blue);--glow:color-mix(in oklab,var(--blue) 55%,transparent)}
     q('#qBids').textContent=tiers[tr.value];
     var msg='[오믹스메이트 입찰 요청] '+names[dt.value]+' / '+sampLabels[n]+' / '+labels.join(', ')+' / '+spd[sp.value]+' / 예상 구간 '+(b+1)+' / 희망 등급: '+tr.nextElementSibling.textContent;
     q('#qGo').setAttribute('data-msg',msg);
+    if(APP){
+      var sc=scopes.map(function(c){return c.value}).join(',');
+      q('#qGo').href='/omicsmate/app/?'+new URLSearchParams({new:1,dtype:dt.value,n:n+1,scope:sc,speed:sp.value,tier:tr.value,band:b+1}).toString();
+    }
   }
   f.addEventListener('input',calc); f.addEventListener('change',calc); calc();
-  q('#qGo').addEventListener('click',function(){ try{ navigator.clipboard && navigator.clipboard.writeText(this.getAttribute('data-msg')); }catch(e){} });
+  q('#qGo').addEventListener('click',function(){ if(APP) return; try{ navigator.clipboard && navigator.clipboard.writeText(this.getAttribute('data-msg')); }catch(e){} });
+})();
+</script>
+<script>
+(function(){
+  if(!(window.OM_CONFIG&&OM_CONFIG.url&&OM_CONFIG.anonKey)) return;
+  var l=document.getElementById('loginGo'); if(l) l.style.display="";
+  var e=document.getElementById('expertGo');
+  if(e){ e.href='/omicsmate/login/?role=expert&next=%2Fomicsmate%2Fexpert%2F'; e.removeAttribute('target'); e.removeAttribute('rel'); e.textContent='전문가로 신청하기'; }
 })();
 </script>
 <script src="/site/firstome-chat.js" data-api="https://firstome-agent.firstome.workers.dev/chat" defer></script>
