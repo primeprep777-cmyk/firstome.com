@@ -3,16 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>퍼스트옴 Firstome · 오믹스의 첫 1마일을 여는 회사</title>
+<title>퍼스트옴 Firstome · The first mile of omics</title>
 <meta name="description" content="퍼스트옴(Firstome)은 샘플로, 오믹스메이트, 퍼스트옴 Dx 세 사업 브랜드를 운영하는 모회사입니다. 시료 전처리와 추적, 분석 매칭, 제약사 동반진단까지 오믹스 연구의 첫 구간을 맡습니다.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="퍼스트옴 Firstome">
-<meta property="og:title" content="퍼스트옴 Firstome · 오믹스의 첫 1마일을 여는 회사">
-<meta property="og:description" content="샘플로 · 오믹스메이트 · 퍼스트옴 Dx. 세 사업 브랜드를 운영하는 모회사 퍼스트옴.">
+<meta property="og:title" content="퍼스트옴 Firstome · 오믹스 연구의 first mile">
+<meta property="og:description" content="샘플로 · 오믹스메이트 · 퍼스트옴 Dx. 맡기는 순간부터 같은 기준으로, 지금 어디까지 왔는지 늘 보여 드립니다.">
 <meta property="og:url" content="https://firstome.com/">
 <meta property="og:image" content="https://firstome.com/assets/og-firstome.png">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#f4f4f1">
 <link rel="canonical" href="https://firstome.com/">
+<link rel="alternate" hreflang="ko" href="https://firstome.com/">
+<link rel="alternate" hreflang="en" href="https://firstome.com/en/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,13 +32,22 @@ window.V3_TWEAKS = {
 <script src="/site/v3-logos.js"></script>
 </head>
 <body>
+<a class="skip" href="#brands">본문으로 건너뛰기</a>
 <div class="cur" aria-hidden="true"></div>
 
 <header class="hd">
   <div class="w">
     <a href="#top" aria-label="퍼스트옴 홈"><span data-logo></span></a>
-    <nav><a href="#brands">브랜드</a><a href="#principles">원칙</a><a href="#letter">창업팀</a><a href="#roadmap">로드맵</a><a href="#faq">FAQ</a></nav>
-    <a class="cta" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">상담하기 <span class="ar">→</span></a>
+    <nav aria-label="주요 메뉴"><a href="#brands">브랜드</a><a href="#principles">원칙</a><a href="#promise">약속</a><a href="#roadmap">로드맵</a><a href="#faq">FAQ</a></nav>
+    <div class="hd-r">
+      <span class="lang" aria-label="언어"><span aria-current="true">KO</span><a href="/en/" hreflang="en" lang="en">EN</a></span>
+      <a class="cta" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">카카오톡 상담 <span class="ar" aria-hidden="true">↗</span></a>
+      <button class="mnu" type="button" aria-expanded="false" aria-controls="mnav"><span></span><span></span><b>메뉴</b></button>
+    </div>
+  </div>
+  <div class="mnav" id="mnav" hidden>
+    <a href="#brands">브랜드</a><a href="#principles">원칙</a><a href="#promise">약속</a><a href="#roadmap">로드맵</a><a href="#faq">FAQ</a>
+    <div class="mnav-b"><a href="/en/" lang="en"><i style="background:var(--ink)"></i>English</a><a href="/samplo/" style="--c:var(--teal)"><i></i>샘플로</a><a href="/omicsmate/" style="--c:var(--blue)"><i></i>오믹스메이트</a><a href="/dx/" style="--c:var(--amber)"><i></i>퍼스트옴 Dx</a></div>
   </div>
 </header>
 
@@ -47,12 +59,19 @@ window.V3_TWEAKS = {
       <h1 data-split>오믹스 연구의<br><span class="it">first mile,</span> 맡기는<br>순간부터 쉽게.</h1>
       <div class="row">
         <p class="lead rv" data-d="300">시료를 받는 순간부터 데이터가 나오고, 다음 연구로 이어질 때까지. 퍼스트옴은 가장 번거로운 첫 구간을 같은 기준으로 맡고, 지금 어디까지 왔는지 늘 보여 드립니다.</p>
-        <div class="acts rv" data-d="400"><a class="cta" href="#brands">세 브랜드 보기 <span class="ar">↓</span></a><a class="ghost" href="#mile">첫 1마일 따라가기</a></div>
+        <div class="status rv" data-d="400"><span class="live"><i></i>2026 오픈 준비 중</span><p>지금 열려 있는 것은 <b>카카오톡 사전 상담</b>과 <b>오믹스메이트 예상 비용 계산</b>입니다. 시료 접수와 온라인 의뢰는 순서대로 엽니다. <a href="#roadmap">로드맵 보기</a></p></div>
       </div>
+      <nav class="route" aria-label="목적별 바로가기">
+        <p class="route-q mono">무엇을 하러 오셨나요?</p>
+        <a class="rt rv" href="/samplo/" style="--c:var(--teal)"><span class="mono">연구자</span><b>시료를 맡기고 싶어요</b><small><i></i>샘플로 · 사전 상담 중</small><em aria-hidden="true">→</em></a>
+        <a class="rt rv" data-d="60" href="/omicsmate/#estimate" style="--c:var(--blue)"><span class="mono">연구자</span><b>데이터 분석이 필요해요</b><small><i></i>오믹스메이트 · 예상 비용 계산 가능</small><em aria-hidden="true">→</em></a>
+        <a class="rt rv" data-d="120" href="/dx/#contact" style="--c:var(--amber)"><span class="mono">제약 · 바이오텍</span><b>바이오마커 협업을 논의하고 싶어요</b><small><i></i>퍼스트옴 Dx · NDA 후 상담</small><em aria-hidden="true">→</em></a>
+        <a class="rt rv" data-d="180" href="/omicsmate/#expert" style="--c:var(--ink)"><span class="mono">분석 전문가</span><b>전문가로 참여하고 싶어요</b><small><i></i>오믹스메이트 · 사전 등록</small><em aria-hidden="true">→</em></a>
+      </nav>
     </div>
-    <div class="reel" aria-label="시료 튜브를 드라이아이스에서 꺼내는 영상">
+    <div class="reel" role="img" aria-label="시료 튜브를 드라이아이스에서 꺼내는 영상">
       <video data-src="/assets/video/samplo.mp4" data-src-m="/assets/video/samplo-m.mp4" poster="/assets/video/samplo-poster.jpg" muted loop playsinline aria-hidden="true"></video>
-      <div class="cap"><span class="mono">S-2611-0042 · RNA-seq · 24 samples · −72℃</span><span class="mono tc">TC 00:00:00:00</span></div>
+      <div class="cap"><span class="mono">예시 · S-2611-0042 · RNA-seq · 24 samples · −72℃</span><button class="pp mono" type="button" aria-pressed="false">❚❚ 영상 멈춤</button></div>
     </div>
   </section>
 
@@ -68,8 +87,8 @@ window.V3_TWEAKS = {
   <section class="mile" id="mile" data-screen-label="03 The Mile">
     <div class="pin w">
       <div class="top">
-        <span class="mono">The first mile</span>
-        <span class="odo"><b>0.00</b><small>mile</small></span>
+        <div class="mtl"><span class="mono">The first mile · 시료 한 건이 지나가는 6단계</span><span class="mono dim">스크롤하거나 아래 단계를 눌러 보세요</span><a class="skipmile mono" href="#brands">이 구간 건너뛰기 ↓</a></div>
+        <span class="odo" aria-hidden="true"><b>0.00</b><small>mile</small></span>
       </div>
       <div>
         <div class="stage"></div>
@@ -87,21 +106,21 @@ window.V3_TWEAKS = {
       </div>
       <div class="bl">
         <a class="br rv" href="/samplo/" style="--c:var(--teal)">
-          <span class="k mono t">01 · Prep · Track · Biobank</span>
+          <span class="k mono t">01 · 시료를 맡길 때</span>
           <span class="nm"><span data-logo-mark data-brand="teal"></span>샘플로</span>
           <span class="d"><b>시료가 지금 어디서 뭘 하는지, 다 보이는 전처리.</b>8단계 실시간 추적, QC 선택권, GCLP에 준하는 기록, 남은 시료 바이오뱅킹.</span>
           <span class="go">→</span>
           <span class="thumb"><img src="/assets/samplo-biobank.jpg" alt=""></span>
         </a>
         <a class="br rv" href="/omicsmate/" style="--c:var(--blue)" data-d="80">
-          <span class="k mono b">02 · AI · Expert matching</span>
+          <span class="k mono b">02 · 데이터를 분석할 때</span>
           <span class="nm"><span data-logo-mark data-brand="blue"></span>오믹스메이트</span>
           <span class="d"><b>반복은 AI가, 판단은 전문가가.</b>옵션을 고르면 예상 비용이 나오고, 검증된 분석 전문가들이 입찰합니다. 결과 확인 후 정산.</span>
           <span class="go">→</span>
           <span class="thumb"><img src="/assets/om-ai.jpg" alt=""></span>
         </a>
         <a class="br rv" href="/dx/" style="--c:var(--amber)" data-d="160">
-          <span class="k mono a">03 · Biomarker · CDx</span>
+          <span class="k mono a">03 · 제약사 협업</span>
           <span class="nm"><span data-logo-mark data-brand="amber"></span>퍼스트옴 Dx</span>
           <span class="d"><b>약이 잘 듣는 환자를, 데이터로 먼저.</b>바이오뱅크 시료와 같은 기준의 데이터로 바이오마커 발굴부터 동반진단까지 단계적으로.</span>
           <span class="go">→</span>
@@ -136,13 +155,13 @@ window.V3_TWEAKS = {
     <div class="w">
       <div class="sh">
         <span class="mono dim rv">04 — Our promise</span>
-        <div><h2 data-split>실적보다 먼저,<br>기준을 숫자로.</h2><p class="rv" data-d="200">실적은 아직 쌓는 중입니다. 대신 처음부터 지킬 기준을 숫자로 적어 둡니다. 세 브랜드 모두에 적용됩니다.</p></div>
+        <div><h2 data-split>실적보다 먼저,<br>기준을 숫자로.</h2><p class="rv" data-d="200">실적은 아직 쌓는 중입니다. 대신 처음부터 지킬 기준을 숫자로 적어 둡니다. 지키지 못하면 이 페이지에 그대로 고쳐 적습니다.</p></div>
       </div>
       <div class="pr">
-        <div class="rv" style="--c:var(--teal)"><b>8<small>단계</small></b><p>접수부터 보관까지, 시료의 모든 단계를 실시간으로 보여 줍니다.</p></div>
-        <div class="rv" data-d="80" style="--c:var(--teal)"><b>100<small>%</small></b><p>단계가 바뀔 때마다 알림. "지금 어디까지 됐나요?" 전화는 없습니다.</p></div>
-        <div class="rv" data-d="160" style="--c:var(--blue)"><b>1<small>개 창구</small></b><p>시료 의뢰, 분석 매칭, 제약 협업 문의를 카카오톡 채널 하나로 받습니다.</p></div>
-        <div class="rv" data-d="240" style="--c:var(--amber)"><b>0<small>원 선지급</small></b><p>분석 대금은 결과를 확인한 뒤에 전문가에게 지급됩니다.</p></div>
+        <div class="rv" style="--c:var(--teal)"><b>8<small>단계</small></b><h3>모든 단계를 보여 줍니다</h3><p>접수부터 보관까지 8단계. 단계가 바뀔 때마다 카카오톡으로 알립니다.</p><span class="pr-w mono">샘플로</span></div>
+        <div class="rv" data-d="80" style="--c:var(--teal)"><b>3<small>가지 선택</small></b><h3>진행 전에 고객이 정합니다</h3><p>QC 기준에 못 미치면 진행 · 재추출 · 제외 중 고른 대로만 진행합니다.</p><span class="pr-w mono">샘플로</span></div>
+        <div class="rv" data-d="160" style="--c:var(--blue)"><b>1<small>번 확인 후</small></b><h3>확인한 뒤에 정산합니다</h3><p>분석 대금은 플랫폼이 보관하다가, 고객이 결과를 확인한 뒤 전문가에게 지급합니다.</p><span class="pr-w mono">오믹스메이트</span></div>
+        <div class="rv" data-d="240" style="--c:var(--amber)"><b>30<small>일 전</small></b><h3>보관 만료를 먼저 알립니다</h3><p>바이오뱅크 시료는 만료 30일 전에 연장 · 반출 · 폐기를 여쭙니다. 시료는 고객의 것입니다.</p><span class="pr-w mono">샘플로 · Dx</span></div>
       </div>
     </div>
   </section>
@@ -216,16 +235,21 @@ window.V3_TWEAKS = {
 <!-- CONTACT + FOOTER -->
 <footer class="end" data-screen-label="08 Contact">
   <div class="w">
-    <span class="mono" style="opacity:.6">07 — Contact</span>
+    <span class="mono" style="opacity:.6">09 — Contact</span>
     <h2 style="margin-top:28px" data-split>궁금한 건,<br><span class="it">카카오톡</span> 하나로.</h2>
-    <div class="acts rv"><a class="kk" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">채널에서 상담하기 →</a><a class="ghost" href="https://pf.kakao.com/_uuXFX" target="_blank" rel="noopener">오픈 알림 받기</a></div>
+    <div class="acts rv"><a class="kk" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">1:1 채팅으로 상담하기 ↗</a><a class="ghost" href="https://pf.kakao.com/_uuXFX" target="_blank" rel="noopener">채널 추가하고 오픈 소식 받기 ↗</a></div>
+    <dl class="ch rv">
+      <div><dt class="mono">사람 상담</dt><dd>카카오톡 1:1 채팅 · 평일 업무시간에 담당자가 답합니다</dd></div>
+      <div><dt class="mono">AI 상담</dt><dd>오른쪽 아래 버튼 · 서비스·절차에 대한 질문에 바로 답합니다</dd></div>
+      <div><dt class="mono">이메일·온라인 접수</dt><dd>준비 중 · 오픈 시 이 페이지에 공개합니다</dd></div>
+    </dl>
     <div class="fam">
       <a href="/samplo/"><span data-logo data-brand="teal"></span><p>시료 전처리 · 실시간 추적 · 바이오뱅킹</p></a>
       <a href="/omicsmate/"><span data-logo data-brand="blue"></span><p>AI 1차 분석 · 전문가 입찰 매칭</p></a>
       <a href="/dx/"><span data-logo data-brand="amber"></span><p>바이오마커 발굴 · 동반진단</p></a>
     </div>
     <div class="wm" aria-hidden="true">firstome</div>
-    <div class="legal"><span>© 2026 Firstome. 법인 설립 준비 중.</span><span>사업자 정보 · 개인정보처리방침</span></div>
+    <div class="legal"><span>© 2026 Firstome. 법인 설립 준비 중.</span><span><a href="/privacy/" style="color:inherit">개인정보처리방침</a> · 사업자 정보는 법인 설립 후 게시 · <a href="/en/" lang="en" style="color:inherit">English</a></span></div>
   </div>
 </footer>
 

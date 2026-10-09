@@ -212,7 +212,8 @@ td{color:var(--muted)}
         <h1>내 시료, 지금 어디서<br>뭘 하고 있는지<br><span class="hl">다 보여요.</span></h1>
         <p class="lead">내 시료의 모든 단계를 실시간으로 추적하세요. 발송부터 QC, 추출, 라이브러리, 시퀀싱, 데이터 도착까지 단계가 바뀔 때마다 카카오톡으로 알려 드리고, 예상 완료일을 계속 업데이트합니다. 끝난 뒤 남은 시료는 바이오뱅크에 두었다가 언제든 다시 씁니다.</p>
         <p class="sub">"지금 어디까지 됐나요?" 전화할 일도, 남은 시료를 연구실 냉동고에 쌓아 둘 일도 없습니다.</p>
-        <div class="ctas"><a class="btn primary" href="#contact">의뢰 상담하기</a><a class="btn ghost" href="#track">추적 화면 보기</a></div>
+        <div class="ctas"><a class="btn primary" href="#contact">의뢰 상담하기</a><a class="btn ghost" href="#ship">맡기는 방법 보기</a></div>
+        <div class="status4" aria-label="지금 이용 가능한 것"><span><i></i>카카오톡 사전 상담</span><span><i></i>견적 초안 · 예상 완료일 안내</span><span><i class="off"></i>시료 접수 · 2026 오픈 예정</span><span><i class="off"></i>바이오뱅킹 · 사전 신청</span></div>
       </div>
       <div class="trk rv" aria-label="추적 화면 예시">
         <div class="trk-head"><span><b style="color:var(--ink)">RNA-seq · 신선 동결 조직 24개</b></span><span class="mono">S-2611-0042 · <span style="color:var(--teal)">LIVE</span></span></div>
@@ -225,7 +226,7 @@ td{color:var(--muted)}
           <div><b>10.13</b>S07 RIN 6.1 확인 필요 → 고객이 "진행" 선택</div>
           <div><b>10.13</b>랩 도착, 수령 사진과 온도 기록 등록</div>
         </div>
-        <p class="trk-cap">예시 화면 · 단계가 자동으로 넘어갑니다</p>
+        <div class="trk-ctl"><span class="demo-tag">예시 화면 · 단계를 눌러 보세요</span><button type="button" data-act="pause" aria-pressed="false">❚❚ 멈춤</button></div>
       </div>
     </div>
   </section>
@@ -285,11 +286,11 @@ td{color:var(--muted)}
       <div class="sec-head wide rv"><p class="label">QC 선택권</p><h2>결과를 받고 나서 알게 되는 일은 없습니다</h2></div>
       <div class="qcwrap">
         <div class="qc rv">
-          <h3>문제가 보이면, 진행 전에 고객이 정합니다</h3>
+          <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap"><h3>문제가 보이면, 진행 전에 고객이 정합니다</h3><span class="demo-tag">예시</span></div>
           <div class="qc-row"><span>S01 · 신선 동결 조직</span><span class="mono">RIN 9.1</span><span class="tag ok">PASS</span></div>
           <div class="qc-row"><span>S07 · 신선 동결 조직</span><span class="mono">RIN 6.1</span><span class="tag chk">CHECK</span></div>
           <div class="qc-btns"><button data-v="go">진행</button><button data-v="re">재추출</button><button data-v="ex">제외</button></div>
-          <p class="qc-out">버튼을 눌러 보세요. 선택하면 추적 화면과 일정에 바로 반영됩니다.</p>
+          <p class="qc-out">S07에 대해 하나를 골라 보세요. 실제로는 고른 내용이 추적 화면과 예상 완료일에 바로 반영됩니다.</p>
         </div>
         <div class="rv" data-d="100">
           <p class="k" style="margin-bottom:12px">샘플로의 약속</p>
@@ -352,7 +353,7 @@ td{color:var(--muted)}
       <div class="bb">
         <figure class="ph rv" data-label="[macro] -80℃ 냉동고 속 서리 낀 크라이오 박스와 2D 바코드 튜브 랙"><img src="/assets/samplo-biobank.jpg" alt="-80℃ 냉동고의 시료 보관 랙"></figure>
         <div class="bb-panel rv" data-d="100">
-          <header><b style="color:var(--ink)">내 바이오뱅크</b><span class="mono" style="font-size:12px;color:var(--dim)">예시 화면</span></header>
+          <header><b style="color:var(--ink)">내 바이오뱅크</b><span class="demo-tag">예시 화면</span></header>
           <div class="bb-row"><div><b>S-2611-0042 · 남은 조직</b><small>신선 동결 조직 24개 · 위치 F4-B03</small></div><span class="mono">-80℃<em>정상</em></span><button>꺼내 쓰기</button></div>
           <div class="bb-row"><div><b>S-2611-0042 · RNA 추출물</b><small>24개 · 농도·RIN 기록 연동</small></div><span class="mono">-80℃<em>정상</em></span><button>꺼내 쓰기</button></div>
           <div class="bb-row"><div><b>S-2603-0117 · 혈장</b><small>코호트 1차 96개 · 동의 범위 기록됨</small></div><span class="mono">-80℃<em class="w">만료 D-28</em></span><button>꺼내 쓰기</button></div>
@@ -456,8 +457,15 @@ td{color:var(--muted)}
   <section id="contact" class="bt" data-screen-label="10 Next">
     <div class="wrap">
       <div class="xlink c-teal rv">
-        <div><span class="k">CONTACT · 의뢰 상담</span><h3>시료 종류, 개수, 하고 싶은 실험만 알려 주세요</h3><p>카카오톡 채널에 남겨 주시면 견적 초안, 발송 안내, 예상 완료일을 보내 드립니다. 이메일과 온라인 접수는 준비 중입니다.</p></div>
-        <a class="kakao-btn" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">카카오톡 채널에서 상담하기 →<small>퍼스트옴 · 1:1 채팅</small></a>
+        <div><span class="k">CONTACT · 의뢰 상담</span><h3>시료 종류, 개수, 하고 싶은 실험만 알려 주세요</h3><p>카카오톡 채널에 남겨 주시면 견적 초안, 발송 안내, 예상 완료일을 보내 드립니다. 이메일과 온라인 접수는 준비 중입니다.</p>
+          <div class="tpl"><header><span>① 아래 양식을 복사하고 ② 카카오톡에 붙여넣으세요</span><button type="button" data-copy="#tplS">양식 복사</button></header><pre id="tplS">[샘플로 의뢰 상담]
+소속 · 이름:
+시료 종류: (예: 신선 동결 조직 / FFPE / 혈장 / 세포 / 추출 핵산)
+시료 수:
+하고 싶은 실험: (예: RNA-seq, WES, scRNA-seq)
+희망 완료 시기:
+남은 시료: 바이오뱅크 보관 / 반송 / 폐기 / 미정</pre></div></div>
+        <div class="acts2"><a class="kakao-btn" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">카카오톡 채널에서 상담하기 ↗<small>퍼스트옴 · 1:1 채팅 · 평일 업무시간 답변</small></a><span class="hint">급한 질문은 오른쪽 아래 AI에게 먼저 물어보세요. 바로 답합니다.</span></div>
       </div>
     </div>
   </section>
@@ -469,10 +477,11 @@ td{color:var(--muted)}
       <nav><a href="#track">실시간 추적</a><a href="#qc">QC 선택권</a><a href="#system">수행 체계·키트</a><a href="#biobank">바이오뱅킹</a><a href="#pricing">요금제</a><a href="#ship">발송 가이드</a><a href="#faq">FAQ</a><a href="#contact">문의</a></nav></div>
     <p class="by-line">샘플로는 <a href="/">퍼스트옴(Firstome)</a>의 사업 브랜드입니다. 패밀리: <a href="/omicsmate/">오믹스메이트</a> · <a href="/dx/">퍼스트옴 Dx</a></p>
     <div class="wm" aria-hidden="true">samplo<i>.</i></div>
-    <div class="legal"><span>© 2026 Samplo</span><span>사업자 정보 · 개인정보처리방침</span></div>
+    <div class="legal"><span>© 2026 Samplo</span><span><a href="/privacy/">개인정보처리방침</a> · 사업자 정보는 법인 설립 후 게시 · <a href="/en/" lang="en">English</a></span></div>
   </div>
 </footer>
 
+<script src="/site/v3-brand.js"></script>
 <script src="/site/samplo.js"></script>
 <script src="/site/firstome-chat.js" data-api="https://firstome-agent.firstome.workers.dev/chat" defer></script>
 <script src="/site/brand-fx.js" defer></script>
