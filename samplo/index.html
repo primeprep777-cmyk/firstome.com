@@ -3,7 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>샘플로 Samplo · 퍼스트옴</title>
+<title>샘플로 Samplo · 오믹스 시료 전처리 · 실시간 추적 · 바이오뱅킹</title>
+<meta name="description" content="샘플로는 배달앱처럼 시료의 위치와 상태를 보여 주는 오믹스 전처리 서비스입니다. 접수부터 보관까지 8단계 실시간 추적, QC 선택권, GCLP에 준하는 수행 체계, 바이오뱅킹. 퍼스트옴의 사업 브랜드.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="샘플로 Samplo">
+<meta property="og:title" content="샘플로 Samplo · 내 시료, 지금 어디서 뭘 하고 있는지 다 보여요">
+<meta property="og:description" content="오믹스 시료 전처리 · 실시간 추적 · 바이오뱅킹. 퍼스트옴의 사업 브랜드.">
+<meta property="og:url" content="https://firstome.com/samplo/">
+<link rel="canonical" href="https://firstome.com/samplo/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -152,24 +159,15 @@ td{color:var(--muted)}
 .preps span.open{border-color:var(--teal);color:var(--ink)}
 .preps span.open::before{content:"● ";color:var(--teal)}
 
-/* pharma */
-.ph-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:44px;border:1px solid var(--line2);border-radius:18px;overflow:hidden}
-@media (max-width:860px){.ph-steps{grid-template-columns:1fr}}
-.ph-steps article{padding:26px;background:var(--surface)}
-.ph-steps article+article{border-left:1px solid var(--line)}
-@media (max-width:860px){.ph-steps article+article{border-left:0;border-top:1px solid var(--line)}}
-.ph-steps .k{color:var(--amber)}
-.ph-steps h3{font-size:19px;margin:8px 0}
-.ph-steps p{color:var(--muted);font-size:15px}
-.ph-steps .pill{margin-top:12px}
 </style>
 </head>
 <body class="c-teal">
+<div class="fam"><div class="wrap"><span class="fam-k">Firstome family</span><nav><a href="/">퍼스트옴</a><a class="on" href="/samplo/">샘플로</a><a href="/omicsmate/">오믹스메이트</a><a href="/dx/">퍼스트옴 Dx</a></nav></div></div>
 <header class="top">
   <div class="wrap">
-    <a class="logo" href="/">First<i>·</i>ome<span class="svc">샘플로</span></a>
+    <a class="logo brand" href="/samplo/" aria-label="샘플로 홈"><i class="mk"></i>샘플로<small>SAMPLO</small></a>
     <nav class="links">
-      <a href="#track">실시간 추적</a><a href="#qc">QC 선택권</a><a href="#system">수행 체계·키트</a><a href="#biobank">바이오뱅킹</a><a href="#pricing">요금제</a><a href="#pharma">제약사</a>
+      <a href="#track">실시간 추적</a><a href="#qc">QC 선택권</a><a href="#system">수행 체계·키트</a><a href="#biobank">바이오뱅킹</a><a href="#pricing">요금제</a><a href="#contact">의뢰 상담</a>
     </nav>
     <a class="btn primary sm" href="#contact">의뢰 상담</a>
   </div>
@@ -358,33 +356,21 @@ td{color:var(--muted)}
     </div>
   </section>
 
-  <section id="pharma" class="bt tone-b c-amber" data-screen-label="09 Pharma">
+  <section id="pharma" class="bt tone-b" data-screen-label="09 Family">
     <div class="wrap">
-      <div class="sec-head rv"><p class="label" style="color:var(--amber)">퍼스트옴 Dx · 제약사를 위한 동반진단</p><h2>보관된 시료와 오믹스 데이터에서, 신약의 동반진단까지</h2><p>바이오뱅크 시료, 표준화된 오믹스 데이터, GCLP에 준하는 수행 체계를 바탕으로 제약사의 바이오마커 발굴부터 동반진단 개발까지 함께합니다.</p></div>
-      <div class="ph-steps rv">
-        <article><span class="k">STEP 1 · 연구용</span><h3>바이오마커 발굴 서비스</h3><p>바이오뱅크 시료와 오믹스 데이터를 분석해 약물 반응과 연결되는 후보 바이오마커를 찾습니다.</p><span class="pill">처음 여는 단계</span></article>
-        <article><span class="k">STEP 2 · 임상시험</span><h3>환자 선별 검사 (CTA)</h3><p>바이오마커로 대상 환자를 고르는 검사를 시료 접수부터 결과 보고까지 같은 기록 체계로 관리합니다.</p><span class="pill">순차 준비</span></article>
-        <article><span class="k">STEP 3 · 허가</span><h3>동반진단 키트 공동개발</h3><p>제약사, IVD 기업과 함께 검사 키트를 개발하고 식약처 허가를 진행합니다.</p><span class="pill">장기 목표</span></article>
+      <div class="sec-head rv"><p class="label">Firstome family</p><h2>시료 다음 단계는 같은 패밀리에서</h2><p>샘플로는 퍼스트옴(Firstome)의 전처리 사업 브랜드입니다. 데이터 분석과 제약사 협업은 각자의 사이트에서 따로 안내합니다.</p></div>
+      <div class="grid2" style="margin-top:36px">
+        <div class="xlink c-blue rv" style="grid-template-columns:1fr"><div><span class="k">NEXT · OMICSMATE</span><h3>데이터 분석까지 필요하다면, 오믹스메이트</h3><p>샘플로에서 나온 데이터를 넘기면 AI가 1차 분석을 하고, 맞는 분석 전문가가 해석과 논문용 그림을 완성합니다.</p></div><a class="btn ghost" href="/omicsmate/" style="justify-self:start">오믹스메이트 사이트</a></div>
+        <div class="xlink c-amber rv" data-d="100" style="grid-template-columns:1fr"><div><span class="k">FOR PHARMA · FIRSTOME Dx</span><h3>제약사 바이오마커·동반진단 협업은 퍼스트옴 Dx</h3><p>샘플로가 만든 바이오뱅크 시료와 표준화된 데이터로 바이오마커 발굴부터 동반진단 공동개발까지 단계적으로 함께합니다.</p></div><a class="btn ghost" href="/dx/" style="justify-self:start">퍼스트옴 Dx 사이트</a></div>
       </div>
-      <div class="grid4" style="margin-top:20px">
-        <div class="mini rv"><span class="k">SAMPLES</span><b>바로 쓸 수 있는 시료</b><p>동의 범위와 보관 이력이 기록된 시료로 후보를 빠르게 확인합니다.</p></div>
-        <div class="mini rv" data-d="60"><span class="k">DATA</span><b>같은 기준의 데이터</b><p>같은 SOP와 키트로 만들어 배치 차이가 적고 임상으로 옮기기 쉽습니다.</p></div>
-        <div class="mini rv" data-d="120"><span class="k">RECORD</span><b>임상 수준의 기록</b><p>로트, 장비, 원자료 이력이 시료마다 남아 추적성을 갖춥니다.</p></div>
-        <div class="mini rv" data-d="180"><span class="k">PARTNERS</span><b>분석 전문가와 연결</b><p>오믹스메이트 전문가 네트워크와 해석과 보고서를 완성합니다.</p></div>
-      </div>
-      <p class="note rv"><b>단계적으로 준비하는 사업입니다.</b> 임상 검사는 GCLP 외에 ISO 15189 같은 검사실 인정이 필요하며, 각 단계의 인증과 허가 상태는 계약 전에 안내합니다. 지금은 연구용 바이오마커 협업 상담을 받습니다.</p>
     </div>
   </section>
 
   <section id="contact" class="bt" data-screen-label="10 Next">
     <div class="wrap">
-      <div class="xlink c-teal rv" style="margin-bottom:18px">
+      <div class="xlink c-teal rv">
         <div><span class="k">CONTACT · 의뢰 상담</span><h3>시료 종류, 개수, 하고 싶은 실험만 알려 주세요</h3><p>카카오톡 채널에 남겨 주시면 견적 초안, 발송 안내, 예상 완료일을 보내 드립니다. 이메일과 온라인 접수는 준비 중입니다.</p></div>
         <a class="kakao-btn" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">카카오톡 채널에서 상담하기 →<small>퍼스트옴 · 1:1 채팅</small></a>
-      </div>
-      <div class="xlink c-blue rv">
-        <div><span class="k">NEXT · OMICSMATE</span><h3>데이터 분석까지 필요하다면, 오믹스메이트</h3><p>샘플로에서 나온 데이터를 클릭 한 번으로 넘기면 AI가 1차 분석을 하고, 맞는 분석 전문가가 해석과 논문용 그림을 완성합니다.</p></div>
-        <a class="btn primary" href="/omicsmate/">오믹스메이트 보기</a>
       </div>
     </div>
   </section>
@@ -392,9 +378,10 @@ td{color:var(--muted)}
 
 <footer>
   <div class="wrap">
-    <div class="row"><a class="logo" href="/">First<i>·</i>ome<span class="svc">샘플로</span></a>
-      <nav><a href="/">퍼스트옴 홈</a><a href="/omicsmate/">오믹스메이트</a><a href="/#dx">퍼스트옴 Dx</a></nav></div>
-    <div class="legal"><span>© 2026 Firstome</span><span>사업자 정보 · 개인정보처리방침</span></div>
+    <div class="row"><a class="logo brand" href="/samplo/"><i class="mk"></i>샘플로<small>SAMPLO</small></a>
+      <nav><a href="#track">실시간 추적</a><a href="#qc">QC 선택권</a><a href="#system">수행 체계·키트</a><a href="#biobank">바이오뱅킹</a><a href="#pricing">요금제</a><a href="#contact">문의</a></nav></div>
+    <p class="by-line">샘플로는 <a href="/">퍼스트옴(Firstome)</a>의 사업 브랜드입니다. 패밀리: <a href="/omicsmate/">오믹스메이트</a> · <a href="/dx/">퍼스트옴 Dx</a></p>
+    <div class="legal"><span>© 2026 Samplo</span><span>사업자 정보 · 개인정보처리방침</span></div>
   </div>
 </footer>
 
