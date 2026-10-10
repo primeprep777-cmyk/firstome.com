@@ -95,3 +95,29 @@ body{--c:var(--blue)}
 #om-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--ink);color:#fff;padding:12px 18px;border-radius:10px;font-size:14.5px;transition:all .25s;z-index:50;max-width:calc(100vw - 32px)}
 #om-toast.on{opacity:1;transform:translate(-50%,0)}
 #om-toast.bad{background:var(--red)}
+.om-quote-link{display:block;font-size:13px;color:var(--muted);margin-top:8px;text-align:center}
+[hidden]{display:none!important}
+
+/* 견적서 */
+.om-quote{background:#fff;color:#111;border:1px solid var(--line);border-radius:6px;padding:40px clamp(18px,4vw,48px);max-width:820px;margin:0 auto}
+.om-quote-head{text-align:center;margin-bottom:28px}
+.om-quote h1{font-size:30px;letter-spacing:.4em}
+.om-quote h3{font-size:14px;margin:0 0 8px;color:var(--muted)}
+.om-quote-parties{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:640px){.om-quote-parties{grid-template-columns:1fr}}
+.om-quote-parties table{width:100%;border-collapse:collapse;font-size:14px}
+.om-quote-parties th,.om-quote-parties td{border:1px solid #d5d5cf;padding:7px 9px;text-align:left;vertical-align:top}
+.om-quote-parties th{width:104px;white-space:nowrap;background:#f5f5f2;font-weight:500;color:#555}
+.om-quote-total{margin:26px 0 14px;font-size:17px;border-top:2px solid #111;border-bottom:1px solid #111;padding:12px 4px}
+.om-quote-total b{font-size:21px;margin-left:8px}
+.om-quote-items{width:100%;border-collapse:collapse;font-size:14px}
+.om-quote-items th,.om-quote-items td{border:1px solid #d5d5cf;padding:9px;text-align:left;vertical-align:top}
+.om-quote-items thead th{white-space:nowrap}
+.om-quote-items thead th,.om-quote-items tfoot th{background:#f5f5f2;font-weight:500}
+.om-quote-items .num{text-align:right;white-space:nowrap;font-family:var(--f-mono)}
+@media print{
+  .fam,header.top,.om-noprint,#om-toast{display:none!important}
+  body,html{background:#fff!important}
+  #om-main{padding:0;max-width:none}
+  .om-quote{border:0;padding:0}
+}

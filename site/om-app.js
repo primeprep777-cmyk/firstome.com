@@ -14,8 +14,10 @@
     tier: { bronze: "Bronze", silver: "Silver", gold: "Gold", platinum: "Platinum" },
     band: ["기본", "표준", "확장", "심화", "대규모"],
     samples: ["1~3개", "4~6개", "8개", "12개", "약 24개", "약 36개", "약 48개", "약 72개", "약 96개", "약 150개", "약 200개", "300개 이상"],
-    status: { review: "검수 대기", open: "입찰 중", closed: "입찰 마감", selected: "선정 · 입금 대기", in_progress: "진행 중", delivered: "결과 제출됨", completed: "완료", cancelled: "취소", disputed: "분쟁 조정 중" },
+    status: { review: "검수 대기", open: "입찰 중", closed: "입찰 마감", selected: "선정 · 결제 대기", in_progress: "진행 중", delivered: "결과 제출됨", completed: "완료", cancelled: "취소", disputed: "분쟁 조정 중" },
     bidStatus: { submitted: "제출", withdrawn: "철회", selected: "선정", rejected: "미선정" },
+    payMethod: { transfer: "계좌이체", card: "카드", research_card: "연구비 카드" },
+    docType: { tax_invoice: "세금계산서", cash_receipt: "현금영수증", none: "필요 없음" },
     expertStatus: { pending: "심사 중", approved: "승인", rejected: "반려", suspended: "정지" }
   };
 
@@ -109,6 +111,14 @@
     $("#om-logout").onclick = async function () { await sb.auth.signOut(); location.href = "/omicsmate/"; };
   }
 
+  // 입찰 금액은 부가세 포함 총액: 공급가액 = 금액 ÷ 1.1
+  function vatSplit(total) { var supply = Math.round(total / 1.1); return { supply: supply, vat: total - supply, total: total }; }
+  function amountDl(total) {
+    var v = vatSplit(total);
+    return '<dl class="om-dl" style="margin-top:14px"><dt>결제 금액</dt><dd><b>' + won(v.total) + '</b> <small class="om-dim">부가세 포함</small></dd>' +
+      "<dt>공급가액</dt><dd>" + won(v.supply) + "</dd><dt>부가세</dt><dd>" + won(v.vat) + "</dd></dl>";
+  }
+
   function scopeText(arr) { return (arr || []).map(function (s) { return L.scope[s] || s; }).join(", "); }
   function reqSummary(r) {
     return '<dl class="om-dl">' +
@@ -147,6 +157,6 @@
     sb: sb, ready: ready, KAKAO: KAKAO, L: L, me: function () { return me; },
     esc: esc, won: won, date: date, dleft: dleft, qs: qs, $: $, $$: $$, chip: chip, formData: formData,
     toast: toast, errMsg: errMsg, run: run, unwrap: unwrap, session: session, requireLogin: requireLogin,
-    header: header, notReady: notReady, scopeText: scopeText, reqSummary: reqSummary, fileList: fileList, upload: upload
+    header: header, notReady: notReady, vatSplit: vatSplit, amountDl: amountDl, scopeText: scopeText, reqSummary: reqSummary, fileList: fileList, upload: upload
   };
 })();

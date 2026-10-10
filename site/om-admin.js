@@ -75,14 +75,36 @@
   if (tab === "money") {
     var mr = OM.unwrap(await sb.from("requests").select("*, profiles(name, org), payments(*), bids!requests_selected_bid_fk(amount, days, experts(tier, profiles(name)))")
       .in("status", ["selected", "in_progress", "delivered", "completed", "disputed"]).order("updated_at", { ascending: false }));
+    var bres = await sb.from("billing").select("*"), bills = {};
+    (bres.data || []).forEach(function (b) { bills[b.request_id] = b; });
+    function billText(r) {
+      var b = bills[r.id];
+      if (!b) return "결제 정보 미입력";
+      return L.payMethod[b.method] + " · " + L.docType[b.doc_type] + (b.method !== "transfer" ? (b.card_link_sent ? " · 링크 " + OM.date(b.card_link_sent) + " 발송" : " · 결제 링크 발송 필요") : "");
+    }
+    var toIssue = mr.filter(function (r) { var b = bills[r.id]; return b && b.doc_type !== "none" && b.invoice_status === "requested" && ["in_progress", "delivered", "completed", "disputed"].indexOf(r.status) >= 0; });
     var waitPay = mr.filter(function (r) { return r.status === "selected"; });
     var toPay = mr.filter(function (r) { return r.status === "completed" && r.payments && !r.payments.payout_at; });
     var running = mr.filter(function (r) { return ["in_progress", "delivered", "disputed"].indexOf(r.status) >= 0; });
     var paidOut = mr.filter(function (r) { return r.status === "completed" && r.payments && r.payments.payout_at; });
     function line(r) { var b = r.bids || {}, e = b.experts || {}; return OM.won(b.amount) + " · 전문가 " + esc((e.profiles || {}).name || "") + " (" + esc(L.tier[e.tier] || "") + ")"; }
     main.innerHTML = head +
-      '<div class="om-card"><h2>입금 확인 대기 ' + waitPay.length + "건</h2>" + (waitPay.length ? '<ul class="om-list">' + waitPay.map(function (r) {
-        return reqRow(r, "<span>" + line(r) + '</span><button class="btn primary sm" data-paid="' + r.id + '">입금 확인</button>');
+      '<div class="om-card"><h2>결제 확인 대기 ' + waitPay.length + "건</h2>" + (waitPay.length ? '<ul class="om-list">' + waitPay.map(function (r) {
+        var b = bills[r.id];
+        return reqRow(r, "<span>" + line(r) + "</span><span>" + esc(billText(r)) + "</span>" +
+          (b && b.method !== "transfer" && !b.card_link_sent ? '<button class="btn ghost sm" data-link="' + r.id + '">링크 보냄</button>' : "") +
+          '<button class="btn primary sm" data-paid="' + r.id + '">결제 확인</button>');
+      }).join("") + "</ul>" : '<p class="om-dim">없음</p>') + "</div>" +
+      '<div class="om-card"><h2>세금계산서 · 현금영수증 발행 대기 ' + toIssue.length + "건</h2>" +
+      '<p class="om-dim">결제가 확인된 건입니다. 홈택스에서 발행한 뒤 "발행 완료"를 눌러 주세요. 금액은 부가세 포함 총액 기준입니다.</p>' +
+      (toIssue.length ? '<ul class="om-list">' + toIssue.map(function (r) {
+        var b = bills[r.id], v = OM.vatSplit((r.bids || {}).amount || 0);
+        var dl = '<dl class="om-dl" style="padding:0 4px 16px"><dt>종류</dt><dd>' + esc(L.docType[b.doc_type]) + " · " + esc(L.payMethod[b.method]) + "</dd>" +
+          (b.doc_type === "tax_invoice" ? "<dt>사업자번호</dt><dd>" + esc(b.biz_no) + "</dd><dt>상호</dt><dd>" + esc(b.biz_name) + "</dd><dt>대표자</dt><dd>" + esc(b.ceo) + "</dd>" +
+            (b.biz_address ? "<dt>주소</dt><dd>" + esc(b.biz_address) + "</dd>" : "") + "<dt>받는 메일</dt><dd>" + esc(b.email) + "</dd>" : "<dt>번호</dt><dd>" + esc(b.biz_no) + "</dd>") +
+          "<dt>금액</dt><dd>공급가액 " + OM.won(v.supply) + " · 부가세 " + OM.won(v.vat) + " · 합계 " + OM.won(v.total) + "</dd>" +
+          (b.project_no ? "<dt>과제번호</dt><dd>" + esc(b.project_no) + "</dd>" : "") + (b.memo ? "<dt>요청</dt><dd>" + esc(b.memo) + "</dd>" : "") + "</dl>";
+        return reqRow(r, '<button class="btn primary sm" data-issued="' + r.id + '">발행 완료</button>', dl);
       }).join("") + "</ul>" : '<p class="om-dim">없음</p>') + "</div>" +
       '<div class="om-card"><h2>전문가 지급 대기 ' + toPay.length + "건</h2>" + (toPay.length ? '<ul class="om-list">' + toPay.map(function (r) {
         var p = r.payments; return reqRow(r, "<span>지급액 " + OM.won(p.payout_amount) + " (수수료 " + Math.round(p.fee_rate * 100) + '%)</span><button class="btn primary sm" data-payout="' + r.id + '">지급 완료</button>');
@@ -93,7 +115,9 @@
       '<div class="om-card"><h2>지급 완료 ' + paidOut.length + "건</h2>" + (paidOut.length ? '<ul class="om-list">' + paidOut.map(function (r) {
         return reqRow(r, "<span>" + OM.won(r.payments.payout_amount) + " · " + OM.date(r.payments.payout_at) + "</span>");
       }).join("") + "</ul>" : '<p class="om-dim">없음</p>') + "</div>";
-    OM.$$("[data-paid]").forEach(function (b) { b.onclick = function () { rpc(b, "confirm_payment", { req: b.dataset.paid }, "의뢰인 입금을 확인했나요? 진행 중으로 바뀝니다."); }; });
+    OM.$$("[data-paid]").forEach(function (b) { b.onclick = function () { rpc(b, "confirm_payment", { req: b.dataset.paid }, "의뢰인 결제(입금 또는 카드)를 확인했나요? 진행 중으로 바뀝니다."); }; });
+    OM.$$("[data-link]").forEach(function (b) { b.onclick = function () { rpc(b, "mark_card_link_sent", { req: b.dataset.link }, "카드 결제 링크를 의뢰인에게 보냈나요?"); }; });
+    OM.$$("[data-issued]").forEach(function (b) { b.onclick = function () { rpc(b, "mark_invoice_issued", { req: b.dataset.issued }, "홈택스에서 발행을 마쳤나요? 의뢰인 화면에 발행 완료로 표시됩니다."); }; });
     OM.$$("[data-payout]").forEach(function (b) { b.onclick = function () { rpc(b, "mark_payout", { req: b.dataset.payout }, "전문가에게 지급을 마쳤나요?"); }; });
     OM.$$("[data-dispute]").forEach(function (b) {
       b.onclick = function () { var note = prompt("분쟁 사유"); if (note) rpc(b, "mark_dispute", { req: b.dataset.dispute, note: note }); };
@@ -109,8 +133,11 @@
 
   if (tab === "settings") {
     var st = {}; OM.unwrap(await sb.from("settings").select("*")).forEach(function (s) { st[s.key] = s.value; });
-    var fee = st.fee_rate || {};
+    var fee = st.fee_rate || {}, co = st.company || {};
     main.innerHTML = head + '<div class="om-card"><form class="om-form" id="f-set">' +
+      '<div class="om-field">회사 정보 <small>견적서의 공급자 칸에 나옵니다. 비어 있으면 "법인 설립 후 기재"로 표시됩니다.</small><div class="om-grid2">' +
+      [["co_name", "상호", co.name || "퍼스트옴"], ["co_biz_no", "사업자등록번호", co.biz_no], ["co_ceo", "대표자", co.ceo], ["co_phone", "연락처", co.phone], ["co_email", "메일", co.email], ["co_address", "주소", co.address]]
+        .map(function (f) { return "<label>" + f[1] + '<input type="text" name="' + f[0] + '" value="' + esc(f[2] || "") + '"></label>'; }).join("") + "</div></div>" +
       '<label>입금 안내 <small>선정 후 의뢰인 화면에 보입니다. 예: 국민은행 000-000000-00-000 (주)퍼스트옴</small><input type="text" name="bank" value="' + esc((st.bank || {}).text || "") + '"></label>' +
       '<label>입찰 기간 (일) <small>공개 후 입찰을 받는 기간</small><input type="number" name="bid_days" min="1" max="60" value="' + esc(st.bid_days || 7) + '"></label>' +
       '<div class="om-field">등급별 수수료율 (%) <small>입찰 금액에서 떼는 비율. 이미 입금 확인된 건에는 적용되지 않습니다.</small><div class="om-grid2">' +
@@ -121,7 +148,8 @@
       e.preventDefault(); var d = OM.formData(this), btn = this.querySelector("button[type=submit]"), fr = {};
       Object.keys(L.tier).forEach(function (t) { fr[t] = Math.round(+d["fee_" + t] * 10) / 1000; });
       OM.run(btn, async function () {
-        OM.unwrap(await sb.from("settings").upsert([{ key: "bank", value: { text: d.bank } }, { key: "bid_days", value: +d.bid_days || 7 }, { key: "fee_rate", value: fr }]));
+        OM.unwrap(await sb.from("settings").upsert([{ key: "bank", value: { text: d.bank } }, { key: "bid_days", value: +d.bid_days || 7 }, { key: "fee_rate", value: fr },
+          { key: "company", value: { name: d.co_name, biz_no: d.co_biz_no, ceo: d.co_ceo, phone: d.co_phone, email: d.co_email, address: d.co_address } }]));
         OM.toast("저장했습니다.");
       });
     };
