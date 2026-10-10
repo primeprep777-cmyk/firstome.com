@@ -59,6 +59,7 @@
     if (/already registered/i.test(m)) return "이미 가입된 이메일입니다. 로그인해 주세요.";
     if (/row-level security|permission denied/i.test(m)) return "이 작업을 할 권한이 없습니다.";
     if (/Password should be/i.test(m)) return "비밀번호는 8자 이상으로 정해 주세요.";
+    if (/Failed to fetch|NetworkError|Load failed|network/i.test(m)) return "서버에 연결하지 못했습니다. 잠시 뒤 다시 시도하거나 카카오톡 채널로 문의해 주세요.";
     return m;
   }
   async function run(btn, fn) {
