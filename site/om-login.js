@@ -51,13 +51,13 @@
 
   main.innerHTML =
     '<div class="om-auth"><div class="om-head"><div><h1>오믹스메이트</h1><p>분석 의뢰와 전문가 입찰을 한곳에서</p></div></div>' +
-    '<div class="om-card"><div class="om-tabs" role="tablist"><button type="button" data-go="login">로그인</button><button type="button" data-go="signup">회원가입</button></div>' +
+    '<div class="om-card"><div class="om-tabs" role="tablist"><button type="button" role="tab" aria-selected="false" data-go="login">로그인</button><button type="button" role="tab" aria-selected="false" data-go="signup">회원가입</button></div>' +
     '<div id="om-auth-body"></div></div></div>';
   var body = OM.$("#om-auth-body");
 
   function show(v, html) {
     body.innerHTML = html || views[v];
-    OM.$$(".om-tabs button", main).forEach(function (b) { b.classList.toggle("on", b.dataset.go === v); });
+    OM.$$(".om-tabs button", main).forEach(function (b) { b.classList.toggle("on", b.dataset.go === v); b.setAttribute("aria-selected", String(b.dataset.go === v)); });
     var f = body.querySelector("form"); if (f) { f.onsubmit = handlers[f.id]; var i = f.querySelector("input:not([type=radio])"); if (i) i.focus(); }
   }
   main.addEventListener("click", function (e) { var t = e.target.closest("[data-go]"); if (t) show(t.dataset.go); });

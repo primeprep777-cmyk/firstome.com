@@ -17,15 +17,23 @@
     if (tr){
       var ol = tr.querySelector('.trk-steps');
       steps.forEach(function(s, i){ var li = document.createElement('li'); li.innerHTML = '<i>' + (i+1) + '</i><span>' + s + '</span>'; ol.appendChild(li); });
-      var lis = ol.querySelectorAll('li'), idx = 4;
+      var lis = ol.querySelectorAll('li'), idx = 4, timer = null, paused = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var pb = tr.querySelector('.trk-ctl [data-act=pause]');
       var h = tr.querySelector('.trk-now b'), sub = tr.querySelector('.trk-now span'), bar = tr.querySelector('.trk-bar i');
       function show(){
         lis.forEach(function(li, i){ li.className = i < idx ? 'done' : i === idx ? 'now' : ''; });
         h.textContent = '지금 ' + status[idx][0]; sub.textContent = status[idx][1];
         bar.style.width = ((idx + 1) / steps.length * 100) + '%';
       }
-      show();
-      setInterval(function(){ idx = (idx + 1) % steps.length; show(); }, 2800);
+      function run(){ clearInterval(timer); if (!paused) timer = setInterval(function(){ idx = (idx + 1) % steps.length; show(); }, 2800);
+        if (pb){ pb.textContent = paused ? '▶ 자동 재생' : '❚❚ 멈춤'; pb.setAttribute('aria-pressed', String(paused)); } }
+      lis.forEach(function(li, i){ li.setAttribute('role', 'button'); li.tabIndex = 0; li.setAttribute('aria-label', (i+1) + '단계 ' + steps[i] + ' 보기');
+        function go(){ idx = i; paused = true; show(); run(); }
+        li.addEventListener('click', go); li.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } }); });
+      if (pb) pb.addEventListener('click', function(){ paused = !paused; run(); });
+      tr.addEventListener('mouseenter', function(){ clearInterval(timer); });
+      tr.addEventListener('mouseleave', run);
+      show(); run();
     }
 
     // QC choice
@@ -36,18 +44,18 @@
                   re:'S07을 남은 조직에서 다시 추출합니다. 예상 완료일이 하루 늦어지며 추적 화면에 바로 반영됩니다.',
                   ex:'S07을 이번 의뢰에서 제외하고 23개로 진행합니다. 제외한 시료는 바이오뱅크에 보관합니다.' };
       qc.querySelectorAll('button[data-v]').forEach(function(b){
+        b.setAttribute('aria-pressed', 'false');
         b.addEventListener('click', function(){
-          qc.querySelectorAll('button[data-v]').forEach(function(x){ x.classList.toggle('on', x === b); });
-          out.textContent = msg[b.dataset.v]; out.classList.add('show');
+          qc.querySelectorAll('button[data-v]').forEach(function(x){ x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', String(x === b)); });
+          out.textContent = '예시 · ' + msg[b.dataset.v]; out.classList.add('show');
         });
       });
     }
 
-    // Biobank request
+    // Biobank: 예시 화면 — fake success 대신 실제 경로 안내
     document.querySelectorAll('.bb-row button').forEach(function(b){
       b.addEventListener('click', function(){
-        b.textContent = b.classList.contains('on') ? '꺼내 쓰기' : '신청됨 ✓';
-        b.classList.toggle('on');
+        if (window.v4Toast) v4Toast('예시 화면이에요. 실제 서비스에서는 이 버튼으로 반출·재실험을 신청합니다. 사전 신청은 카카오톡으로 받아요.');
       });
     });
   }
