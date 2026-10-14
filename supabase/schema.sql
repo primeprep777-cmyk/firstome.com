@@ -179,10 +179,12 @@ $$;
 create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
 begin
-  insert into profiles(id, name, org, agreed_at)
+  -- 이름: 가입 화면의 name, 카카오 로그인은 full_name · preferred_username 으로 들어옴
+  insert into profiles(id, name, org, phone, agreed_at)
   values (new.id,
-          coalesce(new.raw_user_meta_data->>'name', ''),
+          coalesce(new.raw_user_meta_data->>'name', new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'preferred_username', ''),
           coalesce(new.raw_user_meta_data->>'org', ''),
+          coalesce(new.raw_user_meta_data->>'phone', ''),
           case when new.raw_user_meta_data ? 'agreed' then now() end)
   on conflict (id) do nothing;
   return new;
