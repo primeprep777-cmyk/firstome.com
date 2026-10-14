@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sql": "cd .. && node review/run-sql.mjs",
+    "regressions": "cd .. && node review/run-regressions.mjs",
+    "browser": "cd .. && node review/browser.mjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.10",
+    "playwright": "1.62.1"
+  }
+}

@@ -161,7 +161,9 @@
     if (!m) { location.replace("/samplo/login/?next=" + encodeURIComponent(location.pathname + location.search)); return null; }
     header(m);
     if (!(await dbReady())) { closed("온라인 의뢰는 오픈 준비 중입니다", "계정은 만들어졌습니다. 의뢰 접수가 열리면 이 화면에서 바로 이용할 수 있습니다."); return null; }
-    if ((window.OM_CONFIG || {}).samplo !== true && !m.isAdmin) {
+    // 브라우저 설정을 바꾸거나 우회해도 DB의 접수 스위치가 닫혀 있으면 폼을 열지 않습니다.
+    var access = m.isAdmin ? null : await sb.from("settings").select("value").eq("key", "sp_access").maybeSingle();
+    if (!m.isAdmin && ((window.OM_CONFIG || {}).samplo !== true || access.error || !access.data || access.data.value.enabled !== true)) {
       closed("온라인 의뢰는 오픈 준비 중입니다", "계정은 만들어졌습니다. 의뢰 접수가 열리면 이 화면에서 바로 이용할 수 있습니다. 지금은 카카오톡 채널에서 상담과 의뢰를 받고 있습니다.");
       return null;
     }
@@ -218,3 +220,4 @@
     chip: chip, qcChip: qcChip, track: track, typeName: typeName, serviceName: serviceName, slotLabel: slotLabel
   };
 })();
+

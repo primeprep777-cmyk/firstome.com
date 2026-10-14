@@ -1,0 +1,417 @@
+{
+  "reviewed_commit": "825ae54ebaaa27bad95632c76304cee2d4c4787c",
+  "environment": {
+    "db": "PGlite 0.5.10 / PostgreSQL 18.6 WASM",
+    "browser": "Chromium 153.0.8010.0",
+    "playwright": "1.62.1",
+    "auth": "simulated; no real Supabase connection"
+  },
+  "existing_sql": [
+    {
+      "baseline": true,
+      "suite": "flow",
+      "statements": 109,
+      "result": "PASS",
+      "version": {
+        "version": "PostgreSQL 18.6 (PGlite 0.5.10) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.5 (1db513782be24469589d7cb8a1f1834e9a33f271), 32-bit"
+      }
+    },
+    {
+      "baseline": true,
+      "suite": "billing",
+      "statements": 42,
+      "result": "PASS",
+      "version": {
+        "version": "PostgreSQL 18.6 (PGlite 0.5.10) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.5 (1db513782be24469589d7cb8a1f1834e9a33f271), 32-bit"
+      }
+    },
+    {
+      "baseline": true,
+      "suite": "samplo",
+      "statements": 196,
+      "result": "PASS",
+      "version": {
+        "version": "PostgreSQL 18.6 (PGlite 0.5.10) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.5 (1db513782be24469589d7cb8a1f1834e9a33f271), 32-bit"
+      }
+    },
+    {
+      "baseline": false,
+      "suite": "flow",
+      "statements": 109,
+      "result": "PASS",
+      "version": {
+        "version": "PostgreSQL 18.6 (PGlite 0.5.10) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.5 (1db513782be24469589d7cb8a1f1834e9a33f271), 32-bit"
+      }
+    },
+    {
+      "baseline": false,
+      "suite": "billing",
+      "statements": 42,
+      "result": "PASS",
+      "version": {
+        "version": "PostgreSQL 18.6 (PGlite 0.5.10) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.5 (1db513782be24469589d7cb8a1f1834e9a33f271), 32-bit"
+      }
+    },
+    {
+      "baseline": false,
+      "suite": "samplo",
+      "statements": 197,
+      "result": "PASS",
+      "version": {
+        "version": "PostgreSQL 18.6 (PGlite 0.5.10) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.5 (1db513782be24469589d7cb8a1f1834e9a33f271), 32-bit"
+      }
+    }
+  ],
+  "regressions": [
+    {
+      "baseline": true,
+      "checks": [
+        {
+          "name": "only boolean true records Samplo consent",
+          "passed": false
+        },
+        {
+          "name": "closed DB rejects direct order RPC",
+          "passed": false
+        },
+        {
+          "name": "closed DB rejects direct topup RPC",
+          "passed": false
+        },
+        {
+          "name": "missing DB switch fails closed",
+          "passed": false
+        },
+        {
+          "name": "sequence 10000 preserved in order number",
+          "passed": false
+        },
+        {
+          "name": "completed order cannot reopen",
+          "passed": false
+        },
+        {
+          "name": "other customer sees zero orders",
+          "passed": true
+        },
+        {
+          "name": "other customer sees zero samples",
+          "passed": true
+        },
+        {
+          "name": "other customer sees zero events",
+          "passed": true
+        },
+        {
+          "name": "other customer sees zero ledger rows",
+          "passed": true
+        },
+        {
+          "name": "other customer sees zero topups",
+          "passed": true
+        },
+        {
+          "name": "other customer cannot decide QC",
+          "passed": true
+        },
+        {
+          "name": "other customer cannot adjust credit",
+          "passed": true
+        },
+        {
+          "name": "private gate helper not executable",
+          "passed": false
+        }
+      ]
+    },
+    {
+      "baseline": false,
+      "checks": [
+        {
+          "name": "only boolean true records Samplo consent",
+          "passed": true
+        },
+        {
+          "name": "closed DB rejects direct order RPC",
+          "passed": true
+        },
+        {
+          "name": "closed DB rejects direct topup RPC",
+          "passed": true
+        },
+        {
+          "name": "missing DB switch fails closed",
+          "passed": true
+        },
+        {
+          "name": "sequence 10000 preserved in order number",
+          "passed": true
+        },
+        {
+          "name": "completed order cannot reopen",
+          "passed": true
+        },
+        {
+          "name": "other customer sees zero orders",
+          "passed": true
+        },
+        {
+          "name": "other customer sees zero samples",
+          "passed": true
+        },
+        {
+          "name": "other customer sees zero events",
+          "passed": true
+        },
+        {
+          "name": "other customer sees zero ledger rows",
+          "passed": true
+        },
+        {
+          "name": "other customer sees zero topups",
+          "passed": true
+        },
+        {
+          "name": "other customer cannot decide QC",
+          "passed": true
+        },
+        {
+          "name": "other customer cannot adjust credit",
+          "passed": true
+        },
+        {
+          "name": "private gate helper not executable",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "browser": [
+    {
+      "label": "closed-server-switch",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "signup",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "signup-confirmation",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "customer-empty",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "wizard-step1",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "wizard-step2",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "wizard-step3",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "wizard-step4",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "wizard-step5",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "order-submitted",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "order-qc",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "order-refunded",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "topup-requested",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "topup-paid",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "order-charge-qc-decision-refund",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "label": "admin-new",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "admin-progress",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "admin-credit",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "admin-settings",
+      "width": 390,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "closed-server-switch",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "signup",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "signup-confirmation",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "customer-empty",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "wizard-step1",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "wizard-step2",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "wizard-step3",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "wizard-step4",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "wizard-step5",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "order-submitted",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "order-qc",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "order-refunded",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "topup-requested",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "topup-paid",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "order-charge-qc-decision-refund",
+      "width": 1280,
+      "passed": true
+    },
+    {
+      "label": "admin-new",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "admin-progress",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "admin-credit",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    },
+    {
+      "label": "admin-settings",
+      "width": 1280,
+      "documentOverflow": false,
+      "renderError": false
+    }
+  ]
+}
