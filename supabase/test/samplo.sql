@@ -1,6 +1,7 @@
 \set ON_ERROR_STOP 1
 -- 샘플로 의뢰 흐름 · 권한 · 입력 검사 확인. stub → schema → billing → samplo 순서로 실행한 빈 DB에서 돌립니다.
 -- users: A 운영자, C 의뢰인(샘플로 가입, 정보 입력 완료), N 카카오 가입(정보 미입력), O 오믹스메이트 가입(샘플로 약관 미동의), X 다른 의뢰인
+update settings set value = '{"enabled":true}' where key = 'sp_access';
 insert into auth.users(id, raw_user_meta_data) values
  ('00000000-0000-0000-0000-00000000000a','{"name":"운영자","agreed":true}'),
  ('00000000-0000-0000-0000-00000000000c','{"name":"연구자","org":"KAIST","phone":"010-1234-5678","agreed":true,"sp_agreed":true}'),
@@ -287,3 +288,4 @@ select sp_save_order(null, pg_temp.order_json() || jsonb_build_object('pickup_da
 select pg_temp.expect_err($q$select sp_save_order(null, pg_temp.order_json() || jsonb_build_object('pickup_date', sp_today()::text, 'pickup_slot', 'eve'), pg_temp.one_sample((sp_today()-2)::text))$q$, '시간 안에 수거');
 reset role;
 select set_config('t.now', '', false);
+

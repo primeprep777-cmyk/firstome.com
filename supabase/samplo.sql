@@ -21,6 +21,7 @@ alter table public.profiles add column if not exists sp_agreed_at timestamptz;
 -- 이미 설정이 있으면 덮어쓰지 않습니다 (on conflict do nothing). ord 는 고객 화면에 보이는 순서입니다 (jsonb 는 키 순서를 지키지 않음).
 -- 바이오뱅크 보관은 아직 사전 신청만 받으므로 서비스에 넣지 않았습니다. 열 때 운영 화면 > 설정에서 더합니다.
 insert into public.settings(key, value) values
+  ('sp_access', '{"enabled": false}'::jsonb),
   ('sp_criteria', $j${
     "max_samples": 200,
     "types": {
@@ -173,6 +174,15 @@ language sql stable security definer set search_path = public as $$
   select value from settings where key = k
 $$;
 
+-- 브라우저 설정과 별도로 DB에서 신규 의뢰·충전 접수를 차단합니다. 누락 시에도 닫힘.
+create or replace function public.sp_require_open() returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if not is_admin() and (sp_setting('sp_access')->'enabled') is distinct from 'true'::jsonb then
+    raise exception '온라인 의뢰는 오픈 준비 중입니다';
+  end if;
+end $$;
+
 -- 사업자등록번호 검증 (10자리 + 검증 숫자)
 create or replace function public.sp_biz_no_ok(v text) returns boolean
 language plpgsql immutable as $$
@@ -214,7 +224,7 @@ language sql stable security definer set search_path = public as $$ select sp_ba
 create or replace function public.sp_handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
 begin
-  if new.raw_user_meta_data ? 'sp_agreed' then
+  if new.raw_user_meta_data->'sp_agreed' = 'true'::jsonb then
     update profiles set sp_agreed_at = now() where id = new.id;
   end if;
   return new;
@@ -283,9 +293,10 @@ declare
   v_pay text := coalesce(nullif(o->>'pay_method', ''), 'invoice');
   v_left text := coalesce(nullif(o->>'leftover', ''), 'undecided');
   n int; i int := 0; nm text; cd date; cdt text; amt numeric; names text[] := '{}';
-  oid uuid; ono text; v_st text;
+  oid uuid; ono text; v_st text; order_seq bigint;
 begin
   if auth.uid() is null then raise exception '로그인이 필요합니다'; end if;
+  perform sp_require_open();
   -- 이름 · 소속 · 휴대폰이 제대로 들어 있고 샘플로 약관에 동의한 회원만 ('회원 정보' 문구로 화면이 정보 입력 카드를 띄움)
   if not exists (select 1 from profiles where id = auth.uid() and sp_agreed_at is not null and sp_phone_ok(phone)
                    and length(btrim(name)) >= 2 and length(btrim(org)) >= 2) then
@@ -397,7 +408,8 @@ begin
   end loop;
 
   if p_id is null then
-    ono := 'S-' || to_char(now() at time zone 'Asia/Seoul', 'YYMM') || '-' || lpad(nextval('sp_order_seq')::text, 4, '0');
+    order_seq := nextval('sp_order_seq');
+    ono := 'S-' || to_char(now() at time zone 'Asia/Seoul', 'YYMM') || '-' || lpad(order_seq::text, greatest(4, length(order_seq::text)), '0');
     insert into sp_orders(order_no, client_id, sample_type, service, lab_name, pi_name, contact_phone, pickup_date, pickup_slot,
                           pickup_addr, pickup_addr2, irb_no, leftover, memo, pay_method, biz_name, biz_no, invoice_email)
     values (ono, auth.uid(), v_type, v_service, btrim(o->>'lab_name'), btrim(o->>'pi_name'), btrim(o->>'contact_phone'), v_date, v_slot,
@@ -502,6 +514,7 @@ begin
   end if;
   select status into cur from sp_orders where id = p_id for update;
   if cur is null then raise exception '의뢰를 찾을 수 없습니다'; end if;
+  if cur = 'completed' then raise exception '완료된 의뢰의 단계는 변경할 수 없습니다'; end if;
   if cur in ('submitted','cancelled') then raise exception '접수 확정 전이거나 취소된 의뢰입니다'; end if;
   update sp_orders set status = new_status, eta = coalesce(p_eta, eta),
          completed_at = case when new_status = 'completed' then now() else null end
@@ -572,6 +585,7 @@ language plpgsql security definer set search_path = public as $$
 declare c jsonb := sp_setting('sp_credit'); u int; tid uuid;
 begin
   if auth.uid() is null then raise exception '로그인이 필요합니다'; end if;
+  perform sp_require_open();
   u := coalesce((c->>'unit')::int, 1000000);
   if p_amount is null or p_amount <= 0 or p_amount % u <> 0 then
     raise exception '충전은 %원 단위로 할 수 있습니다', to_char(u, 'FM999,999,999,990');
@@ -652,7 +666,7 @@ $$;
 -- 권한: Supabase 는 public 에 새로 만드는 함수마다 anon · authenticated 에 실행 권한을 자동으로 줍니다.
 -- 그래서 모두 거둔 뒤 화면에서 쓰는 함수만 로그인한 사람에게 다시 엽니다. sp_setting · sp_log · sp_balance_of 는 위 함수 안에서만 씁니다
 -- (열어 두면 남의 의뢰에 가짜 기록을 남기거나 남의 잔액을 볼 수 있음). 함수를 더하거나 인자를 바꾸면 두 목록에 같이 넣으세요.
-revoke execute on function public.sp_now(), public.sp_today(), public.sp_hour(), public.sp_setting(text), public.sp_biz_no_ok(text),
+revoke execute on function public.sp_require_open(), public.sp_now(), public.sp_today(), public.sp_hour(), public.sp_setting(text), public.sp_biz_no_ok(text),
   public.sp_phone_ok(text), public.sp_email_ok(text), public.sp_is_client(uuid), public.sp_log(uuid, text, text), public.sp_balance_of(uuid),
   public.sp_balance(), public.sp_handle_new_user(),
   public.sp_complete_profile(text, text, text), public.sp_save_order(uuid, jsonb, jsonb), public.sp_cancel_order(uuid, text),
@@ -667,3 +681,4 @@ grant execute on function public.sp_now(), public.sp_today(), public.sp_hour(), 
   public.sp_add_note(uuid, text), public.sp_record_qc(uuid, text, text, text), public.sp_decide(uuid, text), public.sp_mark_invoiced(uuid),
   public.sp_request_topup(int, text, text, text, text, text), public.sp_cancel_topup(uuid), public.sp_confirm_topup(uuid),
   public.sp_adjust_credit(uuid, int, text), public.sp_balances() to authenticated;
+
