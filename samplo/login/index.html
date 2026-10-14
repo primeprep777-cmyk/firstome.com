@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko" data-theme="paper">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>로그인 · 회원가입 · 샘플로 Samplo</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/site/site.css">
+<link rel="stylesheet" href="/site/v3-skin.css">
+<link rel="stylesheet" href="/site/om-app.css">
+<link rel="stylesheet" href="/site/sp-app.css">
+<script src="/site/v3-logos.js"></script>
+<style>
+/* 로그인 화면에만 쓰는 작은 부품 (나중에 sp-app.css 로 옮겨도 됨) */
+.sp-center{text-align:center}
+.sp-pw{position:relative;display:block}
+.om-form .sp-pw input{padding-right:76px}
+.sp-pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;font:inherit;font-size:13.5px;font-weight:500;color:var(--muted);padding:6px 10px;border-radius:6px;cursor:pointer}
+.sp-pw button:hover{color:var(--ink);background:var(--surface2)}
+.sp-rules{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:2px 16px;font-size:13px;font-weight:400;color:var(--dim)}
+.sp-rules li::before{content:"○ "}
+.sp-rules li.on{color:var(--teal)}
+.sp-rules li.on::before{content:"✓ "}
+.sp-kakao-box{display:grid;gap:8px}
+.sp-kakao-box .om-dim{text-align:center;font-size:13px}
+.btn.sp-kakao{width:100%;background:#fee500;color:#191919;border-color:#fee500}
+.btn.sp-kakao:hover{filter:brightness(.97)}
+.sp-or{display:flex;align-items:center;gap:12px;color:var(--dim);font-size:13px;margin:18px 0}
+.sp-or::before,.sp-or::after{content:"";flex:1;height:1px;background:var(--line)}
+.sp-sent ul{margin:12px 0 20px;padding-left:18px}
+.sp-sent p b{overflow-wrap:anywhere}
+.om-auth > .om-dim{margin-top:6px;line-height:1.8}
+</style>
+</head>
+<body class="c-teal">
+<div class="fam"><div class="wrap"><span class="fam-k">Firstome family</span><nav><a href="/">퍼스트옴</a><a class="on" href="/samplo/">샘플로</a><a href="/omicsmate/">오믹스메이트</a><a href="/dx/">퍼스트옴 Dx</a></nav></div></div>
+<header class="top om-top">
+  <div class="wrap">
+    <a class="logo brand" href="/samplo/" aria-label="샘플로 홈"><span data-logo data-logo-kind="C" data-brand="teal"></span><small class="kr">샘플로</small></a>
+    <nav id="om-nav" aria-label="앱 메뉴"></nav>
+  </div>
+</header>
+<main id="om-main"><p class="om-dim">불러오는 중…</p><noscript><div class="om-card om-empty"><h2>자바스크립트를 켜 주세요</h2><p>이 화면은 자바스크립트가 켜져 있어야 열립니다. 브라우저 설정을 확인하거나 카카오톡 채널로 문의해 주세요.</p><a class="btn primary" href="https://pf.kakao.com/_uuXFX/chat" target="_blank" rel="noopener">카카오톡 상담하기</a></div></noscript></main>
+<script src="/site/vendor/supabase-js-2.45.4.js"></script>
+<script src="/site/om-config.js"></script>
+<script src="/site/om-app.js"></script>
+<script src="/site/sp-app.js"></script>
+<script src="/site/sp-login.js"></script>
+</body>
+</html>

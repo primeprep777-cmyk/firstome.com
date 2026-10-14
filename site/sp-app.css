@@ -1,0 +1,95 @@
+/* 샘플로 앱 화면 (로그인 · 내 의뢰 · 의뢰 작성 · 운영). site.css + v3-skin.css + om-app.css 위에 얹습니다.
+   om-app.css 의 공통 부품(om-card, om-form, om-list …)을 그대로 쓰고, 색만 샘플로(teal)로 바꾸고 샘플로 전용 부품을 더합니다. */
+body.c-teal{--c:var(--teal)}
+body.c-teal #om-nav a.on{box-shadow:inset 0 -2px 0 var(--teal)}
+body.c-teal .om-form input:focus,body.c-teal .om-form select:focus,body.c-teal .om-form textarea:focus{outline-color:color-mix(in oklab,var(--teal) 45%,transparent);border-color:var(--teal)}
+body.c-teal .om-checks label:has(input:checked){border-color:var(--teal);background:color-mix(in oklab,var(--teal) 9%,transparent)}
+body.c-teal .om-steps li.now{border-color:var(--teal);color:var(--teal);background:color-mix(in oklab,var(--teal) 8%,transparent)}
+/* 휴대폰: 머리글 높이가 68px 로 고정이라 메뉴가 두 줄이 되면 본문 위로 넘침 → 높이를 내용에 맞추고 이름은 숨김 */
+@media (max-width:600px){body.c-teal header.top .wrap{height:auto;min-height:68px;padding-block:10px}body.c-teal .om-who{display:none}body.c-teal #om-nav{gap:14px}}
+
+/* 상태 표시 */
+.om-chip.sp-s-submitted{background:color-mix(in oklab,var(--amber) 16%,transparent);color:var(--amber)}
+.om-chip.sp-s-confirmed,.om-chip.sp-s-in_transit,.om-chip.sp-s-received,.om-chip.sp-s-extraction,.om-chip.sp-s-library,.om-chip.sp-s-sequencing{background:color-mix(in oklab,var(--teal) 14%,transparent);color:var(--teal)}
+.om-chip.sp-s-data_ready,.om-chip.sp-s-stored,.om-chip.sp-s-completed{background:color-mix(in oklab,var(--blue) 14%,transparent);color:var(--blue)}
+.om-chip.sp-s-cancelled{background:color-mix(in oklab,var(--red) 12%,transparent);color:var(--red)}
+.om-chip.sp-qc-pass{background:color-mix(in oklab,var(--teal) 14%,transparent);color:var(--teal)}
+.om-chip.sp-qc-warn{background:color-mix(in oklab,var(--amber) 16%,transparent);color:var(--amber)}
+.om-chip.sp-qc-fail{background:color-mix(in oklab,var(--red) 12%,transparent);color:var(--red)}
+
+/* 8단계 추적 */
+.sp-track{list-style:none;margin:6px 0 20px;padding:0;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px}
+.sp-track li{display:grid;gap:6px;font-size:12.5px;color:var(--dim);border-top:3px solid var(--line);padding-top:8px;min-width:0}
+.sp-track li i{font-style:normal;font-family:var(--f-mono);font-size:11px}
+.sp-track li span{overflow-wrap:anywhere}
+.sp-track li.done{border-color:color-mix(in oklab,var(--teal) 55%,var(--line));color:var(--ink)}
+.sp-track li.now{border-color:var(--teal);color:var(--teal);font-weight:600}
+@media (max-width:640px){.sp-track{grid-template-columns:repeat(4,minmax(0,1fr));row-gap:12px}}
+
+/* 의뢰 작성: 단계 표시 + 본문/요약 두 칸 */
+.sp-stepper{list-style:none;margin:0 0 18px;padding:0;display:flex;gap:6px;overflow-x:auto}
+.sp-stepper li{flex:1;min-width:76px;font-size:12.5px;color:var(--dim);border-top:3px solid var(--line);padding-top:6px;white-space:nowrap}
+.sp-stepper li.done{border-color:color-mix(in oklab,var(--teal) 55%,var(--line));color:var(--ink)}
+.sp-stepper li.now{border-color:var(--teal);color:var(--ink);font-weight:600}
+/* 좁은 화면: 지금 단계만 이름을 보이고 나머지는 번호만 (5단계가 한 줄에 들어가도록) */
+@media (max-width:560px){.sp-stepper li{flex:0 0 auto;min-width:30px}.sp-stepper li.now{flex:1 1 auto}.sp-stepper li:not(.now) .sp-st-l{display:none}}
+.sp-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px;align-items:start}
+.sp-layout > *{min-width:0}
+.sp-aside{position:sticky;top:16px;display:grid;gap:12px}
+.sp-aside .om-card{padding:18px;margin:0}
+@media (max-width:880px){.sp-layout{grid-template-columns:1fr}.sp-aside{position:static}}
+
+/* 고르는 카드 (시료 종류 · 서비스) */
+.sp-picks{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.sp-pick{text-align:left;font:inherit;border:1px solid var(--line2);background:var(--surface);color:var(--ink);border-radius:10px;padding:12px 14px;cursor:pointer;display:grid;gap:3px}
+.sp-pick b{font-size:15px;font-weight:600}
+.sp-pick small{font-size:13px;color:var(--dim)}
+.sp-pick[aria-pressed="true"]{border-color:var(--teal);background:color-mix(in oklab,var(--teal) 9%,transparent);box-shadow:inset 0 0 0 1px var(--teal)}
+.sp-pick:disabled{opacity:.45;cursor:not-allowed}
+
+/* 칸 아래 안내 · 오류 */
+.sp-msg{font-size:13px;font-weight:500;margin:0}
+.sp-msg:empty{display:none}
+.sp-msg.err{color:var(--red)}
+.sp-msg.warn{color:var(--amber)}
+.sp-msg.ok{color:var(--teal)}
+.om-form .sp-invalid input,.om-form .sp-invalid select,.om-form .sp-invalid textarea,.om-form input.sp-invalid{border-color:var(--red);background:color-mix(in oklab,var(--red) 6%,var(--surface))}
+.sp-callout{border-radius:8px;padding:12px 14px;font-size:14px;margin:0;border:1px solid var(--line)}
+.sp-callout.info{background:color-mix(in oklab,var(--teal) 7%,var(--surface))}
+.sp-callout.warn{background:color-mix(in oklab,var(--amber) 9%,var(--surface))}
+.sp-callout.err{background:color-mix(in oklab,var(--red) 7%,var(--surface));color:var(--red)}
+
+/* 시료 목록 표 */
+.sp-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.sp-table{border-collapse:collapse;width:100%;font-size:14px}
+.sp-table th,.sp-table td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.sp-table th{font-size:12.5px;color:var(--dim);font-weight:500;white-space:nowrap;background:var(--surface2)}
+.sp-table tr:last-child td{border-bottom:0}
+.sp-table td.mono,.sp-table .mono{font-family:var(--f-mono);font-size:12.5px;white-space:nowrap}
+.sp-table input{font:inherit;font-size:14px;width:100%;min-width:90px;padding:7px 9px;border:1px solid var(--line2);border-radius:6px;background:var(--surface);color:var(--ink)}
+.sp-table input.sp-invalid{border-color:var(--red);background:color-mix(in oklab,var(--red) 6%,var(--surface))}
+.sp-cellmsg{display:block;font-size:12px;color:var(--red);margin-top:3px}
+.sp-rm{background:none;border:0;color:var(--dim);cursor:pointer;font-size:18px;line-height:1;padding:6px 8px}
+.sp-rm:hover{color:var(--red)}
+.sp-paste{font-family:var(--f-mono)!important;font-size:13px!important;min-height:96px!important}
+
+/* 잔액 · 금액 */
+.sp-num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.sp-balance{font-size:28px;font-weight:600;font-family:var(--f-mono);letter-spacing:-.02em}
+
+/* 진행 기록 */
+.sp-log{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:14.5px}
+.sp-log li{display:grid;grid-template-columns:88px 1fr;gap:12px}
+.sp-log time{font-family:var(--f-mono);font-size:12.5px;color:var(--dim);padding-top:2px}
+
+/* 튜브 라벨 */
+.sp-labels{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.sp-label{border:1px dashed var(--line2);border-radius:6px;padding:8px 10px;font-family:var(--f-mono);font-size:12px;line-height:1.45;background:var(--surface);break-inside:avoid}
+.sp-label b{font-size:13px;color:var(--ink)}
+@media print{
+  .sp-print-only{display:block!important}
+  .sp-noprint,.sp-aside{display:none!important}
+  .sp-labels{grid-template-columns:repeat(3,1fr)}
+  .sp-label{border:1px solid #999}
+}
+.sp-print-only{display:none}
