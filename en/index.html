@@ -21,7 +21,13 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/site/v3.css">
 <script src="/site/v3-logos.js"></script>
+<script src="/site/om-config.js"></script>
+<script>
+// 샘플로 온라인 의뢰가 열렸는지 (한국어 메인 · samplo/index.html 과 같은 스위치): 주소 · 키가 있고 samplo: true 일 때만
+if (window.OM_CONFIG && OM_CONFIG.url && OM_CONFIG.anonKey && OM_CONFIG.samplo === true) document.documentElement.classList.add('sp-online');
+</script>
 <style>
+html:not(.sp-online) [data-app="on"],html.sp-online [data-app="off"]{display:none!important}
 html[lang="en"]{--f-kr:"IBM Plex Sans","IBM Plex Sans KR",system-ui,sans-serif}
 html[lang="en"] body{letter-spacing:-.005em;word-break:normal}
 html[lang="en"] .hero h1{letter-spacing:-.045em;font-size:clamp(44px,7.6vw,136px)}
@@ -83,11 +89,11 @@ html[lang="en"] .sh h2{letter-spacing:-.04em}
       <h1 data-split>The <span class="it">first mile</span><br>of omics, made<br>simple.</h1>
       <div class="row">
         <p class="lead rv" data-d="300">From the moment a sample arrives to the moment its data feeds the next study, Firstome runs the hardest stretch of omics research under one standard, and shows you where things are at every step.</p>
-        <div class="status rv" data-d="400"><span class="live"><i></i>Opening in stages · Korea 2026</span><p>Open now: <b>consultations on KakaoTalk</b> and <b>OmicsMate online requests and expert bidding</b>. Samplo sample intake opens next. <a href="#roadmap">See roadmap</a></p></div>
+        <div class="status rv" data-d="400"><span class="live"><i></i>Opening in stages · Korea 2026</span><p><span data-app="off">Open now: <b>consultations on KakaoTalk</b> and <b>OmicsMate online requests and expert bidding</b>. Samplo sample intake opens next.</span><span data-app="on">Open now: <b>consultations on KakaoTalk</b>, <b>OmicsMate online requests and expert bidding</b>, and <b>Samplo online sample requests</b> (in Korean).</span> <a href="#roadmap">See roadmap</a></p></div>
       </div>
       <nav class="route" aria-label="Go by purpose">
         <p class="route-q mono">What brings you here?</p>
-        <a class="rt rv" href="#samplo" style="--c:var(--teal)"><span class="mono">Researchers</span><b>I need sample prep</b><small><i></i>Samplo · consultations open</small><em aria-hidden="true">→</em></a>
+        <a class="rt rv" href="#samplo" style="--c:var(--teal)"><span class="mono">Researchers</span><b>I need sample prep</b><small><i></i><span data-app="off">Samplo · consultations open</span><span data-app="on">Samplo · online requests</span></small><em aria-hidden="true">→</em></a>
         <a class="rt rv" data-d="60" href="#omicsmate" style="--c:var(--blue)"><span class="mono">Researchers</span><b>I need data analysis</b><small><i></i>OmicsMate · online requests open</small><em aria-hidden="true">→</em></a>
         <a class="rt rv" data-d="120" href="#pharma" style="--c:var(--amber)"><span class="mono">Pharma · Biotech · IVD</span><b>I want to discuss a biomarker program</b><small><i></i>Firstome Dx · under NDA</small><em aria-hidden="true">→</em></a>
         <a class="rt rv" data-d="180" href="#contact" style="--c:var(--ink)"><span class="mono">Partners</span><b>I want to partner or invest</b><small><i></i>Firstome · contact the founders</small><em aria-hidden="true">→</em></a>
@@ -149,7 +155,7 @@ html[lang="en"] .sh h2{letter-spacing:-.04em}
         <div><h2 data-split>One sample,<br>six stages, one record.</h2><p class="rv" data-d="200">Every stage is logged in our LIMS and shown on a single tracking screen, including who is responsible for it.</p></div>
       </div>
       <ol class="flow">
-        <li class="rv" style="--c:var(--teal)"><span class="mono">0.0 · Samplo</span><b>Intake</b><p>An order number and barcoded kit are issued. Scanning the kit opens the tracking screen.</p></li>
+        <li class="rv" style="--c:var(--teal)"><span class="mono">0.0 · Samplo</span><b>Intake</b><p data-app="off">An order number and barcoded kit are issued. Scanning the kit opens the tracking screen.</p><p data-app="on">Request online; an order number and tube labels are issued and your order page shows each stage.</p></li>
         <li class="rv" data-d="60" style="--c:var(--teal)"><span class="mono">0.2 · Samplo</span><b>Prep &amp; QC</b><p>Arrival photo, temperature and per-sample QC. If a sample falls short, you decide before we proceed.</p></li>
         <li class="rv" data-d="120" style="--c:var(--dim)"><span class="mono">0.4 · Partner</span><b>Sequencing</b><p>Run by a vetted sequencing partner, shown on the same screen from start to finish.</p></li>
         <li class="rv" data-d="180" style="--c:var(--teal)"><span class="mono">0.6 · Samplo</span><b>Data delivery</b><p>Raw data and QC report on the portal. If the ETA moves, we tell you why, first.</p></li>
@@ -207,7 +213,7 @@ html[lang="en"] .sh h2{letter-spacing:-.04em}
         <div><h2 data-split>Standards first,<br>track record next.</h2><p class="rv" data-d="200">We're still building a track record. So we publish the standards we will be held to, in numbers. If we fall short, we'll correct this page.</p></div>
       </div>
       <div class="pr">
-        <div class="rv" style="--c:var(--teal)"><b>8<small>stages</small></b><h3>Every stage is visible</h3><p>Intake to storage, with a notification each time a stage changes.</p><span class="pr-w mono">Samplo</span></div>
+        <div class="rv" style="--c:var(--teal)"><b>8<small>stages</small></b><h3>Every stage is visible</h3><p data-app="off">Intake to storage, with a notification each time a stage changes.</p><p data-app="on">Intake to storage; every stage shows on your order page as it changes.</p><span class="pr-w mono">Samplo</span></div>
         <div class="rv" data-d="80" style="--c:var(--teal)"><b>3<small>choices</small></b><h3>You decide before we proceed</h3><p>If QC falls short: proceed, re-extract or exclude. We only do what you choose.</p><span class="pr-w mono">Samplo</span></div>
         <div class="rv" data-d="160" style="--c:var(--blue)"><b>1<small>review, then pay</small></b><h3>Escrowed payment</h3><p>Analysis fees are held by the platform and released only after you accept the results.</p><span class="pr-w mono">OmicsMate</span></div>
         <div class="rv" data-d="240" style="--c:var(--amber)"><b>30<small>days' notice</small></b><h3>Storage never lapses silently</h3><p>We ask to extend, return or dispose 30 days before biobank storage expires. Samples remain yours.</p><span class="pr-w mono">Samplo · Dx</span></div>
@@ -270,13 +276,13 @@ html[lang="en"] .sh h2{letter-spacing:-.04em}
         <div><h2 data-split>Questions we hear</h2><p class="rv" data-d="200">Anything else? Ask us on KakaoTalk. English is welcome.</p></div>
       </div>
       <div class="fq rv">
-        <details><summary><span class="n">01</span>Can I send samples today?</summary><div class="a">Not yet. Samplo sample intake opens in stages from 2026. OmicsMate analysis requests are already open online (in Korean). Tell us your sample type, count and planned assay, and we'll let you know when and how we can take them.</div></details>
+        <details><summary><span class="n">01</span>Can I send samples today?</summary><div class="a" data-app="on">Yes, in Korean: sign up at <a href="/samplo/" lang="ko">Samplo</a> and request online; we collect on the date and time slot you pick, including weekends and evenings.</div><div class="a" data-app="off">Not yet. Samplo sample intake opens in stages from 2026. OmicsMate analysis requests are already open online (in Korean). Tell us your sample type, count and planned assay, and we'll let you know when and how we can take them.</div></details>
         <details><summary><span class="n">02</span>Do you accept samples from outside Korea?</summary><div class="a">Our first phase serves labs and hospitals in Korea. International shipments depend on sample type, import permits and cold-chain logistics, so we review them case by case. Get in touch before you ship anything.</div></details>
         <details><summary><span class="n">03</span>Do you sequence in-house?</summary><div class="a">Prep, QC, records, tracking and storage are done by us. Sequencing goes to vetted partners and in-depth analysis to OmicsMate experts. The tracking screen always shows who is handling each stage.</div></details>
         <details><summary><span class="n">04</span>How do you assure quality?</summary><div class="a">We run on GCLP-aligned SOPs with records for training, equipment and raw data. This is an operating standard, not a certification; our accreditation plan is shared during consultation. The laboratory accreditation needed for clinical testing is prepared step by step at the Firstome Dx stage.</div></details>
         <details><summary><span class="n">05</span>Who owns the samples and data?</summary><div class="a">You do. Biobanked samples are used only at your request and within consent. Scope of use is written into the contract, and access is closed when the project ends.</div></details>
         <details><summary><span class="n">06</span>How do pharma collaborations start?</summary><div class="a">With a short, non-confidential intro: stage of interest, indication and modality at a level you can share, and the samples or data you need. We sign an NDA before any detailed discussion.</div></details>
-        <details><summary><span class="n">07</span>When will pricing be published?</summary><div class="a">Samplo pricing is published at launch, with per-order, lab membership and institutional plans. OmicsMate shows a cost band in its <a href="/omicsmate/#estimate" lang="ko">estimator</a>, and the actual price for each request is set by expert bids.</div></details>
+        <details><summary><span class="n">07</span>When will pricing be published?</summary><div class="a"><span data-app="off">Samplo pricing is published at launch, with per-order, lab membership and institutional plans. </span><span data-app="on">Samplo does not publish a price list: the amount is set after reviewing each request and shown only to that customer. </span>OmicsMate shows a cost band in its <a href="/omicsmate/#estimate" lang="ko">estimator</a>, and the actual price for each request is set by expert bids.</div></details>
         <details><summary><span class="n">08</span>Can I pay with research grants?</summary><div class="a">We plan to support quotes, transaction statements, tax invoices and institution-level contracts. Detailed procedures are shared at launch; if your institution needs specific documents, let us know during consultation.</div></details>
       </div>
     </div>

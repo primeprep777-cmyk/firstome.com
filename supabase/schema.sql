@@ -485,6 +485,10 @@ grant execute on function public.open_requests(), public.my_bids(), public.publi
   public.is_admin(), public.tier_rank(text), public.expert_qualifies(uuid), public.is_selected_expert(uuid), public.is_client(uuid),
   public.request_biddable(uuid)
   to authenticated;
+-- Supabase 는 새 함수마다 authenticated 에도 실행 권한을 자동으로 줍니다. 진행 기록을 쓰는 내부 함수는 위 함수들 안에서만 쓰므로
+-- 직접 부르지 못하게 거둡니다 (남의 의뢰에 가짜 기록을 남기는 것을 막음). 위 'all functions' 줄에는 authenticated 를 넣지 않습니다:
+-- 이 파일만 다시 실행할 때 billing.sql · samplo.sql 함수의 권한까지 지워지기 때문입니다.
+revoke execute on function public.log_event(uuid, text, text) from authenticated;
 
 -- ───────────────────────── 파일 저장소 ─────────────────────────
 -- request-files/{의뢰 id}/파일 : 의뢰인이 올리고, 의뢰인·선정된 전문가·운영자만 읽음

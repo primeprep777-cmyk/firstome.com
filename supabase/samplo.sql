@@ -12,29 +12,34 @@
 
 create extension if not exists pgcrypto;
 
+-- ───────────────────────── 회원 (오믹스메이트와 같은 profiles) ─────────────────────────
+-- 샘플로 약관 동의 시각. 오믹스메이트 가입(agreed_at)과 따로 기록합니다.
+alter table public.profiles add column if not exists sp_agreed_at timestamptz;
+
 -- ───────────────────────── 설정 (운영 화면 > 설정에서 바꿈) ─────────────────────────
 -- 아래 숫자는 예시 기준입니다. 오픈 전에 실제 접수 기준으로 바꾸세요.
+-- 이미 설정이 있으면 덮어쓰지 않습니다 (on conflict do nothing). ord 는 고객 화면에 보이는 순서입니다 (jsonb 는 키 순서를 지키지 않음).
+-- 바이오뱅크 보관은 아직 사전 신청만 받으므로 서비스에 넣지 않았습니다. 열 때 운영 화면 > 설정에서 더합니다.
 insert into public.settings(key, value) values
   ('sp_criteria', $j${
     "max_samples": 200,
     "types": {
-      "tissue_ff": {"name": "신선 동결 조직", "unit": "mg",    "min": 10,  "max": 500,  "ship": "드라이아이스", "hours": null},
-      "ffpe":      {"name": "FFPE 블록 · 슬라이드", "unit": "장", "min": 1, "max": 30,   "ship": "상온",        "hours": null},
-      "blood":     {"name": "전혈 (EDTA)",    "unit": "mL",    "min": 1,   "max": 10,   "ship": "냉장 2–8℃",   "hours": 48},
-      "plasma":    {"name": "혈장 · 혈청",    "unit": "mL",    "min": 0.5, "max": 5,    "ship": "드라이아이스", "hours": null},
-      "cells":     {"name": "세포 (펠렛)",    "unit": "만 개", "min": 10,  "max": 1000, "ship": "드라이아이스", "hours": null},
-      "dna":       {"name": "추출 DNA",       "unit": "ng/µL", "min": 10,  "max": 2000, "ship": "아이스팩",     "hours": null},
-      "rna":       {"name": "추출 RNA",       "unit": "ng/µL", "min": 20,  "max": 3000, "ship": "드라이아이스", "hours": null}
+      "tissue_ff": {"ord": 0, "name": "신선 동결 조직", "unit": "mg",    "min": 10,  "max": 500,  "ship": "드라이아이스", "hours": null},
+      "ffpe":      {"ord": 1, "name": "FFPE 블록 · 슬라이드", "unit": "장", "min": 1, "max": 30,   "ship": "상온",        "hours": null},
+      "blood":     {"ord": 2, "name": "전혈 (EDTA)",    "unit": "mL",    "min": 1,   "max": 10,   "ship": "냉장 2–8℃",   "hours": 48},
+      "plasma":    {"ord": 3, "name": "혈장 · 혈청",    "unit": "mL",    "min": 0.5, "max": 5,    "ship": "드라이아이스", "hours": null},
+      "cells":     {"ord": 4, "name": "세포 (펠렛)",    "unit": "만 개", "min": 10,  "max": 1000, "ship": "드라이아이스", "hours": null},
+      "dna":       {"ord": 5, "name": "추출 DNA",       "unit": "ng/µL", "min": 10,  "max": 2000, "ship": "아이스팩",     "hours": null},
+      "rna":       {"ord": 6, "name": "추출 RNA",       "unit": "ng/µL", "min": 20,  "max": 3000, "ship": "드라이아이스", "hours": null}
     },
     "services": {
-      "extract_qc": {"name": "핵산 추출 · QC",        "types": ["tissue_ff","ffpe","blood","plasma","cells"]},
-      "library":    {"name": "라이브러리 제작까지",    "types": ["tissue_ff","ffpe","blood","plasma","cells","dna","rna"]},
-      "wgs":        {"name": "WGS (시퀀싱 연결)",      "types": ["tissue_ff","ffpe","blood","cells","dna"]},
-      "wes":        {"name": "WES (시퀀싱 연결)",      "types": ["tissue_ff","ffpe","blood","cells","dna"]},
-      "rnaseq":     {"name": "RNA-seq (시퀀싱 연결)",  "types": ["tissue_ff","ffpe","blood","cells","rna"]},
-      "scrna":      {"name": "단일세포 RNA-seq",       "types": ["tissue_ff","cells"]},
-      "cfdna":      {"name": "cfDNA",                  "types": ["plasma","blood"]},
-      "biobank":    {"name": "보관만 (바이오뱅크)",    "types": ["tissue_ff","ffpe","blood","plasma","cells","dna","rna"]}
+      "extract_qc": {"ord": 0, "name": "핵산 추출 · QC",        "types": ["tissue_ff","ffpe","blood","plasma","cells"]},
+      "library":    {"ord": 1, "name": "라이브러리 제작까지",    "types": ["tissue_ff","ffpe","blood","plasma","cells","dna","rna"]},
+      "wgs":        {"ord": 2, "name": "WGS (시퀀싱 연결)",      "types": ["tissue_ff","ffpe","blood","cells","dna"]},
+      "wes":        {"ord": 3, "name": "WES (시퀀싱 연결)",      "types": ["tissue_ff","ffpe","blood","cells","dna"]},
+      "rnaseq":     {"ord": 4, "name": "RNA-seq (시퀀싱 연결)",  "types": ["tissue_ff","ffpe","blood","cells","rna"]},
+      "scrna":      {"ord": 5, "name": "단일세포 RNA-seq",       "types": ["tissue_ff","cells"]},
+      "cfdna":      {"ord": 6, "name": "cfDNA",                  "types": ["plasma","blood"]}
     }
   }$j$::jsonb),
   ('sp_pickup', $j${
@@ -147,17 +152,21 @@ create table if not exists public.sp_topups (
   paid_at       timestamptz
 );
 create index if not exists sp_topups_user_idx on public.sp_topups(user_id);
+-- 확인을 기다리는 충전 신청은 회원마다 하나만 (동시에 두 번 눌러도)
+create unique index if not exists sp_topups_one_pending on public.sp_topups(user_id) where status = 'requested';
 
 drop trigger if exists sp_orders_touch on public.sp_orders;
 create trigger sp_orders_touch before update on public.sp_orders for each row execute function public.touch_updated_at();
 
 -- ───────────────────────── 도우미 함수 ─────────────────────────
 
--- 한국 시간 기준 오늘 날짜와 지금 시각(시)
+-- 한국 시간 기준 지금 시각, 오늘 날짜, 지금 시각(시). 날짜 · 시각 규칙은 모두 sp_now() 하나에서 나옵니다.
+create or replace function public.sp_now() returns timestamp
+language sql stable as $$ select (now() at time zone 'Asia/Seoul')::timestamp $$;
 create or replace function public.sp_today() returns date
-language sql stable as $$ select (now() at time zone 'Asia/Seoul')::date $$;
+language sql stable as $$ select public.sp_now()::date $$;
 create or replace function public.sp_hour() returns int
-language sql stable as $$ select extract(hour from now() at time zone 'Asia/Seoul')::int $$;
+language sql stable as $$ select extract(hour from public.sp_now())::int $$;
 
 create or replace function public.sp_setting(k text) returns jsonb
 language sql stable security definer set search_path = public as $$
@@ -200,6 +209,20 @@ $$;
 create or replace function public.sp_balance() returns int
 language sql stable security definer set search_path = public as $$ select sp_balance_of(auth.uid()) $$;
 
+-- 샘플로 가입 화면에서 약관에 동의하고 가입하면(가입 정보에 sp_agreed) 샘플로 약관 동의 시각을 남깁니다.
+-- 오믹스메이트의 on_auth_user_created 가 profiles 행을 먼저 만듭니다 (같은 때 도는 트리거는 이름 순서라 이 트리거가 뒤).
+create or replace function public.sp_handle_new_user() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if new.raw_user_meta_data ? 'sp_agreed' then
+    update profiles set sp_agreed_at = now() where id = new.id;
+  end if;
+  return new;
+end $$;
+drop trigger if exists sp_on_auth_user_created on auth.users;
+create trigger sp_on_auth_user_created after insert on auth.users
+  for each row execute function public.sp_handle_new_user();
+
 -- ───────────────────────── 권한 (RLS) ─────────────────────────
 -- 표는 읽기만 열고, 쓰기는 모두 아래 함수로만 합니다.
 
@@ -226,16 +249,20 @@ create policy sp_topups_read on public.sp_topups for select using (user_id = aut
 
 -- ───────────────────────── 화면에서 부르는 함수 ─────────────────────────
 
--- 가입 뒤 한 번: 이름 · 소속 · 휴대폰 · 약관 동의 (카카오 로그인처럼 가입 화면을 거치지 않은 경우 포함)
+-- 가입 뒤 한 번: 이름 · 소속 · 휴대폰 · 샘플로 약관 동의 (카카오 로그인, 오믹스메이트 가입처럼 샘플로 가입 화면을 거치지 않은 경우 포함)
 create or replace function public.sp_complete_profile(p_name text, p_org text, p_phone text) returns void
 language plpgsql security definer set search_path = public as $$
 begin
   if auth.uid() is null then raise exception '로그인이 필요합니다'; end if;
   if length(btrim(coalesce(p_name, ''))) < 2 then raise exception '이름을 2자 이상 입력해 주세요'; end if;
+  if btrim(p_name) ~ '[ㄱ-ㅎㅏ-ㅣ0-9]' then raise exception '이름에는 숫자나 덜 완성된 글자(ㄱ, ㅏ)를 넣을 수 없습니다'; end if;
+  if length(btrim(p_name)) > 40 then raise exception '이름은 40자 이내로 적어 주세요'; end if;
   if length(btrim(coalesce(p_org, ''))) < 2 then raise exception '소속을 입력해 주세요'; end if;
-  if not sp_phone_ok(p_phone) then raise exception '휴대폰 번호를 확인해 주세요 (010으로 시작하는 10–11자리)'; end if;
+  if length(btrim(p_org)) > 80 then raise exception '소속은 80자 이내로 적어 주세요'; end if;
+  if not sp_phone_ok(p_phone) or length(btrim(p_phone)) > 20 then raise exception '휴대폰 번호를 확인해 주세요 (010으로 시작하는 10–11자리)'; end if;
   insert into profiles(id) values (auth.uid()) on conflict (id) do nothing;
-  update profiles set name = btrim(p_name), org = btrim(p_org), phone = btrim(p_phone), agreed_at = coalesce(agreed_at, now())
+  update profiles set name = btrim(p_name), org = btrim(p_org), phone = btrim(p_phone), agreed_at = coalesce(agreed_at, now()),
+         sp_agreed_at = now()
    where id = auth.uid();
 end $$;
 
@@ -255,12 +282,22 @@ declare
   v_date date; v_slot text := o->>'pickup_slot';
   v_pay text := coalesce(nullif(o->>'pay_method', ''), 'invoice');
   v_left text := coalesce(nullif(o->>'leftover', ''), 'undecided');
-  n int; i int := 0; nm text; cd date; amt numeric; names text[] := '{}';
-  oid uuid; ono text;
+  n int; i int := 0; nm text; cd date; cdt text; amt numeric; names text[] := '{}';
+  oid uuid; ono text; v_st text;
 begin
   if auth.uid() is null then raise exception '로그인이 필요합니다'; end if;
-  if not exists (select 1 from profiles where id = auth.uid() and agreed_at is not null and phone <> '') then
-    raise exception '회원 정보(이름 · 소속 · 휴대폰)와 약관 동의를 먼저 마쳐 주세요';
+  -- 이름 · 소속 · 휴대폰이 제대로 들어 있고 샘플로 약관에 동의한 회원만 ('회원 정보' 문구로 화면이 정보 입력 카드를 띄움)
+  if not exists (select 1 from profiles where id = auth.uid() and sp_agreed_at is not null and sp_phone_ok(phone)
+                   and length(btrim(name)) >= 2 and length(btrim(org)) >= 2) then
+    raise exception '회원 정보(이름 · 소속 · 휴대폰)와 샘플로 약관 동의를 먼저 마쳐 주세요';
+  end if;
+
+  -- 고치기: 내 의뢰이고 접수 확인 전일 때만. 안 되는 까닭을 그대로 알려 줍니다.
+  if p_id is not null then
+    select status into v_st from sp_orders where id = p_id and client_id = auth.uid();
+    if v_st is null then raise exception '의뢰를 찾을 수 없습니다'; end if;
+    if v_st = 'cancelled' then raise exception '취소된 의뢰는 고칠 수 없습니다. 새 의뢰로 다시 접수해 주세요'; end if;
+    if v_st <> 'submitted' then raise exception '접수가 확정된 뒤에는 고칠 수 없습니다. 카카오톡 채널로 문의해 주세요'; end if;
   end if;
 
   -- 시료 종류와 서비스 조합
@@ -273,26 +310,37 @@ begin
 
   -- 연구실 · 연락처 · 주소
   if length(btrim(coalesce(o->>'lab_name', ''))) < 2 then raise exception '기관 · 연구실 이름을 입력해 주세요'; end if;
+  if length(btrim(o->>'lab_name')) > 100 then raise exception '기관 · 연구실 이름은 100자 이내로 적어 주세요'; end if;
   if length(btrim(coalesce(o->>'pi_name', ''))) < 2 then raise exception '연구책임자 이름을 입력해 주세요'; end if;
-  if not sp_phone_ok(o->>'contact_phone') then raise exception '현장 연락처를 확인해 주세요 (010으로 시작하는 10–11자리)'; end if;
+  if length(btrim(o->>'pi_name')) > 50 then raise exception '연구책임자 이름은 50자 이내로 적어 주세요'; end if;
+  if not sp_phone_ok(o->>'contact_phone') or length(btrim(o->>'contact_phone')) > 20 then
+    raise exception '현장 연락처를 확인해 주세요 (010으로 시작하는 10–11자리)';
+  end if;
   if length(btrim(coalesce(o->>'pickup_addr', ''))) < 6 or coalesce(o->>'pickup_addr', '') !~ '[0-9]' then
     raise exception '수거 주소를 건물 번호까지 입력해 주세요 (예: 대학로 103)';
   end if;
+  if length(btrim(o->>'pickup_addr')) > 200 then raise exception '수거 주소는 200자 이내로 적어 주세요'; end if;
   if length(btrim(coalesce(o->>'pickup_addr2', ''))) < 2 then raise exception '상세 주소(건물 · 층 · 호실)를 입력해 주세요'; end if;
+  if length(btrim(o->>'pickup_addr2')) > 100 then raise exception '상세 주소는 100자 이내로 적어 주세요'; end if;
 
-  -- 수거일 · 시간대
-  begin v_date := (o->>'pickup_date')::date; exception when others then v_date := null; end;
+  -- 수거일 · 시간대. 날짜는 화면과 같은 YYYY-MM-DD 만 받습니다 ('tomorrow', '-infinity' 같은 값은 거절).
+  v_date := null;
+  if coalesce(o->>'pickup_date', '') ~ '^\d{4}-\d{2}-\d{2}$' then
+    begin v_date := (o->>'pickup_date')::date; exception when others then v_date := null; end;
+  end if;
   if v_date is null then raise exception '수거 희망일을 골라 주세요'; end if;
   slot := pick->'slots'->v_slot;
   if slot is null then raise exception '수거 시간대를 골라 주세요'; end if;
   if v_date < sp_today() then raise exception '지난 날짜에는 수거할 수 없습니다'; end if;
   if v_date > sp_today() + coalesce((pick->>'max_days_ahead')::int, 60) then
-    raise exception '수거일은 % 일 안에서 골라 주세요', coalesce((pick->>'max_days_ahead')::int, 60);
+    raise exception '수거일은 오늘부터 %일 안에서 골라 주세요', coalesce((pick->>'max_days_ahead')::int, 60);
   end if;
   if not coalesce((pick->>'weekend')::boolean, true) and extract(isodow from v_date) in (6, 7) then
     raise exception '주말에는 수거하지 않습니다. 평일을 골라 주세요';
   end if;
-  if v_date = sp_today() and (slot->>'start')::int - sp_hour() < coalesce((pick->>'lead_hours')::int, 2) then
+  -- 당일 수거: 시간대 시작까지 남은 시간(분 단위)이 lead_hours 이상이어야 함 (11:59 에 13시 시간대는 2시간 여유가 아님)
+  if v_date = sp_today()
+     and (v_date + make_interval(hours => (slot->>'start')::int)) - sp_now() < make_interval(hours => coalesce((pick->>'lead_hours')::int, 2)) then
     raise exception '오늘 % 수거는 마감됐습니다. 더 늦은 시간대나 다른 날을 골라 주세요', slot->>'label';
   end if;
 
@@ -306,32 +354,45 @@ begin
       raise exception '사업자등록번호가 맞지 않습니다. 숫자 10자리를 다시 확인해 주세요';
     end if;
   end if;
+  -- 세금계산서 정보는 충전금 결제여도 저장되므로(나중에 건별 청구로 바꿀 때 씀) 길이는 늘 봅니다
+  if length(btrim(coalesce(o->>'biz_name', ''))) > 100 then raise exception '세금계산서 받을 기관명은 100자 이내로 적어 주세요'; end if;
+  if length(btrim(coalesce(o->>'invoice_email', ''))) > 200 then raise exception '세금계산서 받을 메일 주소가 너무 깁니다'; end if;
+  if length(btrim(coalesce(o->>'biz_no', ''))) > 20 then raise exception '사업자등록번호가 맞지 않습니다. 숫자 10자리를 다시 확인해 주세요'; end if;
   if length(coalesce(o->>'memo', '')) > 1000 then raise exception '요청 사항은 1000자 이내로 적어 주세요'; end if;
   if length(coalesce(o->>'irb_no', '')) > 60 then raise exception 'IRB 번호는 60자 이내로 적어 주세요'; end if;
 
   -- 시료 목록
-  if jsonb_typeof(samples) <> 'array' then raise exception '시료 목록이 비어 있습니다'; end if;
+  if jsonb_typeof(samples) is distinct from 'array' then raise exception '시료 목록이 비어 있습니다'; end if;
   n := jsonb_array_length(samples);
   if n < 1 then raise exception '시료를 1개 이상 입력해 주세요'; end if;
   if n > coalesce((crit->>'max_samples')::int, 200) then
-    raise exception '한 번에 % 개까지 의뢰할 수 있습니다. 나눠서 의뢰해 주세요', coalesce((crit->>'max_samples')::int, 200);
+    raise exception '한 번에 %개까지 의뢰할 수 있습니다. 나눠서 의뢰해 주세요', coalesce((crit->>'max_samples')::int, 200);
   end if;
   for s in select * from jsonb_array_elements(samples) loop
     i := i + 1;
     nm := btrim(coalesce(s->>'name', ''));
-    if nm !~ '^[A-Za-z0-9_-]{1,20}$' then raise exception '%번 시료명 "%": 영문 · 숫자 · - · _ 로 20자 이내로 써 주세요', i, nm; end if;
+    if nm !~ '^[A-Za-z0-9_-]{1,20}$' then raise exception '%번 시료명 "%": 영문 · 숫자 · - · _ 로 20자 이내로 써 주세요', i, left(nm, 40); end if;
     if lower(nm) = any(names) then raise exception '%번 시료명 "%"이(가) 중복됩니다 (대소문자 구분 없음)', i, nm; end if;
     names := names || lower(nm);
-    begin cd := (s->>'collected_on')::date; exception when others then cd := null; end;
-    if cd is null then raise exception '%번 시료(%) 채취일을 입력해 주세요', i, nm; end if;
+    -- 채취일: YYYY-MM-DD, 1900년 이후, 오늘까지
+    cdt := btrim(coalesce(s->>'collected_on', ''));
+    if cdt = '' then raise exception '%번 시료(%) 채취일을 입력해 주세요', i, nm; end if;
+    cd := null;
+    if cdt ~ '^\d{4}-\d{2}-\d{2}$' then
+      begin cd := cdt::date; exception when others then cd := null; end;
+    end if;
+    if cd is null then raise exception '%번 시료(%) 채취일을 YYYY-MM-DD 형식으로 입력해 주세요', i, nm; end if;
+    if cd < date '1900-01-01' then raise exception '%번 시료(%) 채취일을 확인해 주세요', i, nm; end if;
     if cd > sp_today() then raise exception '%번 시료(%) 채취일이 미래입니다', i, nm; end if;
-    if (t->>'hours') is not null and (v_date - cd) * 24 > (t->>'hours')::int then
-      raise exception '%번 시료(%)는 채취 후 %시간 안에 수거해야 합니다. 수거일을 앞당기거나 시료를 다시 채취해 주세요', i, nm, t->>'hours';
+    -- 수거 기한: 채취 시각을 받지 않으므로 가장 늦은 경우(채취일 0시에 채취, 수거일 끝에 수거)로 셈
+    if (t->>'hours') is not null and (v_date - cd + 1) * 24 > (t->>'hours')::int then
+      raise exception '%번 시료(%)는 채취 후 %시간 안에 수거해야 합니다 (채취 시각을 받지 않아 채취일 포함 %일째까지만 됩니다). 수거일을 앞당기거나 시료를 다시 채취해 주세요',
+        i, nm, t->>'hours', floor((t->>'hours')::numeric / 24)::int;
     end if;
     begin amt := (s->>'amount')::numeric; exception when others then amt := null; end;
     if amt is null then raise exception '%번 시료(%) 양을 숫자로 입력해 주세요', i, nm; end if;
     if amt < (t->>'min')::numeric or amt > (t->>'max')::numeric then
-      raise exception '%번 시료(%) 양 % %: 접수 기준은 %–% % 입니다', i, nm, amt, t->>'unit', t->>'min', t->>'max', t->>'unit';
+      raise exception '%번 시료(%) 양 % %: 접수 기준은 %–% %입니다', i, nm, amt, t->>'unit', t->>'min', t->>'max', t->>'unit';
     end if;
   end loop;
 
@@ -351,13 +412,14 @@ begin
            biz_no = btrim(coalesce(o->>'biz_no', '')), invoice_email = btrim(coalesce(o->>'invoice_email', ''))
      where id = p_id and client_id = auth.uid() and status = 'submitted'
     returning id, order_no into oid, ono;
+    -- 위에서 확인한 사이에 운영자가 확정했을 때
     if oid is null then raise exception '접수가 확정된 뒤에는 고칠 수 없습니다. 카카오톡 채널로 문의해 주세요'; end if;
     delete from sp_samples where order_id = oid;
   end if;
 
   insert into sp_samples(order_id, seq, label, name, collected_on, amount)
   select oid, x.ord, ono || '-' || lpad(x.ord::text, case when n > 99 then 3 else 2 end, '0'),
-         btrim(x.v->>'name'), (x.v->>'collected_on')::date, (x.v->>'amount')::numeric
+         btrim(x.v->>'name'), btrim(x.v->>'collected_on')::date, (x.v->>'amount')::numeric
     from jsonb_array_elements(samples) with ordinality as x(v, ord);
 
   perform sp_log(oid, case when p_id is null then 'submitted' else 'updated' end, '');
@@ -373,6 +435,7 @@ begin
   if r.id is null or not (is_admin() or r.client_id = auth.uid()) then raise exception '권한이 없습니다'; end if;
   if r.status in ('completed','cancelled') then raise exception '이미 완료되었거나 취소된 의뢰입니다'; end if;
   if not is_admin() and r.status <> 'submitted' then raise exception '접수가 확정된 뒤에는 카카오톡 채널로 취소를 요청해 주세요'; end if;
+  if length(coalesce(note, '')) > 500 then raise exception '취소 사유는 500자 이내로 적어 주세요'; end if;
   if r.charged > 0 then
     insert into sp_ledger(user_id, amount, kind, order_id, note) values (r.client_id, r.charged, 'refund', r.id, r.order_no || ' 취소 환불');
   end if;
@@ -383,7 +446,11 @@ begin
 end $$;
 
 -- 운영자: 접수 확정 (금액 · 예상 완료일). 충전금 결제면 이때 차감하고, 잔액이 모자라면 확정하지 않습니다.
-create or replace function public.sp_confirm_order(p_id uuid, amount int, p_eta date default null, note text default '') returns void
+-- p_seen: 운영자 화면이 불러온 의뢰의 updated_at. 그 사이 고객이 시료 · 서비스 · 결제 방법을 바꿨으면 확정하지 않습니다
+-- (본 적 없는 내용에 금액을 매기거나 차감하지 않도록).
+drop function if exists public.sp_confirm_order(uuid, int, date, text);
+create or replace function public.sp_confirm_order(p_id uuid, amount int, p_eta date default null, note text default '',
+                                                   p_seen timestamptz default null) returns void
 language plpgsql security definer set search_path = public as $$
 declare r sp_orders; bal int;
 begin
@@ -391,10 +458,17 @@ begin
   if amount is null or amount < 0 then raise exception '금액을 입력해 주세요'; end if;
   select * into r from sp_orders where id = p_id for update;
   if r.id is null or r.status <> 'submitted' then raise exception '접수 확인 전 의뢰가 아닙니다'; end if;
+  if p_seen is null then raise exception '운영 화면을 새로고침한 뒤 다시 확정해 주세요'; end if;
+  if r.updated_at is distinct from p_seen then
+    raise exception '고객이 방금 의뢰를 고쳤습니다. 새로고침해 바뀐 내용을 확인한 뒤 다시 확정해 주세요';
+  end if;
   if r.pay_method = 'credit' and amount > 0 then
     perform pg_advisory_xact_lock(hashtext('sp_ledger:' || r.client_id::text));
     bal := sp_balance_of(r.client_id);
-    if bal < amount then raise exception '충전금이 % 원 모자랍니다 (잔액 % 원). 충전을 기다리거나 건별 청구로 바꿔 주세요', amount - bal, bal; end if;
+    if bal < amount then
+      raise exception '충전금이 %원 모자랍니다 (잔액 %원). 충전을 기다리거나 건별 청구로 바꿔 주세요',
+        to_char(amount - bal, 'FM999,999,999,990'), to_char(bal, 'FM999,999,999,990');
+    end if;
     insert into sp_ledger(user_id, amount, kind, order_id, note) values (r.client_id, -amount, 'charge', r.id, r.order_no || ' 차감');
   end if;
   update sp_orders set status = 'confirmed', quote_amount = amount, charged = case when r.pay_method = 'credit' then amount else 0 end,
@@ -445,6 +519,7 @@ begin
 end $$;
 
 -- 운영자: 시료별 QC 결과. warn · fail 이면 고객의 선택을 기다립니다.
+-- QC 결과(상태)가 바뀔 때만 고객의 선택을 지웁니다. 값 · 메모만 고쳐 다시 저장하면 고객이 고른 내용은 그대로 둡니다.
 create or replace function public.sp_record_qc(p_sample uuid, p_status text, p_value text default '', p_note text default '') returns void
 language plpgsql security definer set search_path = public as $$
 declare oid uuid; lbl text;
@@ -452,11 +527,15 @@ begin
   if not is_admin() then raise exception '운영자만 할 수 있습니다'; end if;
   if p_status not in ('pending','pass','warn','fail') then raise exception 'QC 결과를 골라 주세요'; end if;
   update sp_samples set qc_status = p_status, qc_value = coalesce(p_value, ''), qc_note = coalesce(p_note, ''),
-         decision = null, decided_at = null
+         decision = case when qc_status is distinct from p_status then null else decision end,
+         decided_at = case when qc_status is distinct from p_status then null else decided_at end
    where id = p_sample
   returning order_id, label into oid, lbl;
   if oid is null then raise exception '시료를 찾을 수 없습니다'; end if;
-  perform sp_log(oid, 'qc', lbl || ' ' || p_status || case when coalesce(p_value, '') <> '' then ' · ' || p_value else '' end);
+  -- 고객 화면 진행 기록에 그대로 보이므로 한국어로 남김
+  perform sp_log(oid, 'qc', lbl || ' ' ||
+    case p_status when 'pass' then '통과' when 'warn' then '확인 필요' when 'fail' then '기준 미달' else '측정 전' end ||
+    case when coalesce(p_value, '') <> '' then ' · ' || p_value else '' end);
 end $$;
 
 -- 의뢰인: QC 확인이 필요한 시료의 진행 방법 선택 (진행 · 재추출 · 제외 · 추가 시료)
@@ -471,7 +550,8 @@ begin
      and s.qc_status in ('warn','fail') and o.status not in ('submitted','completed','cancelled')
   returning s.order_id, s.label into oid, lbl;
   if oid is null then raise exception 'QC 확인이 필요한 시료가 아닙니다'; end if;
-  perform sp_log(oid, 'decision', lbl || ' ' || p_decision);
+  perform sp_log(oid, 'decision', lbl || ' → ' ||
+    case p_decision when 'proceed' then '그대로 진행' when 'reextract' then '재추출' when 'exclude' then '이 시료 제외' else '시료 다시 보내기' end);
 end $$;
 
 -- 운영자: 건별 청구 세금계산서 발행 완료 표시
@@ -493,20 +573,34 @@ declare c jsonb := sp_setting('sp_credit'); u int; tid uuid;
 begin
   if auth.uid() is null then raise exception '로그인이 필요합니다'; end if;
   u := coalesce((c->>'unit')::int, 1000000);
-  if p_amount is null or p_amount <= 0 or p_amount % u <> 0 then raise exception '충전은 % 원 단위로 할 수 있습니다', u; end if;
-  if p_amount > u * coalesce((c->>'max_units')::int, 50) then raise exception '한 번에 % 원까지 충전할 수 있습니다', u * coalesce((c->>'max_units')::int, 50); end if;
+  if p_amount is null or p_amount <= 0 or p_amount % u <> 0 then
+    raise exception '충전은 %원 단위로 할 수 있습니다', to_char(u, 'FM999,999,999,990');
+  end if;
+  if p_amount > u * coalesce((c->>'max_units')::int, 50) then
+    raise exception '한 번에 %원까지 충전할 수 있습니다', to_char(u::bigint * coalesce((c->>'max_units')::int, 50), 'FM999,999,999,990');
+  end if;
   if p_doc_type not in ('tax_invoice','none') then raise exception '증빙 종류를 골라 주세요'; end if;
   if p_doc_type = 'tax_invoice' then
     if length(btrim(coalesce(p_biz_name, ''))) < 2 then raise exception '세금계산서 받을 기관명(상호)을 입력해 주세요'; end if;
     if not sp_email_ok(p_email) then raise exception '세금계산서 받을 메일 주소를 확인해 주세요'; end if;
     if coalesce(p_biz_no, '') <> '' and not sp_biz_no_ok(p_biz_no) then raise exception '사업자등록번호가 맞지 않습니다. 숫자 10자리를 다시 확인해 주세요'; end if;
   end if;
+  -- 증빙이 필요 없어도 받은 값은 저장되므로 길이는 늘 봅니다
+  if length(btrim(coalesce(p_biz_name, ''))) > 100 then raise exception '세금계산서 받을 기관명은 100자 이내로 적어 주세요'; end if;
+  if length(btrim(coalesce(p_email, ''))) > 200 then raise exception '세금계산서 받을 메일 주소가 너무 깁니다'; end if;
+  if length(btrim(coalesce(p_biz_no, ''))) > 20 then raise exception '사업자등록번호가 맞지 않습니다. 숫자 10자리를 다시 확인해 주세요'; end if;
+  if length(coalesce(p_memo, '')) > 500 then raise exception '메모는 500자 이내로 적어 주세요'; end if;
   if exists (select 1 from sp_topups where user_id = auth.uid() and status = 'requested') then
     raise exception '확인을 기다리는 충전 신청이 있습니다. 입금 확인 뒤에 다시 신청하거나 기존 신청을 취소해 주세요';
   end if;
-  insert into sp_topups(user_id, amount, doc_type, biz_name, biz_no, invoice_email, memo)
-  values (auth.uid(), p_amount, p_doc_type, btrim(coalesce(p_biz_name, '')), btrim(coalesce(p_biz_no, '')), btrim(coalesce(p_email, '')), coalesce(p_memo, ''))
-  returning id into tid;
+  -- 동시에 두 번 신청하면 위 검사를 둘 다 지나칠 수 있어, 표의 고유 색인(sp_topups_one_pending)이 한 번 더 막습니다
+  begin
+    insert into sp_topups(user_id, amount, doc_type, biz_name, biz_no, invoice_email, memo)
+    values (auth.uid(), p_amount, p_doc_type, btrim(coalesce(p_biz_name, '')), btrim(coalesce(p_biz_no, '')), btrim(coalesce(p_email, '')), coalesce(p_memo, ''))
+    returning id into tid;
+  exception when unique_violation then
+    raise exception '확인을 기다리는 충전 신청이 있습니다. 입금 확인 뒤에 다시 신청하거나 기존 신청을 취소해 주세요';
+  end;
   return tid;
 end $$;
 
@@ -555,17 +649,21 @@ language sql stable security definer set search_path = public as $$
    order by max(l.created_at) desc
 $$;
 
-revoke execute on function public.sp_today(), public.sp_hour(), public.sp_setting(text), public.sp_biz_no_ok(text), public.sp_phone_ok(text),
-  public.sp_email_ok(text), public.sp_is_client(uuid), public.sp_log(uuid, text, text), public.sp_balance_of(uuid), public.sp_balance(),
+-- 권한: Supabase 는 public 에 새로 만드는 함수마다 anon · authenticated 에 실행 권한을 자동으로 줍니다.
+-- 그래서 모두 거둔 뒤 화면에서 쓰는 함수만 로그인한 사람에게 다시 엽니다. sp_setting · sp_log · sp_balance_of 는 위 함수 안에서만 씁니다
+-- (열어 두면 남의 의뢰에 가짜 기록을 남기거나 남의 잔액을 볼 수 있음). 함수를 더하거나 인자를 바꾸면 두 목록에 같이 넣으세요.
+revoke execute on function public.sp_now(), public.sp_today(), public.sp_hour(), public.sp_setting(text), public.sp_biz_no_ok(text),
+  public.sp_phone_ok(text), public.sp_email_ok(text), public.sp_is_client(uuid), public.sp_log(uuid, text, text), public.sp_balance_of(uuid),
+  public.sp_balance(), public.sp_handle_new_user(),
   public.sp_complete_profile(text, text, text), public.sp_save_order(uuid, jsonb, jsonb), public.sp_cancel_order(uuid, text),
-  public.sp_confirm_order(uuid, int, date, text), public.sp_set_pay_method(uuid, text), public.sp_set_status(uuid, text, text, date),
+  public.sp_confirm_order(uuid, int, date, text, timestamptz), public.sp_set_pay_method(uuid, text), public.sp_set_status(uuid, text, text, date),
   public.sp_add_note(uuid, text), public.sp_record_qc(uuid, text, text, text), public.sp_decide(uuid, text), public.sp_mark_invoiced(uuid),
   public.sp_request_topup(int, text, text, text, text, text), public.sp_cancel_topup(uuid), public.sp_confirm_topup(uuid),
-  public.sp_adjust_credit(uuid, int, text), public.sp_balances() from anon, public;
-grant execute on function public.sp_today(), public.sp_hour(), public.sp_biz_no_ok(text), public.sp_phone_ok(text), public.sp_email_ok(text),
-  public.sp_is_client(uuid), public.sp_balance(),
+  public.sp_adjust_credit(uuid, int, text), public.sp_balances() from anon, authenticated, public;
+grant execute on function public.sp_now(), public.sp_today(), public.sp_hour(), public.sp_biz_no_ok(text), public.sp_phone_ok(text),
+  public.sp_email_ok(text), public.sp_is_client(uuid), public.sp_balance(),
   public.sp_complete_profile(text, text, text), public.sp_save_order(uuid, jsonb, jsonb), public.sp_cancel_order(uuid, text),
-  public.sp_confirm_order(uuid, int, date, text), public.sp_set_pay_method(uuid, text), public.sp_set_status(uuid, text, text, date),
+  public.sp_confirm_order(uuid, int, date, text, timestamptz), public.sp_set_pay_method(uuid, text), public.sp_set_status(uuid, text, text, date),
   public.sp_add_note(uuid, text), public.sp_record_qc(uuid, text, text, text), public.sp_decide(uuid, text), public.sp_mark_invoiced(uuid),
   public.sp_request_topup(int, text, text, text, text, text), public.sp_cancel_topup(uuid), public.sp_confirm_topup(uuid),
   public.sp_adjust_credit(uuid, int, text), public.sp_balances() to authenticated;

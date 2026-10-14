@@ -11,7 +11,8 @@
       extraction: "추출", library: "라이브러리", sequencing: "시퀀싱", data_ready: "데이터 도착",
       stored: "보관 중", completed: "완료", cancelled: "취소"
     },
-    leftover: { biobank: "바이오뱅크에 보관", return: "돌려받기", discard: "폐기", undecided: "나중에 정하기" },
+    // 바이오뱅크 보관은 아직 사전 신청만 받음 (소개 페이지의 바이오뱅킹 "사전 신청")
+    leftover: { biobank: "바이오뱅크 보관 (사전 신청)", return: "돌려받기", discard: "폐기", undecided: "나중에 정하기" },
     pay: { credit: "충전금에서 차감", invoice: "건별 청구 (세금계산서)" },
     qc: { pending: "측정 전", pass: "통과", warn: "확인 필요", fail: "기준 미달" },
     decision: { proceed: "그대로 진행", reextract: "재추출", exclude: "이 시료 제외", resend: "시료 다시 보내기" },
@@ -20,7 +21,8 @@
     event: { submitted: "의뢰 접수", updated: "의뢰 수정", confirmed: "접수 확정", status: "단계 변경", qc: "QC 결과", decision: "진행 방법 선택", cancelled: "취소", invoiced: "세금계산서 발행", note: "안내" }
   };
   var TRACK = ["confirmed", "in_transit", "received", "extraction", "library", "sequencing", "data_ready", "stored"];
-  var TRACK_LABEL = ["접수", "이동", "도착 · QC", "추출", "라이브러리", "시퀀싱", "데이터 도착", "보관"];
+  // 첫 단계는 운영자가 확인을 마친 "접수 확정"입니다 (의뢰를 낸 직후는 아직 불이 들어오지 않음)
+  var TRACK_LABEL = ["접수 확정", "이동", "도착 · QC", "추출", "라이브러리", "시퀀싱", "데이터 도착", "보관"];
 
   // ───────── 한국 시간 ─────────
   function kstParts(d) {
@@ -42,8 +44,16 @@
 
   // ───────── 입력 검사 (supabase/samplo.sql 의 sp_save_order 와 같은 규칙) ─────────
   var TYPOS = { "gmial.com": "gmail.com", "gmali.com": "gmail.com", "gamil.com": "gmail.com", "gmail.co": "gmail.com", "naver.co": "naver.com", "navr.com": "naver.com", "nave.com": "naver.com", "daum.ner": "daum.net", "hanmial.net": "hanmail.net", "hanmail.com": "hanmail.net" };
+  // 숫자만 남김. 전각 숫자(０１０)는 보통 숫자로, +82 10-… 는 010-… 로 바꿉니다 (가입 화면 sp-login 과 같음)
+  function digits(v) {
+    v = String(v || "");
+    if (v.normalize) v = v.normalize("NFKC");
+    var d = v.replace(/\D/g, "");
+    return /^821\d/.test(d) ? "0" + d.slice(2) : d;
+  }
+  var JAMO = /[ㄱ-ㅎㅏ-ㅣ]/;
   var V = {
-    phone: function (v) { return /^01[016789]\d{7,8}$/.test(String(v || "").replace(/\D/g, "")); },
+    phone: function (v) { return /^01[016789]\d{7,8}$/.test(digits(v)); },
     email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(v || "").trim()); },
     emailTypo: function (v) {
       var m = String(v || "").trim().split("@"); if (m.length !== 2) return null;
@@ -57,11 +67,29 @@
       return (10 - s % 10) % 10 === +d[9];
     },
     sampleName: function (v) { return /^[A-Za-z0-9_-]{1,20}$/.test(String(v || "").trim()); },
-    addr: function (v) { v = String(v || "").trim(); return v.length >= 6 && /\d/.test(v); }
+    addr: function (v) { v = String(v || "").trim(); return v.length >= 6 && /\d/.test(v); },
+    // 이름 · 소속: 고칠 점이 있으면 안내 문장, 없으면 "" (가입 화면 sp-login 과 같은 규칙. 정보 입력 카드에서도 씀)
+    nameErr: function (v) {
+      v = String(v || "").trim();
+      if (!v) return "이름을 입력해 주세요.";
+      if (JAMO.test(v)) return "이름에 덜 완성된 글자(ㄱ, ㅏ 같은)가 있습니다. 다시 확인해 주세요.";
+      if (/[^\p{L}\s.·'-]/u.test(v)) return "이름에는 글자만 넣어 주세요. 숫자와 기호는 뺍니다.";
+      if (v.replace(/[\s.·'-]/g, "").length < 2) return "이름을 2자 이상 입력해 주세요.";
+      return "";
+    },
+    orgErr: function (v) {
+      v = String(v || "").trim();
+      if (!v) return "소속을 입력해 주세요. 예: ○○대학교 △△연구실";
+      if (JAMO.test(v)) return "소속에 덜 완성된 글자(ㄱ, ㅏ 같은)가 있습니다. 다시 확인해 주세요.";
+      if (Array.from(v).length < 2) return "소속을 2자 이상 입력해 주세요.";
+      return "";
+    }
   };
   function fmtPhone(v) {
-    var d = String(v || "").replace(/\D/g, "").slice(0, 11);
+    var d = digits(v).slice(0, 11);
     if (d.length < 4) return d;
+    // 휴대폰이 아닌 번호(02 · 031 같은 지역번호)는 숫자만 남기고 하이픈을 억지로 넣지 않습니다. 아래 오류 문구가 고칠 방법을 알려 줍니다.
+    if (!/^01/.test(d)) return d;
     if (d.length < 8) return d.slice(0, 3) + "-" + d.slice(3);
     return d.slice(0, 3) + "-" + d.slice(3, d.length - 4) + "-" + d.slice(-4);
   }
@@ -69,11 +97,15 @@
     var d = String(v || "").replace(/\D/g, "").slice(0, 10);
     return d.length <= 3 ? d : d.length <= 5 ? d.slice(0, 3) + "-" + d.slice(3) : d.slice(0, 3) + "-" + d.slice(3, 5) + "-" + d.slice(5);
   }
-  // "2026.10.8", "2026/10/08", "20261008" → "2026-10-08". 알아볼 수 없으면 그대로 돌려줌
+  // "2026.10.8", "2026/10/08", "20261008", "2026년 10월 8일", "26.10.8", 엑셀의 "2026-10-08 00:00:00" → "2026-10-08".
+  // 알아볼 수 없으면 그대로 돌려줌. 두 자리 연도는 . 이나 / 로 나눈 것만 (12-03-05 같은 시료 번호가 날짜로 바뀌지 않도록)
   function normDate(v) {
-    v = String(v || "").trim();
-    var m = v.match(/^(\d{4})[.\-\/\s]+(\d{1,2})[.\-\/\s]+(\d{1,2})\.?$/) || v.match(/^(\d{4})(\d{2})(\d{2})$/);
-    return m ? m[1] + "-" + ("0" + m[2]).slice(-2) + "-" + ("0" + m[3]).slice(-2) : v;
+    v = String(v || "").trim().replace(/[ T]\d{1,2}:\d{2}(:\d{2})?$/, "");
+    var m = v.match(/^(\d{4})[.\-\/\s]+(\d{1,2})[.\-\/\s]+(\d{1,2})\.?$/) || v.match(/^(\d{4})(\d{2})(\d{2})$/) ||
+            v.match(/^(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일?$/);
+    var y = m && m[1];
+    if (!m) { m = v.match(/^(\d{2})[.\/](\d{1,2})[.\/](\d{1,2})\.?$/); y = m && "20" + m[1]; }
+    return m ? y + "-" + ("0" + m[2]).slice(-2) + "-" + ("0" + m[3]).slice(-2) : v;
   }
 
   // ───────── 설정 (접수 기준 · 수거 · 충전 · 입금 안내) ─────────
@@ -92,11 +124,15 @@
     if (!sb) return null;
     var s = (await sb.auth.getSession()).data.session;
     if (!s) return null;
-    var prof = (await sb.from("profiles").select("*").eq("id", s.user.id).maybeSingle()).data;
+    // 회원 정보를 못 불러왔으면(네트워크 오류 등) 빈 정보로 넘어가지 않고 오류로 알림 (정보 입력 카드나 "운영자만"이 잘못 뜨지 않도록)
+    var pr = await sb.from("profiles").select("*").eq("id", s.user.id).maybeSingle();
+    if (pr.error) throw pr.error;
+    var prof = pr.data;
     me = { user: s.user, profile: prof || { name: "", org: "", phone: "" }, isAdmin: !!(prof && prof.is_admin) };
     return me;
   }
-  function needsProfile(m) { var p = m.profile || {}; return !p.agreed_at || !p.phone || !p.name || !p.org; }
+  // 의뢰 전에 정보 입력 카드가 필요한지: 샘플로 약관 동의(sp_agreed_at)와 올바른 이름 · 소속 · 휴대폰 (DB sp_save_order 와 같은 조건)
+  function needsProfile(m) { var p = m.profile || {}; return !p.sp_agreed_at || !V.phone(p.phone) || !!V.nameErr(p.name) || !!V.orgErr(p.org); }
 
   // samplo.sql 을 아직 실행하지 않았으면 표가 없다는 오류가 옴
   function missingDb(e) {
@@ -117,12 +153,18 @@
   function notReady() { header(null); closed("온라인 의뢰는 오픈 준비 중입니다", "지금은 카카오톡 채널에서 상담과 의뢰를 받고 있습니다."); }
 
   // 로그인이 필요한 화면: 안 되어 있으면 로그인 화면으로 보냄
+  // 온라인 의뢰를 고객에게 여는 스위치는 om-config.js 의 samplo (기본 false). 꺼져 있어도 운영자는 설정 · 시험을 할 수 있습니다.
   async function requireLogin() {
     if (!sb) { notReady(); return null; }
-    var m = await session();
+    var m;
+    try { m = await session(); } catch (e) { header(null); closed("화면을 불러오지 못했습니다", OM.errMsg(e) + " 잠시 뒤 새로고침해 주세요."); return null; }
     if (!m) { location.replace("/samplo/login/?next=" + encodeURIComponent(location.pathname + location.search)); return null; }
     header(m);
     if (!(await dbReady())) { closed("온라인 의뢰는 오픈 준비 중입니다", "계정은 만들어졌습니다. 의뢰 접수가 열리면 이 화면에서 바로 이용할 수 있습니다."); return null; }
+    if ((window.OM_CONFIG || {}).samplo !== true && !m.isAdmin) {
+      closed("온라인 의뢰는 오픈 준비 중입니다", "계정은 만들어졌습니다. 의뢰 접수가 열리면 이 화면에서 바로 이용할 수 있습니다. 지금은 카카오톡 채널에서 상담과 의뢰를 받고 있습니다.");
+      return null;
+    }
     return m;
   }
 
@@ -138,7 +180,17 @@
       a("/samplo/app/?new=1", "새 의뢰", isNew) +
       (m.isAdmin ? a("/samplo/admin/", "운영", /^\/samplo\/admin\//.test(location.pathname)) : "") +
       '<span class="om-who">' + OM.esc(m.profile.name || m.user.email) + '</span><button type="button" class="om-link" id="om-logout">로그아웃</button>';
-    OM.$("#om-logout").onclick = async function () { await sb.auth.signOut(); location.href = "/samplo/"; };
+    OM.$("#om-logout").onclick = async function () {
+      // 같이 쓰는 실험실 PC 를 생각해, 이 브라우저에 남은 의뢰 작성 내용(연구실 · 연락처 · 주소 · 세금계산서 메일)을 지움
+      try {
+        var ks = [];
+        for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k && k.indexOf("sp-draft-") === 0) ks.push(k); }
+        ks.forEach(function (k) { localStorage.removeItem(k); });
+        sessionStorage.removeItem("sp-signup");
+      } catch (e) {}
+      await sb.auth.signOut();
+      location.href = "/samplo/";
+    };
   }
 
   // ───────── 표시 도우미 ─────────

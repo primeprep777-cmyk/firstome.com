@@ -5,6 +5,8 @@ body.c-teal #om-nav a.on{box-shadow:inset 0 -2px 0 var(--teal)}
 body.c-teal .om-form input:focus,body.c-teal .om-form select:focus,body.c-teal .om-form textarea:focus{outline-color:color-mix(in oklab,var(--teal) 45%,transparent);border-color:var(--teal)}
 body.c-teal .om-checks label:has(input:checked){border-color:var(--teal);background:color-mix(in oklab,var(--teal) 9%,transparent)}
 body.c-teal .om-steps li.now{border-color:var(--teal);color:var(--teal);background:color-mix(in oklab,var(--teal) 8%,transparent)}
+/* 휴대폰: 머리글 높이가 68px 로 고정이라 메뉴가 두 줄이 되면 본문 위로 넘침 → 높이를 내용에 맞추고 이름은 숨김 */
+@media (max-width:600px){body.c-teal header.top .wrap{height:auto;min-height:68px;padding-block:10px}body.c-teal .om-who{display:none}body.c-teal #om-nav{gap:14px}}
 
 /* 상태 표시 */
 .om-chip.sp-s-submitted{background:color-mix(in oklab,var(--amber) 16%,transparent);color:var(--amber)}
@@ -29,6 +31,8 @@ body.c-teal .om-steps li.now{border-color:var(--teal);color:var(--teal);backgrou
 .sp-stepper li{flex:1;min-width:76px;font-size:12.5px;color:var(--dim);border-top:3px solid var(--line);padding-top:6px;white-space:nowrap}
 .sp-stepper li.done{border-color:color-mix(in oklab,var(--teal) 55%,var(--line));color:var(--ink)}
 .sp-stepper li.now{border-color:var(--teal);color:var(--ink);font-weight:600}
+/* 좁은 화면: 지금 단계만 이름을 보이고 나머지는 번호만 (5단계가 한 줄에 들어가도록) */
+@media (max-width:560px){.sp-stepper li{flex:0 0 auto;min-width:30px}.sp-stepper li.now{flex:1 1 auto}.sp-stepper li:not(.now) .sp-st-l{display:none}}
 .sp-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px;align-items:start}
 .sp-layout > *{min-width:0}
 .sp-aside{position:sticky;top:16px;display:grid;gap:12px}
